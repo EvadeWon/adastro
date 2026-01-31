@@ -53,9 +53,83 @@ const Navbar = () => {
                     {isOpen ? <X /> : <Menu />}
                 </button>
             </div>
+            {/* Mobile Menu */}
+            {isOpen && (
+                <>
+                    {/* Overlay */}
+                    <div
+                        onClick={() => setIsOpen(false)}
+                        className="fixed inset-0 bg-black/50 z-40"
+                    />
+
+                    {/* Sidebar */}
+                    <div className="
+            fixed top-0 right-0 h-full w-[100%] bg-[#100d0d] z-50
+            px-6 py-2 flex flex-col gap-6
+            transition-transform duration-300
+        ">
+                        {/* Close Button */}
+                        <div className="flex justify-end">
+                            <button onClick={() => setIsOpen(false)}>
+                                <X />
+                            </button>
+                        </div>
+
+                        {/* Links */}
+                        <Link
+                            href="/"
+                            onClick={() => setIsOpen(false)}
+                            className="text-sm text-white"
+                        >
+                            Home
+                        </Link>
+
+                        <Link
+                            href="/courses"
+                            onClick={() => setIsOpen(false)}
+                            className="text-sm text-white"
+                        >
+                            Courses
+                        </Link>
+
+                        <Link
+                            href="/contact"
+                            onClick={() => setIsOpen(false)}
+                            className="text-sm text-white"
+                        >
+                            Contact
+                        </Link>
+
+                        <hr className="border-white/20 my-2" />
+
+                        {/* Auth Buttons */}
+                        <Button
+                            onClick={() => {
+                                setIsOpen(false)
+                                router.push("/login")
+                            }}
+                            className="bg-[#d75525c9] hover:bg-[#bb481ec9] rounded-xl cursor-pointer border-b border-r border-l"
+                        >
+                            Login
+                        </Button>
+
+                        <Button
+                            onClick={() => {
+                                setIsOpen(false)
+                                router.push("/signup")
+                            }}
+                            className="bg-white hover:bg-[#f3ecec] text-black rounded-xl cursor-pointer"
+                        >
+                            Signup
+                        </Button>
+                    </div>
+                </>
+            )}
+
         </nav>
     )
 }
+
 
 
 export default Navbar
