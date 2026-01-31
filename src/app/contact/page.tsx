@@ -141,7 +141,7 @@ export default function Login() {
                                     </Select>
                                 </div>
                             </div>
-                            <Button onSubmit={handleSubmit} type="submit" size="lg" className="w-full text-white cursor-pointer bg-[#bb481ec9] hover:bg-[#bb481ec9]" disabled={isSubmitting}>
+                            <Button type="submit" size="lg" className="w-full text-white cursor-pointer bg-[#bb481ec9] hover:bg-[#bb481ec9]" disabled={isSubmitting}>
                                 {isSubmitting ? (
                                     "Sending..."
                                 ) : (
