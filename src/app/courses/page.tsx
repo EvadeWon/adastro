@@ -1,22 +1,18 @@
 "use client";
 
-import courses from "@/lib/courses";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import { IoMdContacts } from "react-icons/io";
 import { MdOutlineAccessTime } from "react-icons/md";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import courses from "@/lib/courses";
 
-export default function CoursesSection() {
+export default function coursesDashboard() {
     return (
         <section
             className="min-h-screen bg-black/70 text-white px-6 py-8"
         >
-            <h2 className="text-3xl md:text-4xl uppercase font-bold text-center mb-4">
-                Our Courses
-            </h2>
-            <p className="text-gray-300 text-center mb-8 text-sm">Choose from our hand-picked selection of top-rated courses</p>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-1 max-w-5xl mx-auto cursor-pointer">
                 {courses.map((course) => (
                     <motion.div

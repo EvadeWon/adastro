@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
 import { Button } from "./ui/button"
 const Navbar = () => {
+    const [isLogin, setIslogin] = useState(false);
     const pathName = usePathname();
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const router = useRouter();
@@ -16,7 +17,7 @@ const Navbar = () => {
     }
     const navLinks: navLinksType[] = [
         { id: 1, name: "Home", url: "/" },
-        { id: 2, name: "Dashboard", url: "/dashboard" },
+        { id: 2, name: "Courses", url: "/courses" },
         { id: 3, name: "Contact", url: "/contact" }
     ]
     return (
@@ -35,8 +36,15 @@ const Navbar = () => {
                 })}
             </div>
             <div className="hidden sm:flex gap-3 items-center">
-                <Link href={"/cart"}>
-                    <ShoppingCart className="cursor-pointer" /></Link>
+                {isLogin ? (
+                    <Link href="/cart">
+                        <ShoppingCart className="cursor-pointer" />
+                    </Link>
+                ) : (
+                    <Link href="/login">
+                        <ShoppingCart className="cursor-pointer" />
+                    </Link>
+                )}
                 <Button onClick={() => router.push("/login")} className="cursor-pointer rounded-2xl bg-transparent hover:bg-transparent hover:text-[#d75525c9]">Login</Button>
                 <Button onClick={() => router.push("/signup")} className="bg-[#efebeb] text-black hover:bg-[#ffffff] cursor-pointer rounded-2xl text-sm">Get Started</Button>
             </div>

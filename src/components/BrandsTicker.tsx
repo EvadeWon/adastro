@@ -3,17 +3,18 @@
 import Image from "next/image";
 
 const brands = [
-    { id: 1, logoImg: "/brands/amazon.png" },
+    { id: 1, logoImg: "/brands/microsoft.png" },
     { id: 2, logoImg: "/brands/cloudydata.png" },
     { id: 3, logoImg: "/brands/starEducation.png" },
     { id: 4, logoImg: "/brands/kidsCoding.png" },
+    { id: 5, logoImg: "/brands/lassiking.png" },
 ];
 
 export default function BrandsTicker() {
     return (
-        <div className="relative w-full overflow-hidden bg-black/70 py-30">
-
-            <div className="flex animate-marquee">
+        <div className="relative w-full overflow-hidden bg-black/70 py-10">
+            <h1 className="text-xl md:text-4xl text-center pb-18">Worked with Amazing Brands</h1>
+            <div className="animate-marquee cursor-pointer">
                 {brands.map((logo) => (
                     <div
                         key={`first-${logo.id}`}
