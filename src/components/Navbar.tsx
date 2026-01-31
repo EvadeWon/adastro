@@ -35,7 +35,8 @@ const Navbar = () => {
                 })}
             </div>
             <div className="hidden sm:flex gap-3 items-center">
-                <ShoppingCart className="cursor-pointer" />
+                <Link href={"/cart"}>
+                    <ShoppingCart className="cursor-pointer" /></Link>
                 <Button onClick={() => router.push("/login")} className="cursor-pointer rounded-2xl bg-transparent hover:bg-transparent hover:text-[#d75525c9]">Login</Button>
                 <Button onClick={() => router.push("/signup")} className="bg-[#efebeb] text-black hover:bg-[#ffffff] cursor-pointer rounded-2xl text-sm">Get Started</Button>
             </div>

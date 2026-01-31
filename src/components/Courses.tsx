@@ -49,8 +49,7 @@ export default function CoursesSection() {
                             <h1 className="line-through text-gray-300 text-lg">₹{course.originalPrice}</h1>
                         </div>
                         <div className="flex gap-3 mt-4">
-                            <Button className="cursor-pointer bg-[#d75525c9] hover:bg-[#bb481ec9] text-white/90">View Details</Button>
-                            <Button className="cursor-pointer">Buy Now</Button>
+                            <Button className="cursor-pointer bg-[#d75525c9] hover:bg-[#bb481ec9] text-white/90">Enroll Now</Button>
                         </div>
                     </motion.div>
                 ))}

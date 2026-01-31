@@ -54,7 +54,7 @@ const courses:coursesType[] = [
         duration: "35 hours",
         level: "Intermediate",
         instructor: "Dr. Rajesh Kumar",
-        image: "/course_2c.jpg",
+        image: "/course_2.jpg",
         highlights: [
             "Python fundamentals to advanced",
             "Data analysis with Pandas & NumPy",
