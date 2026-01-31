@@ -32,44 +32,44 @@ export default function Login() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
+    // const handleSubmit = async (e: React.FormEvent) => {
+    //     e.preventDefault();
+    //     setIsSubmitting(true);
 
-        try {
-            const res = await fetch("/api/contact", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            });
+    //     try {
+    //         const res = await fetch("/api/contact", {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify(formData),
+    //         });
 
-            if (!res.ok) {
-                throw new Error("Failed to send message");
-            }
+    //         if (!res.ok) {
+    //             throw new Error("Failed to send message");
+    //         }
 
-            toast({
-                title: "Message Sent Successfully!",
-                description: "We'll get back to you within 24 hours.",
-            });
+    //         toast({
+    //             title: "Message Sent Successfully!",
+    //             description: "We'll get back to you within 24 hours.",
+    //         });
 
-            setFormData({
-                name: "",
-                email: "",
-                phone: "",
-                serviceType: "",
-                message: "",
-            });
-        } catch (error) {
-            toast({
-                title: "Something went wrong",
-                description: "Please try again later.",
-            });
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
+    //         setFormData({
+    //             name: "",
+    //             email: "",
+    //             phone: "",
+    //             serviceType: "",
+    //             message: "",
+    //         });
+    //     } catch (error) {
+    //         toast({
+    //             title: "Something went wrong",
+    //             description: "Please try again later.",
+    //         });
+    //     } finally {
+    //         setIsSubmitting(false);
+    //     }
+    // };
     return (
         <>
             <Card>
