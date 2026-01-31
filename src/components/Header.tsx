@@ -3,7 +3,7 @@ import { manrope } from "@/app/fonts";
 import { Button } from "@/components/ui/button";
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
-const logoVariants:Variants = {
+const logoVariants: Variants = {
     hidden: {
         opacity: 0,
         x: -150,
@@ -24,7 +24,7 @@ const logoVariants:Variants = {
     },
 };
 
-const containerVariants:Variants = {
+const containerVariants: Variants = {
     hidden: {},
     show: {
         transition: {
@@ -33,7 +33,7 @@ const containerVariants:Variants = {
     },
 };
 
-const itemVariants:Variants = {
+const itemVariants: Variants = {
     hidden: {
         opacity: 0,
         y: 60,
@@ -48,11 +48,10 @@ const itemVariants:Variants = {
     },
 };
 
-export default function Header({
-    courseRef,
-}: {
-    courseRef: React.RefObject<HTMLDivElement>;
-}) {
+type HeaderProps = {
+    courseRef: React.RefObject<HTMLDivElement | null>
+}
+export default function Header({courseRef}:HeaderProps) {
     const scrollToCourses = () => {
         courseRef.current?.scrollIntoView({ behavior: "smooth" });
     };
