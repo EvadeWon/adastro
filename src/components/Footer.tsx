@@ -25,7 +25,7 @@ function Footer() {
                     <div className="flex flex-col gap-6">
                         <Link href={"/"} className="flex items-center gap-1">
                             <Image src="/logo.jpeg" alt="Logo" width={35} height={35} className="rounded-lg" />
-                            <span className={`font-bold text-2xl ${cinzel.className}`}>Adastro</span>
+                            <span className={`font-bold text-2xl ${cinzel.className}`}>AdAstro</span>
                         </Link>
                         <div className="flex flex-col gap-4">
                             <h1 className="text-xl font-semibold text-white/90">Reach the Right Audience</h1>
