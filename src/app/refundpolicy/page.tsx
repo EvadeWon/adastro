@@ -15,7 +15,7 @@ const RefundPolicyPage = () => {
                         Refund Policy
                     </h1>
                     <p className="mt-2 text-sm opacity-70">
-                        Adastro • Last Updated: January 2026
+                        AdAstro • Last Updated: January 2026
                     </p>
                 </div>
                 <div className="space-y-8 text-sm leading-relaxed md:text-base">

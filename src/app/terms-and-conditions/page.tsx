@@ -8,14 +8,14 @@ const TermsAndConditionsPage = () => {
                         Terms & Conditions
                     </h1>
                     <p className="mt-2 text-sm opacity-70">
-                        Ajaynova Analytics & AI PVT LTD • Last Updated: January 2026
+                        AdAstro • Last Updated: January 2026
                     </p>
                 </div>
 
                 {/* Content */}
                 <div className="space-y-8 text-sm leading-relaxed md:text-base">
                     <p className="text-sm opacity-70">
-                        Welcome to <strong>Adatro</strong> (“Company”,
+                        Welcome to <strong>AdAtro</strong> (“Company”,
                         “we”, “our”, “us”). By accessing or using our website, services, or
                         digital platforms, you agree to be bound by the following Terms &
                         Conditions. If you do not agree, please stop using our services
@@ -25,7 +25,7 @@ const TermsAndConditionsPage = () => {
                     <div>
                         <h2 className="section-title">1. Acceptance of Terms</h2>
                         <p className="text-sm opacity-70">
-                            By accessing or using any part of the Ajaynova Analytics & AI PVT LTD  website or services,
+                            By accessing or using any part of the AdAstro  website or services,
                             you acknowledge that you have read, understood, and agreed to
                             comply with these Terms & Conditions.
                         </p>

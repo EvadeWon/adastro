@@ -6,23 +6,19 @@ import Image from "next/image";
 const logoVariants: Variants = {
     hidden: {
         opacity: 0,
-        x: -150,
-        rotate: -180,
-        scale: 0.6,
+        scale: 0.3,
     },
     show: {
         opacity: 1,
-        x: 0,
-        rotate: 0,
         scale: 1,
         transition: {
             type: "spring",
-            stiffness: 120,
-            damping: 30,
-            mass: 0.6,
+            stiffness: 200,
+            damping: 15,
         },
     },
 };
+
 
 const containerVariants: Variants = {
     hidden: {},
@@ -51,7 +47,7 @@ const itemVariants: Variants = {
 type HeaderProps = {
     courseRef: React.RefObject<HTMLDivElement | null>
 }
-export default function Header({courseRef}:HeaderProps) {
+export default function Header({ courseRef }: HeaderProps) {
     const scrollToCourses = () => {
         courseRef.current?.scrollIntoView({ behavior: "smooth" });
     };

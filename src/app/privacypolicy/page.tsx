@@ -23,7 +23,7 @@ const PrivacyPolicyPage = () => {
                 {/* Content */}
                 <div className="space-y-8 text-sm leading-relaxed md:text-base">
                     <p className="text-sm opacity-70">
-                        This Privacy Policy explains how <strong>Adastro</strong>
+                        This Privacy Policy explains how <strong>AdAstro</strong>
                         (“Company”, “we”, “our”, “us”) collects, uses, shares, and protects
                         your personal information when you access our website, services, or
                         digital platforms.
