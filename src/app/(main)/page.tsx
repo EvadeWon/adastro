@@ -1,7 +1,6 @@
 "use client"
 import BrandsTicker from "@/components/BrandsTicker"
 import CoursesSection from "@/components/Courses"
-import Footer from "@/components/Footer"
 import Header from "@/components/Header"
 import { useRef } from "react"
 
@@ -14,8 +13,6 @@ const Home = () => {
       <div ref={courseRef}>
         <CoursesSection />
       </div>
-      <Footer/>
-
     </>
   )
 }
