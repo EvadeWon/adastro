@@ -68,7 +68,7 @@ function Footer() {
                     <hr className="border-white/20 mb-3" />
                     <div className="flex flex-col md:flex-row gap-4 md:gap-0 items-center md:justify-between text-center md:text-left">
                         <p className="text-white/60 text-xs">
-                            ©2025 Adastro. All Rights Reserved.
+                            ©2026 Ajaynova Analytics & AI PVT LTD. All Rights Reserved.
                         </p>
                         <div className="flex gap-4">
                             <Link href="/terms-and-conditions" className="opacity-60 hover:opacity-100 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">Terms of Service</Link>

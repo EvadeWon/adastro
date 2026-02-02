@@ -16,14 +16,14 @@ const PrivacyPolicyPage = () => {
                         Privacy Policy
                     </h1>
                     <p className="mt-2 text-sm opacity-70">
-                        Adastro • Last Updated: January 2025
+                        Ajaynova Analytics & AI PVT LTD • Last Updated: January 2026
                     </p>
                 </div>
 
                 {/* Content */}
                 <div className="space-y-8 text-sm leading-relaxed md:text-base">
                     <p className="text-sm opacity-70">
-                        This Privacy Policy explains how <strong>Adastro</strong>
+                        This Privacy Policy explains how <strong>Ajaynova Analytics & AI PVT LTD</strong>
                         (“Company”, “we”, “our”, “us”) collects, uses, shares, and protects
                         your personal information when you access our website, services, or
                         digital platforms.

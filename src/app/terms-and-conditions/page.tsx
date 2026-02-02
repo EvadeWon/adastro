@@ -8,7 +8,7 @@ const TermsAndConditionsPage = () => {
                         Terms & Conditions
                     </h1>
                     <p className="mt-2 text-sm opacity-70">
-                        Adastro • Last Updated: January 2025
+                        Ajaynova Analytics & AI PVT LTD • Last Updated: January 2026
                     </p>
                 </div>
 
