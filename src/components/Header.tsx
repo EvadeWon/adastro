@@ -101,7 +101,7 @@ export default function Header({courseRef}:HeaderProps) {
                 <motion.div variants={itemVariants}>
                     <Button
                         onClick={scrollToCourses}
-                        className="bg-[#d75525c9] hover:bg-[#bb481ec9] text-white/90 border-b border-l border-r"
+                        className="bg-[#d75525c9] hover:bg-[#bb481ec9] text-white/90 border-b border-l border-r cursor-pointer"
                     >
                         Explore Courses
                     </Button>

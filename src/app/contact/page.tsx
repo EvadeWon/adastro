@@ -10,12 +10,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
+import { Textarea } from "@/components/ui/textarea";
 import { Send } from "lucide-react";
 import { useState } from "react";
-
+import { toast } from "sonner";
 export default function Login() {
-    const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
@@ -26,50 +25,43 @@ export default function Login() {
     });
     const services = [
         "Performance Marketing",
-        "Digital Marketing With AI"
     ];
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // const handleSubmit = async (e: React.FormEvent) => {
-    //     e.preventDefault();
-    //     setIsSubmitting(true);
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
 
-    //     try {
-    //         const res = await fetch("/api/contact", {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify(formData),
-    //         });
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
 
-    //         if (!res.ok) {
-    //             throw new Error("Failed to send message");
-    //         }
+            if (!res.ok) throw new Error("Failed");
 
-    //         toast({
-    //             title: "Message Sent Successfully!",
-    //             description: "We'll get back to you within 24 hours.",
-    //         });
+            toast.success("message sent ",{description: " We will contact you soon"},
+            );
 
-    //         setFormData({
-    //             name: "",
-    //             email: "",
-    //             phone: "",
-    //             serviceType: "",
-    //             message: "",
-    //         });
-    //     } catch (error) {
-    //         toast({
-    //             title: "Something went wrong",
-    //             description: "Please try again later.",
-    //         });
-    //     } finally {
-    //         setIsSubmitting(false);
-    //     }
-    // };
+        } catch (err) {
+            toast("Error",{description: "Try again later"});
+        } finally {
+            setIsSubmitting(false);
+            setFormData({
+                name: "",
+                email: "",
+                phone: "",
+                serviceType: "",
+                message: "",
+            });
+        }
+    };
+
     return (
         <>
             <Card>
@@ -80,7 +72,7 @@ export default function Login() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="flex flex-col gap-4 text-white">
                             <div className="grid gap-2">
                                 <Label htmlFor="name">Name*</Label>
@@ -88,6 +80,9 @@ export default function Login() {
                                     id="name"
                                     type="name"
                                     placeholder="Name"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
                                     className="placeholder:text-white/70"
                                     required
                                 />
@@ -97,6 +92,9 @@ export default function Login() {
                                 <Input
                                     id="email"
                                     type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
                                     placeholder="Email"
                                     className="placeholder:text-white/70"
                                     required
@@ -139,6 +137,20 @@ export default function Login() {
                                             ))}
                                         </SelectContent>
                                     </Select>
+                                </div>
+                                <div className="flex flex-col space-y-2">
+                                    <label htmlFor="phone" className="text-sm font-medium text-white">
+                                        Write your queries
+                                    </label>
+                                    <Textarea
+                                        id="message"
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        placeholder="Type your message"
+                                        required
+                                        className="pr-20 pb-10 pt-5"
+                                    />
                                 </div>
                             </div>
                             <Button type="submit" size="lg" className="w-full text-white cursor-pointer bg-[#bb481ec9] hover:bg-[#bb481ec9]" disabled={isSubmitting}>
