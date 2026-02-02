@@ -25,7 +25,7 @@ const TermsAndConditionsPage = () => {
                     <div>
                         <h2 className="section-title">1. Acceptance of Terms</h2>
                         <p className="text-sm opacity-70">
-                            By accessing or using any part of the Adastrl website or services,
+                            By accessing or using any part of the Ajaynova Analytics & AI PVT LTD  website or services,
                             you acknowledge that you have read, understood, and agreed to
                             comply with these Terms & Conditions.
                         </p>
