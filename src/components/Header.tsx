@@ -7,13 +7,14 @@ const logoVariants: Variants = {
     hidden: {
         opacity: 0,
         scale: 0.3,
+        mixBlendMode:"screen"
     },
     show: {
         opacity: 1,
         scale: 1,
         transition: {
             type: "spring",
-            stiffness: 200,
+            stiffness: 100,
             damping: 15,
         },
     },
@@ -21,7 +22,9 @@ const logoVariants: Variants = {
 
 
 const containerVariants: Variants = {
-    hidden: {},
+    hidden: {
+
+    },
     show: {
         transition: {
             staggerChildren: 0.15,
@@ -46,11 +49,15 @@ const itemVariants: Variants = {
 
 type HeaderProps = {
     courseRef: React.RefObject<HTMLDivElement | null>
+    serviceRef: React.RefObject<HTMLDivElement | null>
 }
-export default function Header({ courseRef }: HeaderProps) {
+export default function Header({ courseRef,serviceRef }: HeaderProps) {
     const scrollToCourses = () => {
         courseRef.current?.scrollIntoView({ behavior: "smooth" });
     };
+    const scrollToServices=()=>{
+        serviceRef.current?.scrollIntoView({behavior:"smooth"})
+    }
 
     return (
         <div
@@ -66,40 +73,40 @@ export default function Header({ courseRef }: HeaderProps) {
             >
                 <motion.div variants={logoVariants}>
                     <Image
-                        src={"/logo.jpeg"}
+                        src={"/logo_v2.jpeg"}
                         alt="Logo"
-                        width={50}
-                        height={50}
-                        className="rounded-lg"
+                        width={80}
+                        height={80}
+                        color="white"
+                        className="rounded-lg mix-blend-screen"
                     />
                 </motion.div>
                 <motion.h1
                     variants={itemVariants}
                     className={`text-[#E8602E] text-sm sm:xl md:text-[18px] uppercase ${manrope}`}
                 >
-                    Learn. Build. Evolve
+                    Learn. Earn. Perform
                 </motion.h1>
                 <motion.h1
                     variants={itemVariants}
-                    className={`text-[#ffffff] text-xl sm:3xl md:text-4xl font-semibold ${manrope}`}
+                    className={`text-[#ffffff] text-xl sm:3xl md:text-4xl font-semibold uppercase ${manrope}`}
                 >
-                    Master Digital Marketing & Performance Marketing Powered by AI
+                    Don't wait for tomorrow.Boost your Business Today!
                 </motion.h1>
-                <motion.p
-                    variants={itemVariants}
-                    className="text-white tracking-wide text-xs md:px-45 text-center"
-                >
 
-                    Learn how modern brands scale using data, ads, automation, and AI tools.
-                    Our industry-ready courses are designed to help you launch campaigns, optimize results, and drive real revenue, not just certificates.
-                </motion.p>
-
-                <motion.div variants={itemVariants}>
+                <motion.div variants={itemVariants} className="flex gap-4">
                     <Button
                         onClick={scrollToCourses}
-                        className="bg-[#d75525c9] hover:bg-[#bb481ec9] text-white/90 border-b border-l border-r cursor-pointer"
+                        className="bg-[#d75525c9] hover:bg-[#cf623adc] text-white/90 cursor-pointer transition-all duration-300 shadow-md"
+                        style={{boxShadow: "0 0 4px #d75525c9"}}
                     >
                         Explore Courses
+                    </Button>
+                    <Button
+                        onClick={scrollToServices}
+                        className="font-semibold text-white/90 cursor-pointer bg-transparent border hover:text-black/90 hover:bg-white transition-all duration-300 px-10"
+                    >
+                        Services
                     </Button>
                 </motion.div>
             </motion.div>

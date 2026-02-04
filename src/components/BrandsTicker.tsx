@@ -10,36 +10,27 @@ const brands = [
     { id: 5, logoImg: "/brands/lassiking.png" },
 ];
 
+const items = [...brands, ...brands];
+
+
 export default function BrandsTicker() {
     return (
-        <div className="relative w-full overflow-hidden bg-black/70 py-10">
-            <h1 className="text-xl md:text-4xl text-center pb-18">Worked with Amazing Brands</h1>
-            <div className="animate-marquee cursor-pointer">
-                {brands.map((logo) => (
+        <div className="overflow-hidden py-6" style={{background: "transparent"}}>
+            <p className="text-center text-gray-500 text-xs tracking-widest uppercase pb-8">Brands I Have Worked With</p>
+            <div
+                className="flex w-max animate-marquee"
+            >
+                {items.map((logo, i) => (
                     <div
-                        key={`first-${logo.id}`}
-                        className="mx-8 flex items-center justify-center"
+                        key={i}
+                        className="mx-10 flex items-center justify-center"
                     >
                         <Image
                             src={logo.logoImg}
                             alt="Brand logo"
-                            width={160}
+                            width={140}
                             height={70}
-                            className="h-auto w-auto max-w-7xl object-contain"
-                        />
-                    </div>
-                ))}
-                {brands.map((logo) => (
-                    <div
-                        key={`second-${logo.id}`}
-                        className="mx-8 flex items-center justify-center"
-                    >
-                        <Image
-                            src={logo.logoImg}
-                            alt="Brand logo"
-                            width={160}
-                            height={70}
-                            className="h-auto w-auto max-w-7xl object-contain"
+                            className="object-contain transition-all duration-300 rounded-2xl"
                         />
                     </div>
                 ))}

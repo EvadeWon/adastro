@@ -18,13 +18,13 @@ const Navbar = () => {
     }
     const navLinks: navLinksType[] = [
         { id: 1, name: "Home", url: "/" },
-        { id: 2, name: "Courses", url: "/courses" },
+        { id: 2, name: "Dashboard", url: "/my-courses" },
         { id: 3, name: "Contact", url: "/contact" }
     ]
     return (
         <nav className="flex justify-between items-center px-10 py-4 shadow-md">
-            <Link href={"/"} className="flex items-center gap-1">
-                <Image src="/logo.jpeg" alt="Logo" width={35} height={35} className="rounded-lg" />
+            <Link href={"/"} className="flex items-center">
+                <Image src="/logo_v2.jpeg" alt="Logo" width={46} height={46} className="rounded-lg mix-blend-screen" />
                 <span className={`font-bold text-xl ${cinzel.className}`}>AdAstro</span>
             </Link>
             <div className="border-b border-l border-r  border-white/15 sm:flex hidden sm:gap-4 md:gap-6 text-xs text-white/70 bg-gradient-to-b from-[#171212] to-[#100B0B] px-6 py-2 rounded-sm tracking-wide">
@@ -109,7 +109,7 @@ const Navbar = () => {
                                 setIsOpen(false)
                                 router.push("/login")
                             }}
-                            className="bg-[#d75525c9] hover:bg-[#bb481ec9] rounded-xl cursor-pointer border-b border-r border-l"
+                            className="bg-[#d75525c9] hover:bg-[#bb481ec9] rounded-xl cursor-pointer shadow-md" style={{boxShadow: "0 0 4px #d75525c9"}}
                         >
                             Login
                         </Button>

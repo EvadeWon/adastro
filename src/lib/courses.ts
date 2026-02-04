@@ -1,4 +1,4 @@
-type coursesType = {
+export type coursesType = {
     id: number,
     title: string,
     description: string,

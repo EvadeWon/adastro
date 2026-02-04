@@ -1,3 +1,5 @@
+// app/login/page.tsx
+"use client"
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -9,9 +11,61 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 
 export default function Login() {
+    const router = useRouter();
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.id]: e.target.value,
+        });
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError("");
+        setLoading(true);
+
+        try {
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message || "Login failed");
+            }
+
+            // ✅ Token is stored in HttpOnly cookie by server
+            // Redirect to dashboard
+            router.push("/courses");
+
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unexpected error occurred");
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <Card className="">
             <CardHeader>
@@ -34,7 +88,7 @@ export default function Login() {
                         <div className="flex-1 h-px bg-border" />
                     </div>
                 </div>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="flex flex-col gap-4 text-white">
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
@@ -42,6 +96,8 @@ export default function Login() {
                                 id="email"
                                 type="email"
                                 placeholder="Email"
+                                value={formData.email}
+                                onChange={handleChange}
                                 className="placeholder:text-white/70"
                                 required
                             />
@@ -50,15 +106,32 @@ export default function Login() {
                             <div className="flex items-center">
                                 <Label htmlFor="password">Password</Label>
                                 <Link
-                                    href="#"
+                                    href="/forgot-password"
                                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                                 >
                                     Forgot your password?
                                 </Link>
                             </div>
-                            <Input id="password" type="password" placeholder="Password" className="placeholder:text-white/70" required />
+                            <Input
+                                id="password"
+                                type="password"
+                                placeholder="Password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                className="placeholder:text-white/70"
+                                required
+                            />
                         </div>
-                        <Button type="submit" className="w-full bg-[#d75525c9] hover:bg-[#bb481ec9] text-white/90 cursor-pointer">Login</Button>
+                        {error && (
+                            <p className="text-red-500 text-sm">{error}</p>
+                        )}
+                        <Button
+                            type="submit"
+                            className="w-full bg-[#d75525c9] hover:bg-[#bb481ec9] text-white/90 cursor-pointer"
+                            disabled={loading}
+                        >
+                            {loading ? "Logging in..." : "Login"}
+                        </Button>
                         <p className="font-semibold">Don't Have an Account ? <Link className="text-[#d75525c9]" href={"/signup"}>Signup</Link></p>
                     </div>
                 </form>

@@ -18,8 +18,7 @@ function Footer() {
         <div className="p-4 md:p-8">
             <div className="w-full max-w-6xl mx-auto relative min-h-auto md:min-h-[90vh] text-[#e8e6e6] flex flex-col md:flex-row gap-12 md:justify-between pt-12 md:pt-20 px-6 md:px-20 shadow-md rounded-lg"
                 style={{
-                    backgroundImage: "url('/background.png')",
-                    boxShadow: "0 0 10px #d75525c9",
+                    boxShadow: "0 0 20px #d75525c9",
                 }}>
                 <div className="flex flex-col md:flex-row gap-12 md:gap-20">
                     <div className="flex flex-col gap-6">
@@ -37,7 +36,8 @@ function Footer() {
                         <h1 className="text-lg font-bold">Quick Links</h1>
                         <div className="flex flex-col gap-3">
                             <Link href={"/"} className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">Home</Link>
-                            <Link href={"/"} className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">About Us</Link>
+                            <Link href={"/about"} className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">About Us</Link>
+                            <Link href={"/services"} className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">Services</Link>
                             <Link href={"/contact"} className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">Contact Us</Link>
                         </div>
                     </div>
