@@ -67,9 +67,9 @@ const LEARN_TOPICS = [
 ];
 
 const COACH = {
-    name: "Ajay Yadav",
+    name: "Jyotish Jha",
     subtitle: "India's Digital Marketing Tutor",
-    bio: "Ajay has coached over 2,000 students and helped scale multiple businesses from scratch to ₹1 crore per month in revenue. Her dream is to empower people to explore the massive potential of the online world - practical, relatable, and a little fun.",
+    bio: "Jyotish has coached over 2,000 students and helped scale multiple businesses from scratch to ₹1 crore per month in revenue. Her dream is to empower people to explore the massive potential of the online world - practical, relatable, and a little fun.",
     stats: [
         { val: "200+", label: "Instagram" },
         { val: "200k+", label: "LinkedIn" },
@@ -94,8 +94,8 @@ const FAQS = [
 function Badge({ children }: { children: React.ReactNode }) {
     return (
         <span
-            className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase text-white"
-            style={{ background: "linear-gradient(135deg,#1877F2,#8B5CF6)" }}
+            className="inline-block px-4 py-6 rounded-2xl text-xs font-bold tracking-widest uppercase text-white "
+            style={{ backgroundColor: "rgba(255, 255, 255, 0.125)" }}
         >
             {children}
         </span>
@@ -284,12 +284,8 @@ export default function CourseDetailPage() {
                     </div>
 
                     <div className="relative z-10 max-w-4xl mx-auto px-5 pt-16 pb-20 text-center">
-                        <Badge>Performance Marketing Masterclass</Badge>
-
-                        {/* course thumbnail */}
-                        <div className="mt-8 rounded-2xl overflow-hidden border border-gray-800 mx-auto" style={{ maxWidth: 700 }}>
-                            <Image src={course.image} alt={course.title} width={700} height={350} className="w-full object-cover" />
-                        </div>
+                        <Badge>Become A Pro in
+                            <span className="text-yellow-500 font-bold"> Facebook & Instagram ADS </span> in few months💸</Badge>
 
                         <h1 className="mt-8 text-5xl sm:text-6xl font-extrabold leading-tight text-white">
                             {course.title.includes("Facebook") || course.title.includes("Meta") ? (
@@ -317,9 +313,9 @@ export default function CourseDetailPage() {
                         <p className="mt-4 text-xl font-bold text-white">
                             The Only <Gold>PERFORMANCE MARKETING COURSE</Gold> You Will Ever Need
                         </p>
-
-                        {/* stars + student count */}
-                        <div className="mt-6 flex items-center justify-center gap-3 flex-wrap">
+                        <Image className="mx-auto rounded-full shadow-lg mt-6" style={{boxShadow: "0 0 100px #d75525c9",}} alt="banner" src={"/banner_v1.jpg"} width={400} height={200}/>
+                        {/* stars + student count*/}
+                        <div className="mt-6 flex items-center justify-center gap-3 flex-wrap z-10">
                             <div className="flex items-center gap-0.5">
                                 {[1, 2, 3, 4].map((i) => (
                                     <svg key={i} viewBox="0 0 20 20" className="w-5 h-5">
