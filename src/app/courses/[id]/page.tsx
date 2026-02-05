@@ -477,7 +477,7 @@ export default function CourseDetailPage() {
                                 What You Will Learn In <Gold>9+ Hour</Gold> Course?
                             </SectionHeading>
                             <p className="mt-2 text-gray-400 text-sm">
-                                Here's what you'll learn in just <strong className="text-white">9 Hours</strong>
+                                Here is what you will learn in just <strong className="text-white">9 Hours</strong>
                             </p>
                         </div>
                         <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">

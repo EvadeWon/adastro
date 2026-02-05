@@ -132,7 +132,7 @@ export default function Login() {
                         >
                             {loading ? "Logging in..." : "Login"}
                         </Button>
-                        <p className="font-semibold">Don't Have an Account ? <Link className="text-[#d75525c9]" href={"/signup"}>Signup</Link></p>
+                        <p className="font-semibold">Do not Have an Account ? <Link className="text-[#d75525c9]" href={"/signup"}>Signup</Link></p>
                     </div>
                 </form>
             </CardContent>
