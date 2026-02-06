@@ -66,7 +66,7 @@ export default function Signup() {
     };
 
     return (
-        <Card className="">
+        <Card>
             <CardHeader>
                 <CardDescription >
                     Login with your Google Email Account
