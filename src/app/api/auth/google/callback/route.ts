@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.redirect(new URL("/login?error=no_code", req.url));
         }
         const CLIENT_URL = process.env.NODE_ENV === 'production'
-            ? process.env.VERCEL_URL
+            ? `https://${process.env.VERCEL_URL}`
             : process.env.CLIENT_URL;
         // Exchange code for tokens
         const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
