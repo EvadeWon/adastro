@@ -1,16 +1,45 @@
 "use client"
-import { Menu, ShoppingCart, X } from "lucide-react"
+import { cinzel } from "@/app/fonts"
+import { LogOut, Menu, ShoppingCart, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
-import { cinzel } from "@/app/fonts"
 const Navbar = () => {
-    const [isLogin, setIslogin] = useState(false);
+    const [user, setUser] = useState<null>(null);
+    const [showLogout, setShowLogout] = useState<boolean>(false);
+    const profileMenuRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        fetch("/api/auth/me")
+            .then(res => res.json())
+            .then(data => setUser(data.user))
+            .catch(() => setUser(null));
+    }, []);
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
+                setShowLogout(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
     const pathName = usePathname();
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const router = useRouter();
+    const handleLogout = async () => {
+        try {
+            await fetch("/api/auth/logout", { method: "POST" });
+            setUser(null);
+            setShowLogout(false);
+            router.push("/");
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
     type navLinksType = {
         id: number,
         name: string,
@@ -37,17 +66,46 @@ const Navbar = () => {
                 })}
             </div>
             <div className="hidden sm:flex gap-3 items-center">
-                {isLogin ? (
-                    <Link href="/cart">
-                        <ShoppingCart className="cursor-pointer" />
-                    </Link>
+                {user ? (
+                    <>
+                        <Link href="/cart">
+                            <ShoppingCart className="cursor-pointer" />
+                        </Link>
+                        <div className="relative" ref={profileMenuRef}>
+                            <Avatar
+                                className="cursor-pointer hover:ring-2 hover:ring-[#d75525c9] transition-all"
+                                onClick={() => setShowLogout(!showLogout)}
+                            >
+                                <AvatarFallback
+                                    alt="Avatar"
+                                    className="bg-[#d75525c9] text-grayscale">
+                                    {user?.name?.charAt(0).toUpperCase()}
+                                </AvatarFallback>
+                            </Avatar>
+
+                            {/* Logout Button */}
+                            {showLogout && (
+                                <div className="absolute right-0 mt-2 z-50">
+                                    <Button
+                                        onClick={handleLogout}
+                                        className="bg-orange-600 hover:bg-red-600 text-white rounded-lg flex items-center gap-2 shadow-lg cursor-pointer"
+                                    >
+                                        <LogOut size={14} />
+                                        Logout
+                                    </Button>
+                                </div>
+                            )}
+                        </div>
+                    </>
                 ) : (
-                    <Link href="/login">
-                        <ShoppingCart className="cursor-pointer" />
-                    </Link>
+                    <>
+                        <Link href="/login">
+                            <ShoppingCart className="cursor-pointer" />
+                        </Link>
+                        <Button onClick={() => router.push("/login")} className="cursor-pointer rounded-2xl bg-transparent hover:bg-transparent hover:text-[#d75525c9]">Login</Button>
+                        <Button onClick={() => router.push("/signup")} className="bg-[#efebeb] text-black hover:bg-[#ffffff] cursor-pointer rounded-2xl text-sm">Get Started</Button>
+                    </>
                 )}
-                <Button onClick={() => router.push("/login")} className="cursor-pointer rounded-2xl bg-transparent hover:bg-transparent hover:text-[#d75525c9]">Login</Button>
-                <Button onClick={() => router.push("/signup")} className="bg-[#efebeb] text-black hover:bg-[#ffffff] cursor-pointer rounded-2xl text-sm">Get Started</Button>
             </div>
             <div className="sm:hidden">
                 <button onClick={() => setIsOpen(!isOpen)}>
@@ -109,7 +167,7 @@ const Navbar = () => {
                                 setIsOpen(false)
                                 router.push("/login")
                             }}
-                            className="bg-[#d75525c9] hover:bg-[#bb481ec9] rounded-xl cursor-pointer shadow-md" style={{boxShadow: "0 0 4px #d75525c9"}}
+                            className="bg-[#d75525c9] hover:bg-[#bb481ec9] rounded-xl cursor-pointer shadow-md" style={{ boxShadow: "0 0 4px #d75525c9" }}
                         >
                             Login
                         </Button>

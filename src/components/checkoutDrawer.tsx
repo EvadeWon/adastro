@@ -24,16 +24,8 @@ export default function CheckoutDrawer({
     const router = useRouter();
 
     const handleProceed = () => {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            // 👇 login page + redirect back
-            router.push(`/login?redirect=/checkout?courseId=${course.id}`);
-            return;
-        }
-
-        // 👇 logged in → checkout / payment
-        router.push(`/checkout?courseId=${course.id}`);
-    };
+        console.log("user logged in! user can proceed...")
+            };
 
     return (
         <Sheet open={open} onOpenChange={onClose}>

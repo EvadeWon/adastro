@@ -30,6 +30,9 @@ export default function Login() {
             [e.target.id]: e.target.value,
         });
     };
+    const handleGoogleLogin = () => {
+        window.location.href = "/api/auth/google";
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -76,7 +79,7 @@ export default function Login() {
             </CardHeader>
             <CardContent>
                 <div>
-                    <Button className="w-full mb-2 border-[#4E4948] border bg-gradient-to-b from-[#171212] to-[#100B0B] text-grey-400 cursor-pointer">
+                    <Button onClick={handleGoogleLogin} className="w-full mb-2 border-[#4E4948] border bg-gradient-to-b from-[#171212] to-[#100B0B] text-grey-400 cursor-pointer">
                         <FaGoogle />
                         <span>Continue with Google</span>
                     </Button>

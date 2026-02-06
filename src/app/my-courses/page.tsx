@@ -1,9 +1,11 @@
 import React from 'react'
 
-const myCourse = () => {
+const myCourses = () => {
   return (
-    <div>myCourse</div>
+    <div className='min-h-screen p-10 font-bold text-4xl'>
+      <h1 className='text-center'>You haven't bought any course yet!</h1>
+    </div>
   )
 }
 
-export default myCourse
+export default myCourses;

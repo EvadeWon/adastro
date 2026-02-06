@@ -29,7 +29,9 @@ export default function Signup() {
             [e.target.id]: e.target.value,
         });
     };
-
+    const handleGoogleLogin = () => {
+        window.location.href = "/api/auth/google";
+    };
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
@@ -50,11 +52,8 @@ export default function Signup() {
                 throw new Error(data.message || "Signup failed");
             }
 
-            // ✅ Token is already stored in HttpOnly cookie by server
-            // No need to manually store in localStorage
-
             // ✅ Redirect to dashboard (user is now logged in)
-            router.push("/courses");
+            router.push("/my-courses");
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -75,7 +74,7 @@ export default function Signup() {
             </CardHeader>
             <CardContent>
                 <div>
-                    <Button className="w-full mb-2 border-[#4E4948] border bg-gradient-to-b from-[#171212] to-[#100B0B] text-grey-400 cursor-pointer">
+                    <Button onClick={handleGoogleLogin} className="w-full mb-2 border-[#4E4948] border bg-gradient-to-b from-[#171212] to-[#100B0B] text-grey-400 cursor-pointer">
                         <FaGoogle />
                         <span>Continue with Google</span>
                     </Button>

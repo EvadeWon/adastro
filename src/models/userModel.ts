@@ -7,24 +7,30 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required:true,
-        unique:true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
-        required: true,
-        unique:true
+        required: function () {
+            return !this.googleId; // agar googleId nahi hai to password required
+        },
     },
-    isVerified:{
-        type:Boolean,
-        default:false
+    googleId: {
+        type: String,
+        unique: true,
+        sparse: true, // Allows null values
     },
-    forgotPasswordToken:String,
-    forgotPasswordTokenExpiry:Date,
-    verifyToken:String,
-    verifyTokenExpiry:Date
-    
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    forgotPasswordToken: String,
+    forgotPasswordTokenExpiry: Date,
+    verifyToken: String,
+    verifyTokenExpiry: Date
+
 })
 
-const User=mongoose.models.User || mongoose.model("User",userSchema)
+const User = mongoose.models.User || mongoose.model("User", userSchema)
 export default User;

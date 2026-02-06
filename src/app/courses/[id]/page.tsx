@@ -2,9 +2,10 @@
 
 import BrandsTicker from "@/components/BrandsTicker";
 import CheckoutDrawer from "@/components/checkoutDrawer";
+import { useAuth } from "@/hooks/useAuth";
 import courses from "@/lib/courses";
 import Image from "next/image";
-import { notFound, useParams } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 // ─── types ───────────────────────────────────────────────────────────────────
@@ -242,12 +243,25 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
 
 // ─── MAIN PAGE ───────────────────────────────────────────────────────────────
 export default function CourseDetailPage() {
+    const router = useRouter()
     const params = useParams();
     const course = courses.find((c: Course) => c.id === Number(params.id));
     if (!course) notFound();
 
     const [open, setOpen] = useState(false);
+    const { user, loading, isAuthenticated } = useAuth();
 
+    const handleEnrollClick = () => {
+        if (loading) return; // Wait for auth check to complete
+
+        if (isAuthenticated) {
+            // User is logged in, open checkout drawer
+            setOpen(true);
+        } else {
+            // User not logged in, redirect to login page
+            router.push("/login");
+        }
+    };
     // glowing CTA shared style
     const ctaBtnStyle: React.CSSProperties = {
         background: "linear-gradient(135deg,#FACC15,#FDE047)",
@@ -313,7 +327,7 @@ export default function CourseDetailPage() {
                         <p className="mt-4 text-xl font-bold text-white">
                             The Only <Gold>PERFORMANCE MARKETING COURSE</Gold> You Will Ever Need
                         </p>
-                        <Image className="mx-auto rounded-full shadow-lg mt-6" style={{boxShadow: "0 0 100px #d75525c9",}} alt="banner" src={"/banner_v1.jpg"} width={400} height={200}/>
+                        <Image className="mx-auto rounded-full shadow-lg mt-6" style={{ boxShadow: "0 0 100px #d75525c9", }} alt="banner" src={"/banner_v1.jpg"} width={400} height={200} />
                         {/* stars + student count*/}
                         <div className="mt-6 flex items-center justify-center gap-3 flex-wrap z-10">
                             <div className="flex items-center gap-0.5">
@@ -339,11 +353,12 @@ export default function CourseDetailPage() {
                         {/* ── CTA button (opens drawer) ── */}
                         <div className="mt-10">
                             <button
-                                onClick={() => setOpen(true)}
+                                disabled={loading}
+                                onClick={handleEnrollClick}
                                 className="rounded-full font-bold text-gray-900 text-lg px-10 py-4 transition-transform duration-300 hover:scale-105 active:scale-95"
                                 style={ctaBtnStyle}
                             >
-                                ENROLL NOW – ₹{course.price.toLocaleString()}
+                                {loading ? "Loading..." : `ENROLL NOW – ₹${course.price.toLocaleString()}`}
                             </button>
                         </div>
 
@@ -377,11 +392,12 @@ export default function CourseDetailPage() {
                         </div>
                         <div className="mt-8 text-center">
                             <button
-                                onClick={() => setOpen(true)}
+                                onClick={handleEnrollClick}
+                                disabled={loading}
                                 className="rounded-full font-bold text-gray-900 text-base px-7 py-3 transition-transform duration-300 hover:scale-105 active:scale-95"
                                 style={ctaBtnStyle}
                             >
-                                EARLY ACCESS AT JUST ₹{course.price.toLocaleString()}
+                                {loading ? "Loading..." : `EARLY ACCESS AT JUST ₹${course.price.toLocaleString()}`}
                             </button>
                         </div>
                     </section>
@@ -454,11 +470,12 @@ export default function CourseDetailPage() {
                         </div>
                         <div className="mt-8 text-center">
                             <button
-                                onClick={() => setOpen(true)}
+                                onClick={handleEnrollClick}
+                                disabled={loading}
                                 className="rounded-full font-bold text-gray-900 text-base px-7 py-3 transition-transform duration-300 hover:scale-105 active:scale-95"
                                 style={ctaBtnStyle}
                             >
-                                JOIN NOW FOR ₹{course.price.toLocaleString()}
+                                {loading ? "Loading..." : `JOIN NOW FOR ₹${course.price.toLocaleString()}`}
                             </button>
                         </div>
                     </section>
@@ -483,11 +500,12 @@ export default function CourseDetailPage() {
                         </div>
                         <div className="mt-10 text-center">
                             <button
-                                onClick={() => setOpen(true)}
+                                onClick={handleEnrollClick}
+                                disabled={loading}
                                 className="rounded-full font-bold text-gray-900 text-base px-7 py-3 transition-transform duration-300 hover:scale-105 active:scale-95"
                                 style={ctaBtnStyle}
                             >
-                                JOIN NOW AT ₹{course.price.toLocaleString()}
+                                {loading ? "Loading..." : `JOIN NOW AT ₹${course.price.toLocaleString()}`}
                             </button>
                         </div>
                     </section>
@@ -563,11 +581,12 @@ export default function CourseDetailPage() {
                             </p>
                             <div className="relative z-10 mt-6">
                                 <button
-                                    onClick={() => setOpen(true)}
+                                    onClick={handleEnrollClick}
+                                    disabled={loading}
                                     className="rounded-full font-bold text-gray-900 text-lg px-10 py-4 transition-transform duration-300 hover:scale-105 active:scale-95"
                                     style={ctaBtnStyle}
                                 >
-                                    JOIN NOW AT ₹{course.price.toLocaleString()}
+                                    {loading ? "Loading..." : `JOIN NOW AT ₹${course.price.toLocaleString()}`}
                                 </button>
                             </div>
                         </div>
@@ -611,8 +630,9 @@ export default function CourseDetailPage() {
                 </footer>
             </main>
 
-            {/* ════════ CHECKOUT DRAWER (existing component) ════════ */}
-            <CheckoutDrawer open={open} onClose={() => setOpen(false)} course={course} />
+            {isAuthenticated && (
+                <CheckoutDrawer open={open} onClose={() => setOpen(false)} course={course} />
+            )}
         </>
     );
 }
