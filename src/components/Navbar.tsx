@@ -1,12 +1,13 @@
 "use client"
 import { cinzel } from "@/app/fonts"
-import { LogOut, Menu, ShoppingCart, X } from "lucide-react"
+import { LayoutDashboard, LogOut, Menu, ShoppingCart, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu"
 type UserType = {
     name: string;
     email: string;
@@ -75,40 +76,70 @@ const Navbar = () => {
                 {user ? (
                     <>
                         <Link href="/cart">
-                            <ShoppingCart className="cursor-pointer" />
+                            <ShoppingCart className="cursor-pointer hover:text-[#d75525c9] transition-colors" />
                         </Link>
-                        <div className="relative" ref={profileMenuRef}>
-                            <Avatar
-                                className="cursor-pointer hover:ring-2 hover:ring-[#d75525c9] transition-all"
-                                onClick={() => setShowLogout(!showLogout)}
-                            >
-                                <AvatarImage src={user?.image || user?.picture} alt="Profile" />
-                                <AvatarFallback className="bg-[#d75525c9] text-white">
-                                    {user?.name?.charAt(0).toUpperCase()}
-                                </AvatarFallback>
-                            </Avatar>
 
-                            {/* Logout Button */}
-                            {showLogout && (
-                                <div className="absolute right-0 mt-2 z-50">
-                                    <Button
-                                        onClick={handleLogout}
-                                        className="bg-orange-600 hover:bg-red-600 text-white rounded-lg flex items-center gap-2 shadow-lg cursor-pointer"
-                                    >
-                                        <LogOut size={14} />
-                                        Logout
-                                    </Button>
-                                </div>
-                            )}
-                        </div>
+                        {/* Profile Dropdown Menu */}
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Avatar className="cursor-pointer hover:ring-2 hover:ring-[#d75525c9] transition-all">
+                                    <AvatarImage src={user?.image || user?.picture} alt="Profile" />
+                                    <AvatarFallback className="bg-[#d75525c9] text-white">
+                                        {user?.name?.charAt(0).toUpperCase()}
+                                    </AvatarFallback>
+                                </Avatar>
+                            </DropdownMenuTrigger>
+
+                            <DropdownMenuContent
+                                align="end"
+                                className="w-56 bg-[#1a1515] border border-white/10"
+                            >
+                                <DropdownMenuLabel className="text-white">
+                                    <div className="flex flex-col space-y-1">
+                                        <p className="text-sm font-medium">{user.name}</p>
+                                        <p className="text-xs text-white/60">{user.email}</p>
+                                    </div>
+                                </DropdownMenuLabel>
+
+                                <DropdownMenuSeparator className="bg-white/10" />
+
+                                <DropdownMenuItem
+                                    onClick={() => router.push("/my-courses")}
+                                    className="cursor-pointer text-white hover:bg-white/10 focus:bg-white/10 focus:text-white"
+                                >
+                                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                                    <span>Dashboard</span>
+                                </DropdownMenuItem>
+
+                                <DropdownMenuSeparator className="bg-white/10" />
+
+                                <DropdownMenuItem
+                                    onClick={handleLogout}
+                                    className="cursor-pointer text-red-400 hover:bg-red-500/10 hover:text-red-400 focus:bg-red-500/10 focus:text-red-400"
+                                >
+                                    <LogOut className="mr-2 h-4 w-4" />
+                                    <span>Logout</span>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </>
                 ) : (
                     <>
                         <Link href="/login">
-                            <ShoppingCart className="cursor-pointer" />
+                            <ShoppingCart className="cursor-pointer hover:text-[#d75525c9] transition-colors" />
                         </Link>
-                        <Button onClick={() => router.push("/login")} className="cursor-pointer rounded-2xl bg-transparent hover:bg-transparent hover:text-[#d75525c9]">Login</Button>
-                        <Button onClick={() => router.push("/signup")} className="bg-[#efebeb] text-black hover:bg-[#ffffff] cursor-pointer rounded-2xl text-sm">Get Started</Button>
+                        <Button
+                            onClick={() => router.push("/login")}
+                            className="cursor-pointer rounded-2xl bg-transparent hover:bg-transparent hover:text-[#d75525c9]"
+                        >
+                            Login
+                        </Button>
+                        <Button
+                            onClick={() => router.push("/signup")}
+                            className="bg-[#efebeb] text-black hover:bg-[#ffffff] cursor-pointer rounded-2xl text-sm"
+                        >
+                            Get Started
+                        </Button>
                     </>
                 )}
             </div>
