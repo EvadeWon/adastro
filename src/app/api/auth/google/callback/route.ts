@@ -5,17 +5,17 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
+
     try {
         const searchParams = req.nextUrl.searchParams;
         const code = searchParams.get("code");
-        console.log("CODE:", code);
-        console.log("CLIENT_URL:", process.env.CLIENT_URL);
-
 
         if (!code) {
             return NextResponse.redirect(new URL("/login?error=no_code", req.url));
         }
-
+        const CLIENT_URL = process.env.NODE_ENV === 'production'
+            ? process.env.VERCEL_URL
+            : process.env.CLIENT_URL;
         // Exchange code for tokens
         const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
             method: "POST",
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
                 code,
                 client_id: process.env.GOOGLE_CLIENT_ID!,
                 client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-                redirect_uri: `${process.env.CLIENT_URL}/api/auth/google/callback`,
+                redirect_uri: `${CLIENT_URL}/api/auth/google/callback`,
                 grant_type: "authorization_code",
             }),
         });
