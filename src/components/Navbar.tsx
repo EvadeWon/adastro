@@ -7,8 +7,14 @@ import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
+type UserType = {
+    name: string;
+    email: string;
+    picture?: string;
+    image?: string;
+}
 const Navbar = () => {
-    const [user, setUser] = useState<null>(null);
+    const [user, setUser] = useState<UserType | null>(null);
     const [showLogout, setShowLogout] = useState<boolean>(false);
     const profileMenuRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -76,9 +82,8 @@ const Navbar = () => {
                                 className="cursor-pointer hover:ring-2 hover:ring-[#d75525c9] transition-all"
                                 onClick={() => setShowLogout(!showLogout)}
                             >
-                                <AvatarFallback
-                                    alt="Avatar"
-                                    className="bg-[#d75525c9] text-grayscale">
+                                <AvatarImage src={user?.image || user?.picture} alt="Profile" />
+                                <AvatarFallback className="bg-[#d75525c9] text-white">
                                     {user?.name?.charAt(0).toUpperCase()}
                                 </AvatarFallback>
                             </Avatar>
