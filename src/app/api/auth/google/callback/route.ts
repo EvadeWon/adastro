@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
         );
 
         const tokens = await tokenResponse.json();
-
+        console.log("GOOGLE TOKENS:", tokens);
         if (!tokens.access_token) {
             return NextResponse.redirect(new URL("/login", req.url));
         }
@@ -74,14 +74,16 @@ export async function GET(req: NextRequest) {
         const cookieStore = await cookies();
         cookieStore.set("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: true,
             sameSite: "lax",
+            path: "/",
             maxAge: 7 * 24 * 60 * 60,
         });
 
+
         return NextResponse.redirect(
-    `${process.env.CLIENT_URL}/my-courses`
-);
+            `${process.env.CLIENT_URL}/my-courses`
+        );
 
     } catch (error) {
         console.error(error);

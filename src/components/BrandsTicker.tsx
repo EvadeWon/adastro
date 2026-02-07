@@ -16,7 +16,7 @@ const items = [...brands, ...brands];
 export default function BrandsTicker() {
     return (
         <div className="overflow-hidden py-6" style={{background: "transparent"}}>
-            <p className="text-center text-gray-500 text-xs tracking-widest uppercase pb-8">Brands I Have Worked With</p>
+            <p className="text-center text-gray-500 text-xs tracking-widest uppercase pb-8">Brands We Have Worked With</p>
             <div
                 className="flex w-max animate-marquee"
             >
