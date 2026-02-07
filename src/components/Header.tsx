@@ -94,7 +94,7 @@ export default function Header({ courseRef,serviceRef }: HeaderProps) {
                     Don't wait for tomorrow.Boost your Business Today!
                 </motion.h1>
 
-                <motion.div variants={itemVariants} className="flex gap-4">
+                <motion.div variants={itemVariants} className="flex flex-col gap-3 md:flex-row md:gap-4">
                     <Button
                         onClick={scrollToCourses}
                         className="bg-[#d75525c9] hover:bg-[#cf623adc] text-white/90 cursor-pointer transition-all duration-300 shadow-md"
