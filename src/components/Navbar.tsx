@@ -197,25 +197,51 @@ const Navbar = () => {
                         <hr className="border-white/20 my-2" />
 
                         {/* Auth Buttons */}
-                        <Button
-                            onClick={() => {
-                                setIsOpen(false)
-                                router.push("/login")
-                            }}
-                            className="bg-[#d75525c9] hover:bg-[#bb481ec9] rounded-xl cursor-pointer shadow-md" style={{ boxShadow: "0 0 4px #d75525c9" }}
-                        >
-                            Login
-                        </Button>
+                        {user ? (
+                            <>
+                                <Button
+                                    onClick={() => {
+                                        setIsOpen(false);
+                                        router.push("/my-courses");
+                                    }}
+                                    className="bg-[#d75525c9] hover:bg-[#bb481ec9] rounded-xl cursor-pointer"
+                                >
+                                    Dashboard
+                                </Button>
 
-                        <Button
-                            onClick={() => {
-                                setIsOpen(false)
-                                router.push("/signup")
-                            }}
-                            className="bg-white hover:bg-[#f3ecec] text-black rounded-xl cursor-pointer"
-                        >
-                            Signup
-                        </Button>
+                                <Button
+                                    onClick={async () => {
+                                        await handleLogout();
+                                        setIsOpen(false);
+                                    }}
+                                    className="bg-red-500 hover:bg-red-600 text-white rounded-xl cursor-pointer"
+                                >
+                                    Logout
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Button
+                                    onClick={() => {
+                                        setIsOpen(false);
+                                        router.push("/login");
+                                    }}
+                                    className="bg-[#d75525c9] hover:bg-[#bb481ec9] rounded-xl cursor-pointer"
+                                >
+                                    Login
+                                </Button>
+
+                                <Button
+                                    onClick={() => {
+                                        setIsOpen(false);
+                                        router.push("/signup");
+                                    }}
+                                    className="bg-white hover:bg-[#f3ecec] text-black rounded-xl cursor-pointer"
+                                >
+                                    Signup
+                                </Button>
+                            </>
+                        )}
                     </div>
                 </>
             )}
