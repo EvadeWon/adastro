@@ -1,3 +1,4 @@
+// api/auth/google/callback/route.ts
 import { connectDB } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
 import jwt from "jsonwebtoken";
@@ -5,7 +6,6 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-
     try {
         const searchParams = req.nextUrl.searchParams;
         const code = searchParams.get("code");
@@ -13,9 +13,14 @@ export async function GET(req: NextRequest) {
         if (!code) {
             return NextResponse.redirect(new URL("/login?error=no_code", req.url));
         }
+
         const CLIENT_URL = process.env.NODE_ENV === 'production'
-            ? `https://${process.env.VERCEL_URL}`
+            ? process.env.BASE_URL
             : process.env.CLIENT_URL;
+
+        // Make sure this matches exactly what's in Google Console
+        const redirectUri = `${CLIENT_URL}/api/auth/google/callback`;
+
         // Exchange code for tokens
         const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
             method: "POST",
@@ -24,7 +29,7 @@ export async function GET(req: NextRequest) {
                 code,
                 client_id: process.env.GOOGLE_CLIENT_ID!,
                 client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-                redirect_uri: `${CLIENT_URL}/api/auth/google/callback`,
+                redirect_uri: redirectUri,
                 grant_type: "authorization_code",
             }),
         });

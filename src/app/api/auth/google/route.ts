@@ -1,3 +1,4 @@
+// api/auth/google/route.ts
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -6,7 +7,10 @@ export async function GET(req: Request) {
             ? process.env.BASE_URL
             : process.env.CLIENT_URL;
 
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${CLIENT_URL}/api/auth/google/callback&response_type=code&scope=profile%20email`;
+    // Make sure the redirect_uri matches exactly what's in Google Console
+    const redirectUri = `${CLIENT_URL}/api/auth/google/callback`;
+    
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=profile%20email`;
 
     return NextResponse.redirect(authUrl);
 }
