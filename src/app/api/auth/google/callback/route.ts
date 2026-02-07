@@ -15,7 +15,6 @@ export async function GET(req: NextRequest) {
         const CLIENT_URL = process.env.CLIENT_URL!;
         const redirectUri = `${CLIENT_URL}/api/auth/google/callback`;
 
-
         // Exchange code for tokens
         const tokenResponse = await fetch(
             "https://oauth2.googleapis.com/token",
@@ -80,7 +79,10 @@ export async function GET(req: NextRequest) {
             maxAge: 7 * 24 * 60 * 60,
         });
 
-        return NextResponse.redirect(new URL("/my-courses", req.url));
+        return NextResponse.redirect(
+    `${process.env.CLIENT_URL}/my-courses`
+);
+
     } catch (error) {
         console.error(error);
         return NextResponse.redirect(new URL("/login", req.url));
