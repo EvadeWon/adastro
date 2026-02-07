@@ -12,12 +12,9 @@ export async function GET(req: NextRequest) {
             return NextResponse.redirect(new URL("/login", req.url));
         }
 
-        const CLIENT_URL =
-            process.env.NODE_ENV === "production"
-                ? process.env.CLIENT_URL
-                : "http://localhost:3000";
-
+        const CLIENT_URL = process.env.CLIENT_URL!;
         const redirectUri = `${CLIENT_URL}/api/auth/google/callback`;
+
 
         // Exchange code for tokens
         const tokenResponse = await fetch(

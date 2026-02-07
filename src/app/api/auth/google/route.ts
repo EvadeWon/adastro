@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-    const CLIENT_URL =
-        process.env.NODE_ENV === "production"
-            ? process.env.CLIENT_URL
-            : "http://localhost:3000";
-
+    const CLIENT_URL = process.env.CLIENT_URL!;
     const redirectUri = `${CLIENT_URL}/api/auth/google/callback`;
 
     const authUrl =
@@ -14,6 +10,5 @@ export async function GET() {
         `&redirect_uri=${encodeURIComponent(redirectUri)}` +
         `&response_type=code` +
         `&scope=profile%20email`;
-
     return NextResponse.redirect(authUrl);
 }
