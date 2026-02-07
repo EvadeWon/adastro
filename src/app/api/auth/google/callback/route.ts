@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
         cookieStore.set("token", token, {
             httpOnly: true,
             secure: true,
-            sameSite: "lax",
+            sameSite: "none",
             path: "/",
             maxAge: 7 * 24 * 60 * 60,
         });
