@@ -69,7 +69,6 @@ const Navbar = () => {
                     return (
                         <Link className={`hover:text-[#d75525c9] transition-colors duration-300 ${isActive ? "text-white" : "text-white/50"}`} key={item.id} href={item.url}>{item.name}</Link>
                     )
-
                 })}
             </div>
             <div className="hidden sm:flex gap-3 items-center">
