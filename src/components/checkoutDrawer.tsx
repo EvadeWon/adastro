@@ -22,10 +22,65 @@ export default function CheckoutDrawer({
     course,
 }: CheckoutDrawerProps) {
     const router = useRouter();
+    const handleProceed = async () => {
+        try {
+            const res = await fetch("/api/payment/create-order", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    amount: course.price,
+                }),
+            });
 
-    const handleProceed = () => {
-        console.log("user logged in! user can proceed...")
+            const order = await res.json();
+
+            const options = {
+                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                amount: order.amount,
+                currency: order.currency,
+                name: "AdAstro",
+                description: course.title,
+                order_id: order.id,
+
+                handler: async function (response: any) {
+                    // verify payment
+                    const verifyRes = await fetch(
+                        "/api/payment/verify",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                ...response,
+                                courseId: course.id,
+                            }),
+                        }
+                    );
+
+                    const data = await verifyRes.json();
+
+                    if (data.success) {
+                        router.push("/my-courses");
+                    } else {
+                        alert("Payment verification failed");
+                    }
+                },
+
+                theme: {
+                    color: "#d75525",
+                },
             };
+
+            const rzp = new (window as any).Razorpay(options);
+            rzp.open();
+        } catch (err) {
+            console.error("Payment error:", err);
+        }
+    };
+
 
     return (
         <Sheet open={open} onOpenChange={onClose}>
@@ -52,7 +107,7 @@ export default function CheckoutDrawer({
 
                     <Button
                         onClick={handleProceed}
-                        className="w-full bg-[#d75525c9] text-lg py-6 hover:bg-[#973411c9]"
+                        className="w-full bg-[#d75525c9] text-lg py-6 hover:bg-[#973411c9] cursor-pointer"
                     >
                         Proceed
                     </Button>

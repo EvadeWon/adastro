@@ -262,6 +262,64 @@ export default function CourseDetailPage() {
             router.push("/login");
         }
     };
+    const handleProceed = async () => {
+    try {
+        const res = await fetch("/api/payment/create-order", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                amount: course.price,
+            }),
+        });
+
+        const order = await res.json();
+
+        const options = {
+            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+            amount: order.amount,
+            currency: order.currency,
+            name: "Evade Won",
+            description: course.title,
+            order_id: order.id,
+
+            handler: async function (response: any) {
+                // verify payment
+                const verifyRes = await fetch(
+                    "/api/payment/verify",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            ...response,
+                            courseId: course.id,
+                        }),
+                    }
+                );
+
+                const data = await verifyRes.json();
+
+                if (data.success) {
+                    router.push("/my-courses");
+                } else {
+                    alert("Payment verification failed");
+                }
+            },
+
+            theme: {
+                color: "#d75525",
+            },
+        };
+
+        const rzp = new (window as any).Razorpay(options);
+        rzp.open();
+    } catch (err) {
+        console.error("Payment error:", err);
+    }
+};
     // glowing CTA shared style
     const ctaBtnStyle: React.CSSProperties = {
         background: "linear-gradient(135deg,#FACC15,#FDE047)",

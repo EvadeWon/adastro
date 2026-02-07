@@ -80,10 +80,7 @@ export async function GET(req: NextRequest) {
             maxAge: 7 * 24 * 60 * 60,
         });
 
-
-        return NextResponse.redirect(
-            `${process.env.CLIENT_URL}/my-courses`
-        );
+        return NextResponse.redirect(new URL("/my-courses", req.url));
 
     } catch (error) {
         console.error(error);
