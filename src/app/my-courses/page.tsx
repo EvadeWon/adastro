@@ -55,7 +55,7 @@ export default function MyCourses() {
                         key={course.id}
                         className="bg-zinc-900 p-6 rounded-xl shadow-lg"
                     >
-                      <Image alt="Course" src={"/course_1.webp"} width={200} height={200} objectFit="contain"/>
+                      <Image alt="Course" src={"/course_1.webp"} width={600} height={600} className="object-cover mb-2"/>
                         <h2 className="text-2xl font-semibold mb-2">
                             {course.title}
                         </h2>
