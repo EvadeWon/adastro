@@ -77,8 +77,8 @@ export async function GET(req: NextRequest) {
         const cookieStore = await cookies();
         cookieStore.set("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "lax" : "lax",
+            secure: true,
+            sameSite: "none",
             path: "/",
             maxAge: 7 * 24 * 60 * 60,
         });
