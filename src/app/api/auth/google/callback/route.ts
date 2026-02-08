@@ -74,16 +74,19 @@ export async function GET(req: NextRequest) {
             { expiresIn: "7d" }
         );
 
-        const cookieStore = await cookies();
-        cookieStore.set("token", token, {
+        // const cookieStore = await cookies();
+
+        const response = NextResponse.redirect(new URL("/my-courses", req.url));
+
+        response.cookies.set("token", token, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
             path: "/",
             maxAge: 7 * 24 * 60 * 60,
         });
 
-        return NextResponse.redirect(new URL("/my-courses", req.url));
+        return response;
 
     } catch (error) {
         console.error(error);
