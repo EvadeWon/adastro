@@ -359,7 +359,7 @@ export default function CourseDetailPage() {
                         <Badge>Become A Pro in
                             <span className="text-yellow-500 font-bold"> Facebook & Instagram ADS </span> in few months💸</Badge>
 
-                        <h1 className="mt-8 text-5xl sm:text-6xl font-extrabold leading-tight text-white">
+                        <h1 className="mt-8 text-4xl sm:text-6xl font-extrabold leading-tight text-white text-center">
                             {course.title.includes("Facebook") || course.title.includes("Meta") ? (
                                 <>
                                     Become A Pro in<br />
@@ -382,7 +382,7 @@ export default function CourseDetailPage() {
                             )}
                         </h1>
 
-                        <p className="mt-4 text-xl font-bold text-white">
+                        <p className="mt-4 text-md font-bold text-white">
                             The Only <Gold>PERFORMANCE MARKETING COURSE</Gold> You Will Ever Need
                         </p>
                         <Image className="mx-auto rounded-full shadow-lg mt-6" style={{ boxShadow: "0 0 100px #d75525c9", }} alt="banner" src={"/banner_v1.jpg"} width={400} height={200} />
@@ -503,10 +503,9 @@ export default function CourseDetailPage() {
 
                 {/* ════════ STUDENTS MARQUEE ════════ */}
                 <div style={{ borderTop: "1px solid #2a2a2a", borderBottom: "1px solid #2a2a2a", background: "#111" }}>
-                    <p className="text-center text-gray-500 text-xs tracking-widest uppercase pt-4">
+                    <p className="text-center text-gray-500 text-xs tracking-widest uppercase p-4">
                         5,000+ 🤝 Students Already Upskilling
                     </p>
-                    <BrandsTicker />
                 </div>
 
                 {/* ════════ WHO IS THIS FOR ════════ */}
@@ -641,7 +640,7 @@ export default function CourseDetailPage() {
                                 <button
                                     onClick={handleEnrollClick}
                                     disabled={loading}
-                                    className="rounded-full font-bold text-gray-900 text-lg px-10 py-4 transition-transform duration-300 hover:scale-105 active:scale-95"
+                                    className="rounded-full font-bold text-gray-900 text-sm md:text-lg px-10 py-4 transition-transform duration-300 hover:scale-105 active:scale-95"
                                     style={ctaBtnStyle}
                                 >
                                     {loading ? "Loading..." : `JOIN NOW AT ₹${course.price.toLocaleString()}`}

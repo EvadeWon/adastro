@@ -56,7 +56,7 @@ export default function Login() {
 
             // ✅ Token is stored in HttpOnly cookie by server
             // Redirect to dashboard
-            router.push("/courses");
+            router.push("/my-courses");
 
         } catch (err: unknown) {
             if (err instanceof Error) {

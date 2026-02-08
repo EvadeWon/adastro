@@ -30,7 +30,7 @@ export default function BrandsTicker() {
                             alt="Brand logo"
                             width={140}
                             height={70}
-                            className="object-contain transition-all duration-300 rounded-2xl"
+                            className="object-contain transition-all duration-300 rounded-xl md:rounded-2xl"
                         />
                     </div>
                 ))}

@@ -12,8 +12,12 @@ export async function GET(req: NextRequest) {
             return NextResponse.redirect(new URL("/login", req.url));
         }
 
-        const CLIENT_URL = process.env.CLIENT_URL!;
-        const redirectUri = `${CLIENT_URL}/api/auth/google/callback`;
+        const BASE_URL =
+            process.env.NODE_ENV === "production"
+                ? process.env.BASE_URL!
+                : "http://localhost:3000";
+
+        const redirectUri = `${BASE_URL}/api/auth/google/callback`;
 
         // Exchange code for tokens
         const tokenResponse = await fetch(
@@ -34,7 +38,6 @@ export async function GET(req: NextRequest) {
         );
 
         const tokens = await tokenResponse.json();
-        console.log("GOOGLE TOKENS:", tokens);
         if (!tokens.access_token) {
             return NextResponse.redirect(new URL("/login", req.url));
         }
@@ -74,8 +77,8 @@ export async function GET(req: NextRequest) {
         const cookieStore = await cookies();
         cookieStore.set("token", token, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "lax" : "lax",
             path: "/",
             maxAge: 7 * 24 * 60 * 60,
         });

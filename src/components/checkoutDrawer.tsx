@@ -86,7 +86,7 @@ export default function CheckoutDrawer({
         <Sheet open={open} onOpenChange={onClose}>
             <SheetContent
                 side="right"
-                className="w-[30%] sm:w-[30%] text-white"
+                className="w-[80%] sm:w-[35%] text-white"
                 style={{
                     background: "rgb(26, 26, 32)",
                     border: "1px solid rgb(42, 42, 42)",

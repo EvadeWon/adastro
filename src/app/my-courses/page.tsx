@@ -37,8 +37,8 @@ export default function MyCourses() {
 
     if (purchasedCourses.length === 0) {
         return (
-            <div className="min-h-screen flex items-center justify-center text-4xl font-bold">
-                You haven't bought any course yet!
+            <div className="min-h-screen flex items-center justify-center">
+                <h1 className="text-2xl md:text-4xl font-bold text-center">You have not bought any course yet!</h1>
             </div>
         );
     }
@@ -65,7 +65,7 @@ export default function MyCourses() {
                         </p>
 
                         <Link
-                            href={`/course/${course.id}`}
+                            href={`#`}
                             className="inline-block bg-[#d75525] px-6 py-2 rounded-lg text-white font-semibold"
                         >
                             Start Course

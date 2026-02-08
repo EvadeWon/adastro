@@ -69,7 +69,7 @@ export default function Signup() {
         <Card>
             <CardHeader>
                 <CardDescription >
-                    Login with your Google Email Account
+                    <p>Login with your Google Email Account</p>
                 </CardDescription>
             </CardHeader>
             <CardContent>
