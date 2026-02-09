@@ -7,7 +7,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
     try {
         const code = req.nextUrl.searchParams.get("code");
-
         if (!code) {
             return NextResponse.redirect(new URL("/login", req.url));
         }
@@ -19,45 +18,34 @@ export async function GET(req: NextRequest) {
 
         const redirectUri = `${BASE_URL}/api/auth/google/callback`;
 
-        // Exchange code for tokens
-        const tokenResponse = await fetch(
-            "https://oauth2.googleapis.com/token",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-                body: new URLSearchParams({
-                    code,
-                    client_id: process.env.GOOGLE_CLIENT_ID!,
-                    client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-                    redirect_uri: redirectUri,
-                    grant_type: "authorization_code",
-                }),
-            }
-        );
+        // 🔥 Exchange code for access token
+        const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({
+                code,
+                client_id: process.env.GOOGLE_CLIENT_ID!,
+                client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+                redirect_uri: redirectUri,
+                grant_type: "authorization_code",
+            }),
+        });
 
         const tokens = await tokenResponse.json();
         if (!tokens.access_token) {
             return NextResponse.redirect(new URL("/login", req.url));
         }
 
-        // Get user info
-        const userInfoResponse = await fetch(
+        // 🔥 Get Google user info
+        const userInfoRes = await fetch(
             "https://www.googleapis.com/oauth2/v2/userinfo",
-            {
-                headers: {
-                    Authorization: `Bearer ${tokens.access_token}`,
-                },
-            }
+            { headers: { Authorization: `Bearer ${tokens.access_token}` } }
         );
-
-        const googleUser = await userInfoResponse.json();
+        const googleUser = await userInfoRes.json();
 
         await connectDB();
 
         let user = await User.findOne({ email: googleUser.email });
-
         if (!user) {
             user = await User.create({
                 name: googleUser.name,
@@ -68,28 +56,26 @@ export async function GET(req: NextRequest) {
             });
         }
 
-        const token = jwt.sign(
+        // 🔥 Create JWT
+        const jwtToken = jwt.sign(
             { userId: user._id },
             process.env.JWT_SECRET!,
             { expiresIn: "7d" }
         );
 
-        // const cookieStore = await cookies();
-
-        const response = NextResponse.redirect(new URL("/my-courses", req.url));
-
-        response.cookies.set("token", token, {
+        const cookieStore = await cookies();
+        cookieStore.set("token", jwtToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
+            secure: true,
+            sameSite: "lax", // important
             path: "/",
-            maxAge: 7 * 24 * 60 * 60,
+            maxAge: 60 * 60 * 24 * 7,
         });
 
-        return response;
+        return NextResponse.redirect(new URL("/my-courses", req.url));
 
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        console.error("Google Auth Error:", err);
         return NextResponse.redirect(new URL("/login", req.url));
     }
 }
