@@ -12,10 +12,12 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: function() { return this.provider === "credentials" },
+        required: function () { return this.provider === "credentials" },
     },
     googleId: {
         type: String,
+        unique: true,
+        sparse: true,
     },
     provider: {
         type: String,
