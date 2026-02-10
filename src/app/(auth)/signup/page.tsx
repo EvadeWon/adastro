@@ -19,6 +19,7 @@ export default function Signup() {
         name: "",
         email: "",
         password: "",
+        referralCode: "",
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -124,6 +125,15 @@ export default function Signup() {
                                 required
                             />
                         </div>
+                        <input
+                            type="text"
+                            name="referralCode"
+                            id="referralCode"
+                            placeholder="Referral code (optional)"
+                            value={formData.referralCode}
+                            className="outline-none border rounded-b-sm rounded-t-sm p-2"
+                            onChange={handleChange}
+                        />
                         {error && (
                             <p className="text-red-500 text-sm">{error}</p>
                         )}

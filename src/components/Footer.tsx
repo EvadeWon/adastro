@@ -45,8 +45,8 @@ function Footer() {
                 <div className="flex flex-col gap-4">
                     <h1 className="text-lg font-bold">Contact Info</h1>
                     <div className="flex flex-col gap-2">
-                        <span className="text-white/70 text-xs font-semibold">info@cloudydata.in</span>
-                        <span className="text-white/70 text-xs font-semibold">+919217711173</span>
+                        <Link href="mailto:info@cloudydata.in" className="text-white/70 text-xs font-semibold">info@cloudydata.in</Link>
+                        <Link href="tel:+919217711173" className="text-white/70 text-xs font-semibold">+919217711173</Link>
                         <span className="text-white/70 text-xs font-semibold">Sector-14, Gurgaon,India</span>
                     </div>
                     <div className="flex gap-4 flex-col md:justify-start justify-start">

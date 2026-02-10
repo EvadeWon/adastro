@@ -1,6 +1,6 @@
 "use client"
 import { cinzel } from "@/app/fonts"
-import { LayoutDashboard, LogOut, Menu, ShoppingCart, X } from "lucide-react"
+import { LayoutDashboard, LogOut, Menu, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
@@ -55,8 +55,10 @@ const Navbar = () => {
     const navLinks: navLinksType[] = [
         { id: 1, name: "Home", url: "/" },
         { id: 2, name: "Dashboard", url: "/my-courses" },
-        { id: 3, name: "Contact", url: "/contact" }
+        { id: 3, name: "Contact", url: "/contact" },
+        { id: 4, name: "Blogs", url: "/blogs" },
     ]
+
     return (
         <nav className="flex justify-between items-center px-10 py-4 shadow-md">
             <Link href={"/"} className="flex items-center">
@@ -67,16 +69,14 @@ const Navbar = () => {
                 {navLinks.map((item) => {
                     const isActive = pathName === item.url;
                     return (
-                        <Link className={`hover:text-[#d75525c9] transition-colors duration-300 ${isActive ? "text-white" : "text-white/50"}`} key={item.id} href={item.url}>{item.name}</Link>
+                        <Link className={`hover:text-[#d75525c9] transition-colors duration-300 cursor-pointer ${isActive ? "text-white" : "text-white/50"}`} key={item.id} href={item.url}>{item.name}</Link>
+
                     )
                 })}
             </div>
             <div className="hidden sm:flex gap-3 items-center">
                 {user ? (
                     <>
-                        <Link href="/cart">
-                            <ShoppingCart className="cursor-pointer hover:text-[#d75525c9] transition-colors" />
-                        </Link>
 
                         {/* Profile Dropdown Menu */}
                         <DropdownMenu>
@@ -124,9 +124,6 @@ const Navbar = () => {
                     </>
                 ) : (
                     <>
-                        <Link href="/login">
-                            <ShoppingCart className="cursor-pointer hover:text-[#d75525c9] transition-colors" />
-                        </Link>
                         <Button
                             onClick={() => router.push("/login")}
                             className="cursor-pointer rounded-2xl bg-transparent hover:bg-transparent hover:text-[#d75525c9]"

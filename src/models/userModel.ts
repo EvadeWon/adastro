@@ -16,6 +16,20 @@ const userSchema = new mongoose.Schema({
             return !this.googleId; // agar googleId nahi hai to password required
         },
     },
+    referralCode: {
+        type: String,
+        unique: true,
+    },
+
+    referredBy: {
+        type: String, // referral code of inviter
+        default: null,
+    },
+
+    walletBalance: {
+        type: Number,
+        default: 0,
+    },
     googleId: {
         type: String,
         unique: true,

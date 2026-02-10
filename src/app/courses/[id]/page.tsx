@@ -385,7 +385,7 @@ export default function CourseDetailPage() {
                         <p className="mt-4 text-md font-bold text-white">
                             The Only <Gold>PERFORMANCE MARKETING COURSE</Gold> You Will Ever Need
                         </p>
-                        <Image className="mx-auto rounded-full shadow-lg mt-6" style={{ boxShadow: "0 0 100px #d75525c9", }} alt="banner" src={"/banner_v1.jpg"} width={400} height={200} />
+                        <Image className="mx-auto rounded-full shadow-lg mt-6" style={{ boxShadow: "0 0 150px #d75525c9", }} alt="banner" src={"/banner_v2.png"} width={400} height={200} />
                         {/* stars + student count*/}
                         <div className="mt-6 flex items-center justify-center gap-3 flex-wrap z-10">
                             <div className="flex items-center gap-0.5">
@@ -426,7 +426,7 @@ export default function CourseDetailPage() {
                                 className="w-14 h-14 rounded-full flex items-center justify-center text-lg font-bold text-white"
                                 style={{ background: "linear-gradient(135deg,#1877F2,#8B5CF6)" }}
                             >
-                                DT
+                                JJ
                             </div>
                             <div className="text-left">
                                 <p className="text-white font-bold text-sm">{COACH.name}</p>
@@ -525,22 +525,12 @@ export default function CourseDetailPage() {
                                 </Card>
                             ))}
                         </div>
-                        <div className="mt-8 text-center">
-                            <button
-                                onClick={handleEnrollClick}
-                                disabled={loading}
-                                className="rounded-full font-bold text-gray-900 text-base px-7 py-3 transition-transform duration-300 hover:scale-105 active:scale-95"
-                                style={ctaBtnStyle}
-                            >
-                                {loading ? "Loading..." : `JOIN NOW FOR ₹${course.price.toLocaleString()}`}
-                            </button>
-                        </div>
                     </section>
                 </Reveal>
 
                 {/* ════════ WHAT YOU WILL LEARN (curriculum) ════════ */}
                 <Reveal>
-                    <section className="max-w-5xl mx-auto px-5 py-20">
+                    <section className="max-w-5xl mx-auto px-5 py-10">
                         <div className="text-center">
                             <Badge>Curriculum</Badge>
                             <SectionHeading>
@@ -554,16 +544,6 @@ export default function CourseDetailPage() {
                             {LEARN_TOPICS.map((t, i) => (
                                 <LearnCard key={i} {...t} />
                             ))}
-                        </div>
-                        <div className="mt-10 text-center">
-                            <button
-                                onClick={handleEnrollClick}
-                                disabled={loading}
-                                className="rounded-full font-bold text-gray-900 text-base px-7 py-3 transition-transform duration-300 hover:scale-105 active:scale-95"
-                                style={ctaBtnStyle}
-                            >
-                                {loading ? "Loading..." : `JOIN NOW AT ₹${course.price.toLocaleString()}`}
-                            </button>
                         </div>
                     </section>
                 </Reveal>
@@ -584,7 +564,7 @@ export default function CourseDetailPage() {
                                     className="w-44 h-44 rounded-full flex items-center justify-center"
                                     style={{ border: "4px solid rgba(255,255,255,0.2)" }}
                                 >
-                                    <span className="text-7xl font-extrabold text-white">DT</span>
+                                    <span className="text-7xl font-extrabold text-white">JJ</span>
                                 </div>
                             </div>
 

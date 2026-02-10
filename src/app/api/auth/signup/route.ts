@@ -7,7 +7,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
     try {
-        const { name, email, password } = await req.json();
+        const { name, email, password, referralCode } = await req.json();
+
 
         // Validation
         if (!name || !email || !password) {
