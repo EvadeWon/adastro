@@ -36,6 +36,43 @@ export default function CheckoutDrawer({
 
             const order = await res.json();
 
+            // const options = {
+            //     key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+            //     amount: order.amount,
+            //     currency: order.currency,
+            //     name: "AdAstro",
+            //     description: course.title,
+            //     order_id: order.id,
+
+            //     handler: async function (response: any) {
+            //         // verify payment
+            //         const verifyRes = await fetch(
+            //             "/api/payment/verify",
+            //             {
+            //                 method: "POST",
+            //                 headers: {
+            //                     "Content-Type": "application/json",
+            //                 },
+            //                 body: JSON.stringify({
+            //                     ...response,
+            //                     courseId: course.id,
+            //                 }),
+            //             }
+            //         );
+
+            //         const data = await verifyRes.json();
+
+            //         if (data.success) {
+            //             router.push("/my-courses");
+            //         } else {
+            //             alert("Payment verification failed");
+            //         }
+            //     },
+
+            //     theme: {
+            //         color: "#d75525",
+            //     },
+            // };
             const options = {
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
                 amount: order.amount,
@@ -75,6 +112,7 @@ export default function CheckoutDrawer({
             };
 
             const rzp = new (window as any).Razorpay(options);
+            console.log(options)
             rzp.open();
         } catch (err) {
             console.error("Payment error:", err);

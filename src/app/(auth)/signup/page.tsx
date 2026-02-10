@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -30,9 +31,12 @@ export default function Signup() {
             [e.target.id]: e.target.value,
         });
     };
-    const handleGoogleLogin = () => {
-        window.location.href = "/api/auth/google";
-    };
+    const handleGoogleLogin = async () => {
+    await signIn("google", {
+        callbackUrl: "/my-courses",
+    });
+};
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
@@ -53,8 +57,15 @@ export default function Signup() {
                 throw new Error(data.message || "Signup failed");
             }
 
-            // ✅ Redirect to dashboard (user is now logged in)
+            // ✅ auto login after signup
+            await signIn("credentials", {
+                email: formData.email,
+                password: formData.password,
+                redirect: false,
+            });
+
             router.push("/my-courses");
+
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -125,15 +136,6 @@ export default function Signup() {
                                 required
                             />
                         </div>
-                        <input
-                            type="text"
-                            name="referralCode"
-                            id="referralCode"
-                            placeholder="Referral code (optional)"
-                            value={formData.referralCode}
-                            className="outline-none border rounded-b-sm rounded-t-sm p-2"
-                            onChange={handleChange}
-                        />
                         {error && (
                             <p className="text-red-500 text-sm">{error}</p>
                         )}

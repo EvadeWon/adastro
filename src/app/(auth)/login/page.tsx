@@ -10,13 +10,20 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 
 export default function Login() {
+    const { data: session } = useSession();
     const router = useRouter();
+    useEffect(() => {
+        if (session) {
+            router.push("/my-courses");
+        }
+    }, [session, router]);
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -30,43 +37,25 @@ export default function Login() {
             [e.target.id]: e.target.value,
         });
     };
-    const handleGoogleLogin = () => {
-        window.location.href = "/api/auth/google";
-    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
         setLoading(true);
 
-        try {
-            const res = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            });
+        const res = await signIn("credentials", {
+            email: formData.email,
+            password: formData.password,
+            redirect: false,
+        });
 
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.message || "Login failed");
-            }
-
-            // ✅ Token is stored in HttpOnly cookie by server
-            // Redirect to dashboard
-            router.push("/my-courses");
-
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                setError(err.message);
-            } else {
-                setError("An unexpected error occurred");
-            }
-        } finally {
+        if (res?.error) {
+            setError(res.error);
             setLoading(false);
+            return;
         }
+
+        router.push("/my-courses");
     };
 
     return (
@@ -79,7 +68,10 @@ export default function Login() {
             </CardHeader>
             <CardContent>
                 <div>
-                    <Button onClick={handleGoogleLogin} className="w-full mb-2 border-[#4E4948] border bg-gradient-to-b from-[#171212] to-[#100B0B] text-grey-400 cursor-pointer">
+                    <Button onClick={() =>
+                        signIn("google", { callbackUrl: "/my-courses" })
+                    }
+                        className="w-full mb-2 border-[#4E4948] border bg-gradient-to-b from-[#171212] to-[#100B0B] text-grey-400 cursor-pointer">
                         <FaGoogle />
                         <span>Continue with Google</span>
                     </Button>

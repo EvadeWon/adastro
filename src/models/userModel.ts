@@ -12,28 +12,15 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: function () {
-            return !this.googleId; // agar googleId nahi hai to password required
-        },
-    },
-    referralCode: {
-        type: String,
-        unique: true,
-    },
-
-    referredBy: {
-        type: String, // referral code of inviter
-        default: null,
-    },
-
-    walletBalance: {
-        type: Number,
-        default: 0,
+        required: function() { return this.provider === "credentials" },
     },
     googleId: {
         type: String,
-        unique: true,
-        sparse: true, // Allows null values
+    },
+    provider: {
+        type: String,
+        enum: ["credentials", "google"],
+        default: "credentials",
     },
     isVerified: {
         type: Boolean,

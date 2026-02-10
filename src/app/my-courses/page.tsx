@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import courses from "@/lib/courses";
-import Link from "next/link";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type Purchase = {
     courseId: string;
@@ -12,7 +14,14 @@ type Purchase = {
 export default function MyCourses() {
     const [purchases, setPurchases] = useState<Purchase[]>([]);
     const [loading, setLoading] = useState(true);
-
+    const { data: session, status } = useSession();
+    const router = useRouter();
+    useEffect(() => {
+        if (status === "loading") return;
+        if (!session) {
+            router.push("/login");
+        }
+    }, [session, status, router]);
     useEffect(() => {
         fetch("/api/my-courses")
             .then((res) => res.json())
@@ -32,8 +41,8 @@ export default function MyCourses() {
     }
 
     const purchasedCourses = courses.filter((course) =>
-    purchases.some((p) => String(p.courseId) === String(course.id))
-);
+        purchases.some((p) => String(p.courseId) === String(course.id))
+    );
 
     if (purchasedCourses.length === 0) {
         return (
@@ -55,7 +64,7 @@ export default function MyCourses() {
                         key={course.id}
                         className="bg-zinc-900 p-6 rounded-xl shadow-lg"
                     >
-                      <Image alt="Course" src={"/course_1.webp"} width={600} height={600} className="object-cover mb-2"/>
+                        <Image alt="Course" src={"/course_1.webp"} width={600} height={600} className="object-cover mb-2" />
                         <h2 className="text-2xl font-semibold mb-2">
                             {course.title}
                         </h2>

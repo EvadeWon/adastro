@@ -1,35 +1,25 @@
-// app/api/auth/signup/route.ts
 import { connectDB } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
 import bcrypt from "bcryptjs";
-import jwt from 'jsonwebtoken';
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
     try {
-        const { name, email, password, referralCode } = await req.json();
-
-
-        // Validation
-        if (!name || !email || !password) {
-            return NextResponse.json(
-                { message: "All fields required" },
-                { status: 400 }
-            );
-        }
-
-        // Password strength check
-        if (password.length < 6) {
-            return NextResponse.json(
-                { message: "Password must be at least 6 characters" },
-                { status: 400 }
-            );
-        }
-
         await connectDB();
 
-        // Check existing user
+        const { name, email, password } = await req.json();
+
+        // 1. Basic validation
+        if (!name || !email || !password) {
+            return NextResponse.json(
+                { message: "All fields are required" },
+                { status: 400 }
+            );
+        }
+
+        // 2. Check existing user
         const existingUser = await User.findOne({ email });
+
         if (existingUser) {
             return NextResponse.json(
                 { message: "User already exists" },
@@ -37,52 +27,26 @@ export async function POST(req: Request) {
             );
         }
 
-        // Hash password
+        // 3. Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create user
-        const user = await User.create({
+        // 4. Create user
+        await User.create({
             name,
             email,
             password: hashedPassword,
+            provider: "credentials",
+            isVerified: true,
         });
 
-        // Generate JWT token
-        const token = jwt.sign(
-            {
-                userId: user._id.toString(),
-                email: user.email
-            },
-            process.env.JWT_SECRET!,
-            { expiresIn: "7d" }
-        );
-
-        // Create response
-        const response = NextResponse.json({
-            success: true,
-            message: "User created successfully",
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email,
-            },
-        }, { status: 201 });
-
-        // Set HttpOnly cookie (RECOMMENDED)
-        response.cookies.set('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: 60 * 60 * 24 * 7, // 7 days
-            path: '/',
-        });
-
-        return response;
-
-    } catch (err) {
-        console.error("Signup error:", err);
         return NextResponse.json(
-            { message: "Signup failed", error: err instanceof Error ? err.message : "Unknown error" },
+            { message: "User created successfully" },
+            { status: 201 }
+        );
+    } catch (error) {
+        console.error("Signup error:", error);
+        return NextResponse.json(
+            { message: "Something went wrong" },
             { status: 500 }
         );
     }
