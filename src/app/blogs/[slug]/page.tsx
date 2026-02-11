@@ -21,8 +21,8 @@ export default async function BlogPostPage({ params }: PageProps) {
         <div className="min-h-screen bg-gray-50">
             <main className="container mx-auto px-4 py-8 max-w-4xl">
                 <article>
-                    <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-                    <div className="flex items-center mb-6 text-gray-500">
+                    <h1 className="text-4xl font-bold mb-4 text-black/90">{post.title}</h1>
+                    <div className="flex items-center mb-6 text-black/90">
                         <span>By {post.author}</span>
                         <span className="mx-2">|</span>
                         <span>{post.date}</span>
@@ -30,12 +30,13 @@ export default async function BlogPostPage({ params }: PageProps) {
                     <Image
                         src={post.image}
                         alt={post.title}
-                        className="w-full h-64 object-cover rounded-lg mb-6"
+                        width={200}
+                        height={400}
+                        className="w-full h-64 object-contain rounded-lg mb-6"
                     />
-                    <div
-                        className="prose prose-lg"
-                        dangerouslySetInnerHTML={{ __html: post.content }}
-                    />
+                    {
+                        post.content
+                    }
                 </article>
             </main>
         </div>

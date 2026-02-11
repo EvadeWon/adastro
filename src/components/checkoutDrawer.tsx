@@ -15,104 +15,56 @@ type CheckoutDrawerProps = {
     onClose: () => void;
     course: coursesType;
 };
-
+type RazorpayResponse = {
+    razorpay_payment_id: string;
+    razorpay_order_id: string;
+    razorpay_signature: string;
+};
 export default function CheckoutDrawer({
     open,
     onClose,
     course,
 }: CheckoutDrawerProps) {
     const router = useRouter();
+
     const handleProceed = async () => {
         try {
             const res = await fetch("/api/payment/create-order", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    amount: course.price,
-                }),
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: course.price }),
             });
 
             const order = await res.json();
 
-            // const options = {
-            //     key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-            //     amount: order.amount,
-            //     currency: order.currency,
-            //     name: "AdAstro",
-            //     description: course.title,
-            //     order_id: order.id,
-
-            //     handler: async function (response: any) {
-            //         // verify payment
-            //         const verifyRes = await fetch(
-            //             "/api/payment/verify",
-            //             {
-            //                 method: "POST",
-            //                 headers: {
-            //                     "Content-Type": "application/json",
-            //                 },
-            //                 body: JSON.stringify({
-            //                     ...response,
-            //                     courseId: course.id,
-            //                 }),
-            //             }
-            //         );
-
-            //         const data = await verifyRes.json();
-
-            //         if (data.success) {
-            //             router.push("/my-courses");
-            //         } else {
-            //             alert("Payment verification failed");
-            //         }
-            //     },
-
-            //     theme: {
-            //         color: "#d75525",
-            //     },
-            // };
             const options = {
-                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
                 amount: order.amount,
                 currency: order.currency,
                 name: "AdAstro",
                 description: course.title,
                 order_id: order.id,
-
-                handler: async function (response: any) {
-                    // verify payment
-                    const verifyRes = await fetch(
-                        "/api/payment/verify",
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                ...response,
-                                courseId: course.id,
-                            }),
-                        }
-                    );
+                handler: async (response: RazorpayResponse) => {
+                    console.log(response);
+                    const verifyRes = await fetch("/api/payment/verify", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ ...response, courseId: course.id }),
+                    });
 
                     const data = await verifyRes.json();
 
                     if (data.success) {
+                        alert("Payment Successful");
                         router.push("/my-courses");
                     } else {
                         alert("Payment verification failed");
                     }
                 },
-
-                theme: {
-                    color: "#d75525",
-                },
+                theme: { color: "#d75525" },
             };
 
             const rzp = new (window as any).Razorpay(options);
-            console.log(options)
             rzp.open();
         } catch (err) {
             console.error("Payment error:", err);
