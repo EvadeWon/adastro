@@ -84,7 +84,7 @@ const FAQS = [
     { q: "How will I get access after paying?", a: "Visit the platform → Menu → Login → Continue with Google (use your purchase email) → Menu → Dashboard → Click your course." },
     { q: "Can I access the course lifetime?", a: "Yes! Once purchased you get lifetime access with no deadlines — learn at your own pace." },
     { q: "How will I get the freebies?", a: "All freebies are shared directly to the email you used during purchase." },
-    { q: "How do I contact customer service?", a: "Email us at team@marketian.io — we are available all the time." },
+    { q: "How do I contact customer service?", a: "Email us at info@cloudydata.in — we are available all the time." },
     { q: "Is this a live or pre-recorded course?", a: "The course is pre-recorded, but industry updates are added frequently." },
     { q: "Is this course beginner friendly?", a: "100% YES! Every step is covered in a detailed video guide — even if you've never run ads before." },
     { q: "Can I start with zero experience?", a: "Most students start with zero experience, so absolutely yes." },
@@ -328,7 +328,7 @@ return (
                     <p className="mt-4 text-md font-bold text-white">
                         The Only <Gold>PERFORMANCE MARKETING COURSE</Gold> You Will Ever Need
                     </p>
-                    <Image className="mx-auto rounded-full shadow-lg mt-6" style={{ boxShadow: "0 0 150px #d75525c9", }} alt="banner" src={"/banner_v2.png"} width={400} height={200} />
+                    <Image className="mx-auto rounded-full shadow-lg mt-6" style={{ boxShadow: "0 0 100px #d75525c9", }} alt="banner" src={"/banner_v2.png"} width={250} height={200} />
                     {/* stars + student count*/}
                     <div className="mt-6 flex items-center justify-center gap-3 flex-wrap z-10">
                         <div className="flex items-center gap-0.5">

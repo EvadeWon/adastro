@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import courses from "@/lib/courses";
 import Image from "next/image";
 import Link from "next/link";
@@ -40,8 +41,11 @@ export default function MyCourses() {
 
     if (purchasedCourses.length === 0) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
+            <div className="min-h-screen flex flex-col gap-4 items-center justify-center">
                 <h1 className="text-2xl md:text-4xl font-bold text-center">You have not bought any course yet!</h1>
+                <Link href={"/courses"}>
+                    <Button className="bg-[#d75525c9] hover:bg-[#cf623adc] text-white/90 cursor-pointer transition-all duration-300 shadow-md">Browse Courses</Button>
+                </Link>
             </div>
         );
     }

@@ -16,8 +16,8 @@ interface BlogCardProps {
 
 export default function BlogCard({ post }: BlogCardProps) {
     return (
-        <div className="bg-linear-to-b from-[#171212] to-[#100B0B] rounded-xl p-6 border border-white/10 hover:scale-[1.02] cursor-pointer transition-all duration-300">
-            <Image src={post.image} alt={post.title} width={400} height={250} className="w-full h-48 object-contain rounded-lg" />
+        <div className="bg-linear-to-b from-[#171212] to-[#100B0B] rounded-xl p-6 border border-white/10 hover:scale-[1.02] transition-all duration-300 w-4xl max-w-6xl">
+            <Image src={post.image} alt={post.title} width={550} height={250} className="h-48 object-cover object-left rounded-lg" />
             <div className="p-4">
                 <div className="flex space-x-2 mb-2">
                     {post.categories.map((cat) => (
@@ -33,7 +33,7 @@ export default function BlogCard({ post }: BlogCardProps) {
                     <span>{post.date}</span>
                 </div>
                 <Link href={`/blogs/${post.slug}`} className="text-primary hover:underline">
-                <Button className='bg-[#bb481ec9] hover:bg-[#823012c9] text-white'>Read More</Button>
+                <Button className='bg-[#bb481ec9] hover:bg-[#823012c9] text-white mt-4'>Read More</Button>
                 </Link>
             </div>
         </div>

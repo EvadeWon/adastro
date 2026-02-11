@@ -31,7 +31,6 @@ const Navbar = () => {
         { id: 1, name: "Home", url: "/" },
         { id: 2, name: "Dashboard", url: "/my-courses" },
         { id: 3, name: "Contact", url: "/contact" },
-        { id: 4, name: "Blogs", url: "/blogs" },
     ];
 
     return (

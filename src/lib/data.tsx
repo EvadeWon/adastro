@@ -121,8 +121,8 @@ export const blogPosts: BlogPost[] = [
                 </section>
             </main>
         ),
-        author: 'John Doe',
-        date: '2023-10-15',
+        author: 'Jyotish Jha',
+        date: '2025-10-10',
         image: '/aiMarketing.webp', // Add images to public/images/
         categories: ['AI', 'Marketing'],
     },

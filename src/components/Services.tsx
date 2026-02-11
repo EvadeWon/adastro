@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { services } from "@/lib/services";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function ServiceSection() {
     return (
@@ -29,7 +30,7 @@ export default function ServiceSection() {
                             whileInView={{ opacity: 1, y: 0, scale: 0.9 }}
                             viewport={{ once: false, amount: 0.2 }}
                             transition={{ duration: 0.6, ease: "easeInOut" }}
-                            className="bg-linear-to-b from-[#171212] to-[#100B0B] rounded-xl p-6 border border-white/10 hover:scale-[1.02] cursor-pointer transition-all duration-300"
+                            className="bg-linear-to-b from-[#171212] to-[#100B0B] rounded-xl p-6 border border-white/10 hover:scale-[1.02] transition-all duration-300"
                         >
                             {/* Icon */}
                             <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6">
@@ -59,15 +60,20 @@ export default function ServiceSection() {
                             </ul>
 
                             {/* CTA */}
-                            <Button
-                                variant="ghost"
-                                className="
+                            <Link href="https://wa.me/9217711173"
+                                target="_blank"
+                                rel="noopener noreferrer">
+                                <Button
+                                    variant="ghost"
+                                    className="
                   w-full border bg-white text-black/95
-                  transition-all duration-300
+                  transition-all duration-300 cursor-pointer
                 "
-                            >
-                                {service.cta} →
-                            </Button>
+                                >
+                                    {service.cta} →
+                                </Button>
+                            </Link>
+
                         </motion.div>
                     );
                 })}

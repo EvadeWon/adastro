@@ -36,9 +36,22 @@ function Footer() {
                         <h1 className="text-lg font-bold">Quick Links</h1>
                         <div className="flex flex-col gap-3">
                             <Link href={"/"} className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">Home</Link>
-                            <Link href={"/about"} className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">About Us</Link>
-                            <Link href={"/services"} className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">Services</Link>
                             <Link href={"/contact"} className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">Contact Us</Link>
+                            <Link href={"/blogs"} className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">Blogs</Link>
+                        </div>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                        <h1 className="text-lg font-bold">Services</h1>
+                        <div className="flex flex-col gap-3">
+                            <Link href="https://wa.me/9217711173"
+                                target="_blank"
+                                rel="noopener noreferrer" className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">Meta & Google Ads</Link>
+                            <Link href="https://wa.me/9217711173"
+                                target="_blank"
+                                rel="noopener noreferrer" className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">LinkedIn Ads</Link>
+                            <Link href="https://wa.me/9217711173"
+                                target="_blank"
+                                rel="noopener noreferrer" className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">X (Twitter) Ads</Link>
                         </div>
                     </div>
                 </div>
