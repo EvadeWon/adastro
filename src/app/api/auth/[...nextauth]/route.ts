@@ -1,23 +1,16 @@
 import { connectDB } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
 import bcrypt from "bcryptjs";
-import NextAuth, { AuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions: AuthOptions = {
+const handler = NextAuth({
     providers: [
         // Google login
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-            authorization: {
-                params: {
-                    prompt: "consent",
-                    access_type: "offline",
-                    response_type: "code"
-                }
-            }
         }),
 
         // Credentials login
@@ -66,62 +59,37 @@ export const authOptions: AuthOptions = {
     },
 
     callbacks: {
-        async signIn({ user, account, profile }) {
-            try {
-                if (account?.provider === "google") {
-                    await connectDB();
+        async signIn({ user, account }) {
+            if (account?.provider === "google") {
+                await connectDB();
 
-                    const existingUser = await User.findOne({
+                const existingUser = await User.findOne({
+                    email: user.email,
+                });
+
+                if (!existingUser) {
+                    await User.create({
+                        name: user.name,
                         email: user.email,
+                        googleId: account.providerAccountId,
+                        provider: "google",
+                        isVerified: true,
                     });
-
-                    if (!existingUser) {
-                        // Create new user
-                        const newUser = await User.create({
-                            name: user.name,
-                            email: user.email,
-                            googleId: account.providerAccountId,
-                            provider: "google",
-                            isVerified: true,
-                        });
-                        
-                        // IMPORTANT: Set the user.id for the JWT callback
-                        user.id = newUser._id.toString();
-                    } else {
-                        // IMPORTANT: Set the user.id for existing users too
-                        user.id = existingUser._id.toString();
-                    }
                 }
-                return true;
-            } catch (error) {
-                console.error("Error in signIn callback:", error);
-                return false; // This will prevent login if there's an error
             }
+            return true;
         },
 
-        async jwt({ token, user, account }) {
-            // Initial sign in
+        async jwt({ token, user }) {
             if (user) {
-                token.id = user.id;
                 token.email = user.email;
                 token.name = user.name;
             }
-            
-            // For Google provider, fetch user from DB to ensure we have the ID
-            if (account?.provider === "google" && token.email) {
-                await connectDB();
-                const dbUser = await User.findOne({ email: token.email });
-                if (dbUser) {
-                    token.id = dbUser._id.toString();
-                }
-            }
-            
             return token;
         },
 
         async session({ session, token }) {
-            if (session.user) {
-                session.user.id = token.id as string;
+            if (session.user && token) {
                 session.user.email = token.email as string;
                 session.user.name = token.name as string;
             }
@@ -129,13 +97,7 @@ export const authOptions: AuthOptions = {
         },
     },
 
-    pages: {
-        signIn: "/login",
-        error: "/login", // Redirect errors to login page
-    },
-
     secret: process.env.NEXTAUTH_SECRET,
-};
+});
 
-const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

@@ -27,10 +27,6 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const router = useRouter();
 
-    const handleLogout = async () => {
-        await signOut({ callbackUrl: "/" });
-    };
-
     const navLinks = [
         { id: 1, name: "Home", url: "/" },
         { id: 2, name: "Dashboard", url: "/my-courses" },
@@ -114,7 +110,7 @@ const Navbar = () => {
                             <DropdownMenuSeparator className="bg-white/10" />
 
                             <DropdownMenuItem
-                                onClick={handleLogout}
+                                onClick={() => signOut({ redirect: true, callbackUrl: "/" })}
                                 className="cursor-pointer text-red-400 hover:bg-red-500/10"
                             >
                                 <LogOut className="mr-2 h-4 w-4" />
@@ -175,7 +171,7 @@ const Navbar = () => {
                                 </Button>
 
                                 <Button
-                                    onClick={handleLogout}
+                                    onClick={() => signOut({ redirect: true, callbackUrl: "/" })}
                                     className="bg-red-500 text-white rounded-xl"
                                 >
                                     Logout
