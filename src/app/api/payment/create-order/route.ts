@@ -5,7 +5,7 @@ export async function POST(req: Request) {
     try {
         const body = await req.json();
         const { amount, courseId } = body;
-
+r
         const order = await razorpay.orders.create({
             amount: amount * 100, // convert to paise
             currency: "INR",

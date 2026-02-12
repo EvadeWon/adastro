@@ -98,7 +98,7 @@ export default function MyCourses() {
                         <p className="text-gray-400 mb-4">
                             {course.description}
                         </p>
-
+r
                         <Link
                             href="https://wa.me/9217711173"
                             target="_blank"
