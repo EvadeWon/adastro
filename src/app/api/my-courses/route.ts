@@ -1,91 +1,40 @@
 import { connectDB } from "@/dbConfig/dbConfig";
-import User from "@/models/userModel";
-import bcrypt from "bcryptjs";
-import NextAuth, { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
+import Purchase from "@/models/purchase";
+import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
+import { authOptions } from "../auth/[...nextauth]/route";
 
-// ✅ Export NextAuth options for getServerSession
-export const authOptions: NextAuthOptions = {
-    providers: [
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID!,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        }),
-        CredentialsProvider({
-            name: "Credentials",
-            credentials: {
-                email: { label: "Email", type: "email" },
-                password: { label: "Password", type: "password" },
-            },
-            async authorize(credentials) {
-                await connectDB();
+export async function GET() {
+    try {
+        await connectDB();
 
-                const user = await User.findOne({
-                    email: credentials?.email,
-                });
+        const session = await getServerSession(authOptions);
 
-                if (!user) throw new Error("User not found");
+        if (!session || !session.user) {
+            return NextResponse.json(
+                { purchases: [] },
+                { status: 401 }
+            );
+        }
 
-                if ((user as any).provider === "google") {
-                    throw new Error("Please login with Google");
-                }
+        const userId = (session.user as any).id;
 
-                const isMatch = await bcrypt.compare(credentials!.password, user.password!);
+        // Get only PAID purchases
+        const purchases = await Purchase.find({
+            userId,
+            status: "PAID",
+        }).select("courseId status");
 
-                if (!isMatch) throw new Error("Invalid password");
+        return NextResponse.json(
+            { purchases },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.error("My courses error:", error);
 
-                return {
-                    id: user._id.toString(),
-                    name: user.name,
-                    email: user.email,
-                };
-            },
-        }),
-    ],
-
-    session: {
-        strategy: "jwt",
-    },
-
-    callbacks: {
-        async signIn({ user, account }) {
-            if (account?.provider === "google") {
-                await connectDB();
-                const existingUser = await User.findOne({ email: user.email });
-                if (!existingUser) {
-                    await User.create({
-                        name: user.name,
-                        email: user.email,
-                        googleId: account.providerAccountId,
-                        provider: "google",
-                        isVerified: true,
-                    });
-                }
-            }
-            return true;
-        },
-
-        async jwt({ token, user }) {
-            if (user) {
-                token.email = user.email;
-                token.name = user.name;
-            }
-            return token;
-        },
-
-        async session({ session, token }) {
-            if (session.user && token) {
-                session.user.email = token.email as string;
-                session.user.name = token.name as string;
-            }
-            return session;
-        },
-    },
-
-    secret: process.env.NEXTAUTH_SECRET,
-};
-
-// ✅ Export handler
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+        return NextResponse.json(
+            { purchases: [] },
+            { status: 500 }
+        );
+    }
+}

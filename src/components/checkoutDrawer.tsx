@@ -28,48 +28,69 @@ export default function CheckoutDrawer({
     const router = useRouter();
 
     const handleProceed = async () => {
-        try {
-            const res = await fetch("/api/payment/create-order", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ amount: course.price }),
-            });
+    try {
+        // 2. Create order from backend
+        const res = await fetch("/api/payment/create-order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                amount: course.price,
+                courseId: course.id,
+            }),
+        });
 
-            const order = await res.json();
+        const order = await res.json();
 
-            const options = {
-                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
-                amount: order.amount,
-                currency: order.currency,
-                name: "AdAstro",
-                description: course.title,
-                order_id: order.id,
-                handler: async (response: RazorpayResponse) => {
-                    console.log(response);
+        if (!order.id) {
+            alert("Failed to create order");
+            return;
+        }
+
+        // 3. Razorpay options
+        const options = {
+            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+            amount: order.amount,
+            currency: order.currency,
+            name: "AdAstro",
+            description: course.title,
+            order_id: order.id,
+
+            handler: async (response: RazorpayResponse) => {
+                try {
                     const verifyRes = await fetch("/api/payment/verify", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ ...response, courseId: course.id }),
+                        body: JSON.stringify({
+                            ...response,
+                            courseId: course.id,
+                        }),
                     });
 
                     const data = await verifyRes.json();
-
                     if (data.success) {
                         alert("Payment Successful");
                         router.push("/my-courses");
                     } else {
                         alert("Payment verification failed");
                     }
-                },
-                theme: { color: "#d75525" },
-            };
+                } catch (err) {
+                    console.error("Verification error:", err);
+                    alert("Something went wrong");
+                }
+            },
 
-            const rzp = new (window as any).Razorpay(options);
-            rzp.open();
-        } catch (err) {
-            console.error("Payment error:", err);
-        }
-    };
+            theme: { color: "#d75525" },
+        };
+
+        // 4. Open Razorpay popup
+        const rzp = new (window as any).Razorpay(options);
+        rzp.open();
+    } catch (err) {
+        console.error("Payment error:", err);
+        alert("Something went wrong");
+    }
+};
+
 
 
     return (

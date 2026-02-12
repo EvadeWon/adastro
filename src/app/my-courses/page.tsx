@@ -8,24 +8,38 @@ import { useEffect, useState } from "react";
 
 type Purchase = {
     courseId: string;
+    status: string;
 };
 
 export default function MyCourses() {
     const [purchases, setPurchases] = useState<Purchase[]>([]);
     const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        fetch("/api/my-courses")
-            .then((res) => {
-                if (!res.ok) throw new Error("Not authorized");
-                return res.json();
-            })
-            .then((data) => {
-                setPurchases(data.purchases || []);
-                setLoading(false);
-            })
-            .catch(() => setLoading(false));
-    }, []);
 
+    useEffect(() => {
+        const fetchPurchases = async () => {
+            try {
+                const res = await fetch("/api/my-courses");
+
+                if (!res.ok) throw new Error("Not authorized");
+
+                const data = await res.json();
+
+                // Only keep PAID purchases
+                const paidPurchases =
+                    data.purchases?.filter(
+                        (p: Purchase) => p.status === "PAID"
+                    ) || [];
+
+                setPurchases(paidPurchases);
+            } catch (error) {
+                console.error("Fetch purchases error:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPurchases();
+    }, []);
 
     if (loading) {
         return (
@@ -36,15 +50,22 @@ export default function MyCourses() {
     }
 
     const purchasedCourses = courses.filter((course) =>
-        purchases.some((p) => String(p.courseId) === String(course.id))
+        purchases.some(
+            (p) => String(p.courseId) === String(course.id)
+        )
     );
 
     if (purchasedCourses.length === 0) {
         return (
             <div className="min-h-screen flex flex-col gap-4 items-center justify-center">
-                <h1 className="text-2xl md:text-4xl font-bold text-center">You have not bought any course yet!</h1>
-                <Link href={"/courses"}>
-                    <Button className="bg-[#d75525c9] hover:bg-[#cf623adc] text-white/90 cursor-pointer transition-all duration-300 shadow-md">Browse Courses</Button>
+                <h1 className="text-2xl md:text-4xl font-bold text-center">
+                    You have not bought any course yet!
+                </h1>
+
+                <Link href="/courses">
+                    <Button className="bg-[#d75525c9] hover:bg-[#cf623adc] text-white/90 cursor-pointer transition-all duration-300 shadow-md">
+                        Browse Courses
+                    </Button>
                 </Link>
             </div>
         );
@@ -62,7 +83,14 @@ export default function MyCourses() {
                         key={course.id}
                         className="bg-zinc-900 p-6 rounded-xl shadow-lg"
                     >
-                        <Image alt="Course" src={"/course_1.webp"} width={600} height={600} className="object-cover mb-2" />
+                        <Image
+                            alt="Course"
+                            src={"/course_1.webp"}
+                            width={600}
+                            height={600}
+                            className="object-cover mb-2"
+                        />
+
                         <h2 className="text-2xl font-semibold mb-2">
                             {course.title}
                         </h2>
@@ -72,10 +100,12 @@ export default function MyCourses() {
                         </p>
 
                         <Link
-                            href={`#`}
-                            className="inline-block bg-[#d75525] px-6 py-2 rounded-lg text-white font-semibold"
+                            href="https://wa.me/9217711173"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block bg-green-600 px-6 py-2 rounded-lg text-white font-semibold hover:bg-green-700"
                         >
-                            Start Course
+                            Join WhatsApp
                         </Link>
                     </div>
                 ))}
