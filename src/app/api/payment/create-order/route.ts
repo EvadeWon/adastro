@@ -1,6 +1,6 @@
 import courses from "@/lib/courses";
-import { razorpay } from "@/utils/razorpay";
 import { NextResponse } from "next/server";
+import Razorpay from "razorpay";
 
 export async function POST(req: Request) {
     try {
@@ -19,6 +19,10 @@ export async function POST(req: Request) {
                 { status: 404 }
             );
         }
+        const razorpay = new Razorpay({
+            key_id: process.env.RAZORPAY_KEY_ID!,
+            key_secret: process.env.RAZORPAY_KEY_SECRET!,
+        });
         const order = await razorpay.orders.create({
             amount: course.price * 100, // convert to paise
             currency: "INR",
