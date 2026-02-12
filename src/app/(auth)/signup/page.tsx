@@ -13,8 +13,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
+import { toast } from "sonner";
 
 export default function Signup() {
+
     const router = useRouter();
     const [formData, setFormData] = useState({
         name: "",
@@ -57,15 +59,8 @@ export default function Signup() {
                 throw new Error(data.message || "Signup failed");
             }
 
-            // ✅ auto login after signup
-            await signIn("credentials", {
-                email: formData.email,
-                password: formData.password,
-                redirect: false,
-            });
-
-            router.push("/my-courses");
-
+            router.push(`/verify-email?email=${formData.email}`);
+            toast.success("we sent you a verification code.")
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
