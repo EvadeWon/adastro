@@ -1,8 +1,8 @@
-import crypto from "crypto";
-import { NextResponse } from "next/server";
 import { connectDB } from "@/dbConfig/dbConfig";
 import Purchase from "@/models/purchase";
+import crypto from "crypto";
 import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function POST(req: Request) {
@@ -45,14 +45,19 @@ export async function POST(req: Request) {
 
         const userId = (session.user as any).id;
 
-        // 3. Save purchase
-        await Purchase.create({
-            userId,
-            courseId,
+        const existing = await Purchase.findOne({
             paymentId: razorpay_payment_id,
-            orderId: razorpay_order_id,
-            status: "PAID",
         });
+
+        if (!existing) {
+            await Purchase.create({
+                userId,
+                courseId,
+                paymentId: razorpay_payment_id,
+                orderId: razorpay_order_id,
+                status: "PAID",
+            });
+        }
 
         return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {
