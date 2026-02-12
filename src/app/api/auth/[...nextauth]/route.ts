@@ -52,9 +52,12 @@ export const authOptions: NextAuthOptions = {
         async signIn({ user, account }) {
             if (account?.provider === "google") {
                 await connectDB();
-                const existingUser = await User.findOne({ email: user.email });
+
+                let existingUser = await User.findOne({ email: user.email });
+
                 if (!existingUser) {
-                    await User.create({
+                    // ✅ Naya user create karo aur return value store karo
+                    existingUser = await User.create({
                         name: user.name,
                         email: user.email,
                         googleId: account.providerAccountId,
@@ -62,29 +65,32 @@ export const authOptions: NextAuthOptions = {
                         isVerified: true,
                     });
                 }
+
+                // ✅ Ab existingUser guaranteed hai (purana ya naya)
                 user.id = existingUser._id.toString();
             }
             return true;
         },
-
-        async jwt({ token, user }) {
-            if (user) {
-                token.email = user.email;
-                token.id = user.id;
-                token.name = user.name;
-            }
-            return token;
-        },
-
-        async session({ session, token }) {
-            if (session.user && token) {
-                session.user.id = token.id as string;
-                session.user.email = token.email as string;
-                session.user.name = token.name as string;
-            }
-            return session;
-        },
     },
+
+    async jwt({ token, user }) {
+        if (user) {
+            token.email = user.email;
+            token.id = user.id;
+            token.name = user.name;
+        }
+        return token;
+    },
+
+    async session({ session, token }) {
+        if (session.user && token) {
+            session.user.id = token.id as string;
+            session.user.email = token.email as string;
+            session.user.name = token.name as string;
+        }
+        return session;
+    },
+},
 
     secret: process.env.NEXTAUTH_SECRET,
 };
