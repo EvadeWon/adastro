@@ -24,7 +24,7 @@ export async function sendMail({
     replyTo,
 }: SendMailProps) {
     await transporter.sendMail({
-        from: `"Evade Won" <${process.env.MAIL_USER}>`,
+        from: `"AdAstro" <${process.env.MAIL_USER}>`,
         to,
         subject,
         html,
@@ -39,7 +39,7 @@ export async function sendVerificationEmail(
     code: string
 ) {
     await transporter.sendMail({
-        from: `"Evade Won" <${process.env.MAIL_USER}>`,
+        from: `"AdAstro" <${process.env.MAIL_USER}>`,
         to: email,
         subject: "Verify Your Email",
         html: `

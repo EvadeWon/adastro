@@ -13,7 +13,7 @@ export async function POST(req: Request) {
         }
 
         await sendMail({
-            to: "akashsingh957230@gmail.com",
+            to: "info@cloudydata.in",
             subject: "New Enquiry Received",
             replyTo: email,
             html: `
