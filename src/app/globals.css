@@ -142,3 +142,79 @@
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* Razorpay Modal Styling */
+.razorpay-container {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-width: 450px !important;
+    width: 90vw !important;
+    max-height: 85vh !important;
+    overflow-y: auto !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+    z-index: 999999 !important;
+}
+
+/* Close button always visible */
+.razorpay-close {
+    display: block !important;
+    position: absolute !important;
+    right: 12px !important;
+    top: 12px !important;
+    z-index: 1000000 !important;
+    cursor: pointer !important;
+    font-size: 28px !important;
+    color: #666 !important;
+    background: white !important;
+    border-radius: 50% !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s !important;
+}
+
+.razorpay-close:hover {
+    color: #000 !important;
+    background: #f5f5f5 !important;
+    transform: scale(1.1) !important;
+}
+
+/* Backdrop styling */
+.razorpay-backdrop {
+    background: rgba(0, 0, 0, 0.75) !important;
+    backdrop-filter: blur(4px) !important;
+    cursor: pointer !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+    .razorpay-container {
+        width: 95vw !important;
+        max-height: 90vh !important;
+        border-radius: 12px !important;
+    }
+}
+
+/* Smooth scrollbar for modal */
+.razorpay-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.razorpay-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.razorpay-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.razorpay-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

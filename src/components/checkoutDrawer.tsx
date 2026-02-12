@@ -28,68 +28,74 @@ export default function CheckoutDrawer({
     const router = useRouter();
 
     const handleProceed = async () => {
-    try {
-        // 2. Create order from backend
-        const res = await fetch("/api/payment/create-order", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                amount: course.price,
-                courseId: course.id,
-            }),
-        });
+        try {
+            // 2. Create order from backend
+            const res = await fetch("/api/payment/create-order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    amount: course.price,
+                    courseId: course.id,
+                }),
+            });
 
-        const order = await res.json();
+            const order = await res.json();
 
-        if (!order.id) {
-            alert("Failed to create order");
-            return;
-        }
+            if (!order.id) {
+                alert("Failed to create order");
+                return;
+            }
 
-        // 3. Razorpay options
-        const options = {
-            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
-            amount: order.amount,
-            currency: order.currency,
-            name: "AdAstro",
-            description: course.title,
-            order_id: order.id,
+            // 3. Razorpay options
+            const options = {
+                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+                amount: order.amount,
+                currency: order.currency,
+                name: "AdAstro",
+                description: course.title,
+                order_id: order.id,
+                image: "/logo_v2.jpeg",
 
-            handler: async (response: RazorpayResponse) => {
-                try {
-                    const verifyRes = await fetch("/api/payment/verify", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            ...response,
-                            courseId: course.id,
-                        }),
-                    });
+                handler: async (response: RazorpayResponse) => {
+                    try {
+                        const verifyRes = await fetch("/api/payment/verify", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                ...response,
+                                courseId: course.id,
+                            }),
+                        });
 
-                    const data = await verifyRes.json();
-                    if (data.success) {
-                        alert("Payment Successful");
-                        router.push("/my-courses");
-                    } else {
-                        alert("Payment verification failed");
+                        const data = await verifyRes.json();
+                        if (data.success) {
+                            alert("Payment Successful");
+                            router.push("/my-courses");
+                        } else {
+                            alert("Payment verification failed");
+                        }
+                    } catch (err) {
+                        console.error("Verification error:", err);
+                        alert("Something went wrong");
                     }
-                } catch (err) {
-                    console.error("Verification error:", err);
-                    alert("Something went wrong");
-                }
-            },
+                },
 
-            theme: { color: "#d75525" },
-        };
+                theme: { color: "#d75525" },
+                backdrop_color: "rgba(0, 0, 0, 0.7)",
+            };
 
-        // 4. Open Razorpay popup
-        const rzp = new (window as any).Razorpay(options);
-        rzp.open();
-    } catch (err) {
-        console.error("Payment error:", err);
-        alert("Something went wrong");
-    }
-};
+            // 4. Open Razorpay popup
+            const rzp = new (window as any).Razorpay(options);
+            rzp.open();
+            onClose();  // Drawer close
+            setTimeout(() => {
+                rzp.open();  // 300ms baad Razorpay open
+            }, 300);
+        } catch (err) {
+            console.error("Payment error:", err);
+            alert("Something went wrong");
+        }
+    };
 
 
 

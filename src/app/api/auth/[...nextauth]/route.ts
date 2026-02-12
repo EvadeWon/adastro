@@ -58,9 +58,9 @@ export const authOptions: NextAuthOptions = {
             try {
                 if (account?.provider === "google") {
                     await connectDB();
-                    
+
                     let existingUser = await User.findOne({ email: user.email });
-                    
+
                     if (!existingUser) {
                         existingUser = await User.create({
                             name: user.name,
@@ -70,7 +70,7 @@ export const authOptions: NextAuthOptions = {
                             isVerified: true,
                         });
                     }
-                    
+
                     user.id = existingUser._id.toString();
                 }
                 return true;
