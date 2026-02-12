@@ -98,12 +98,11 @@ export default function MyCourses() {
                         <p className="text-gray-400 mb-4">
                             {course.description}
                         </p>
-r
                         <Link
                             href="https://wa.me/9217711173"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-block bg-green-600 px-6 py-2 rounded-lg text-white font-semibold hover:bg-green-700"
+                            className="inline-block bg-green-600 px-6 py-3 rounded-lg text-white font-semibold hover:bg-green-700"
                         >
                             Join WhatsApp
                         </Link>

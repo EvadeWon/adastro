@@ -44,7 +44,9 @@ export async function POST(req: Request) {
         }
 
         const userId = (session.user as any).id;
+        const numericCourseId = Number(courseId);
 
+        // 3. Prevent duplicate purchase
         const existing = await Purchase.findOne({
             paymentId: razorpay_payment_id,
         });
@@ -52,7 +54,7 @@ export async function POST(req: Request) {
         if (!existing) {
             await Purchase.create({
                 userId,
-                courseId,
+                courseId: numericCourseId,
                 paymentId: razorpay_payment_id,
                 orderId: razorpay_order_id,
                 status: "PAID",

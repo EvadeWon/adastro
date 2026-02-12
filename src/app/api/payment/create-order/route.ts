@@ -2,27 +2,27 @@ import courses from "@/lib/courses";
 import { razorpay } from "@/utils/razorpay";
 import { NextResponse } from "next/server";
 
-type CreateOrderBody = {
-    amount: number;
-    courseId: number;
-};
 export async function POST(req: Request) {
     try {
-        const body:CreateOrderBody = await req.json();
-        const { courseId,amount } = body;
+        const body = await req.json();
+        const { courseId } = body;
 
-        const course = courses.find(c => c.id === courseId);
+        const numericCourseId = Number(courseId);
 
-        if (!course || courseId) {
+        const course = courses.find(
+            (c) => c.id === numericCourseId
+        );
+
+        if (!course) {
             return NextResponse.json(
                 { error: "Course not found" },
                 { status: 404 }
             );
         }
         const order = await razorpay.orders.create({
-            amount: amount * 100, // convert to paise
+            amount: course.price * 100, // convert to paise
             currency: "INR",
-            receipt: `receipt_${courseId}`,
+            receipt: `receipt_${course.id}_${Date.now()}`,
         });
 
         return NextResponse.json(order, { status: 200 });
