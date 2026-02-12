@@ -5,7 +5,6 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-// ✅ Export NextAuth options for getServerSession
 export const authOptions: NextAuthOptions = {
     providers: [
         GoogleProvider({
@@ -49,52 +48,59 @@ export const authOptions: NextAuthOptions = {
     },
 
     callbacks: {
+        async redirect({ url, baseUrl }) {
+            if (url.startsWith("/")) return `${baseUrl}${url}`;
+            else if (new URL(url).origin === baseUrl) return url;
+            return baseUrl;
+        },
+
         async signIn({ user, account }) {
-            if (account?.provider === "google") {
-                await connectDB();
-
-                let existingUser = await User.findOne({ email: user.email });
-
-                if (!existingUser) {
-                    // ✅ Naya user create karo aur return value store karo
-                    existingUser = await User.create({
-                        name: user.name,
-                        email: user.email,
-                        googleId: account.providerAccountId,
-                        provider: "google",
-                        isVerified: true,
-                    });
+            try {
+                if (account?.provider === "google") {
+                    await connectDB();
+                    
+                    let existingUser = await User.findOne({ email: user.email });
+                    
+                    if (!existingUser) {
+                        existingUser = await User.create({
+                            name: user.name,
+                            email: user.email,
+                            googleId: account.providerAccountId,
+                            provider: "google",
+                            isVerified: true,
+                        });
+                    }
+                    
+                    user.id = existingUser._id.toString();
                 }
-
-                // ✅ Ab existingUser guaranteed hai (purana ya naya)
-                user.id = existingUser._id.toString();
+                return true;
+            } catch (error) {
+                console.error("Sign in error:", error);
+                return false;
             }
-            return true;
+        },
+
+        async jwt({ token, user }) {
+            if (user) {
+                token.email = user.email;
+                token.id = user.id;
+                token.name = user.name;
+            }
+            return token;
+        },
+
+        async session({ session, token }) {
+            if (session.user && token) {
+                session.user.id = token.id as string;
+                session.user.email = token.email as string;
+                session.user.name = token.name as string;
+            }
+            return session;
         },
     },
-
-    async jwt({ token, user }) {
-        if (user) {
-            token.email = user.email;
-            token.id = user.id;
-            token.name = user.name;
-        }
-        return token;
-    },
-
-    async session({ session, token }) {
-        if (session.user && token) {
-            session.user.id = token.id as string;
-            session.user.email = token.email as string;
-            session.user.name = token.name as string;
-        }
-        return session;
-    },
-},
 
     secret: process.env.NEXTAUTH_SECRET,
 };
 
-// ✅ Export handler
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
