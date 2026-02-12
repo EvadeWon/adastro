@@ -86,11 +86,8 @@ export default function CheckoutDrawer({
 
             // 4. Open Razorpay popup
             const rzp = new (window as any).Razorpay(options);
+            onClose();
             rzp.open();
-            onClose();  // Drawer close
-            setTimeout(() => {
-                rzp.open();  // 300ms baad Razorpay open
-            }, 300);
         } catch (err) {
             console.error("Payment error:", err);
             alert("Something went wrong");

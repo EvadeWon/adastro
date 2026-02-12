@@ -27,6 +27,7 @@ export async function POST(req: Request) {
             amount: course.price * 100, // convert to paise
             currency: "INR",
             receipt: `receipt_${course.id}_${Date.now()}`,
+            payment_capture: true,
         });
 
         return NextResponse.json(order, { status: 200 });

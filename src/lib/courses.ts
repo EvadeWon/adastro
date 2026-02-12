@@ -18,7 +18,7 @@ const courses:coursesType[] = [
         id: 1,
         title: "Performance Marketing",
         description: "Learn performance marketing focused on ROI-driven ads, tracking, and scaling campaigns.",
-        price: 2999,
+        price: 1,
         originalPrice: 5999,
         rating: 4.8,
         students: 15420,
