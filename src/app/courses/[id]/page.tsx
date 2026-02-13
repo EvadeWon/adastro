@@ -343,7 +343,6 @@ export default function CourseDetailPage() {
                             <p className="mt-4 text-md font-bold text-white">
                                 The Only <Gold>PERFORMANCE MARKETING COURSE</Gold> You Will Ever Need
                             </p>
-                            <Image className="mx-auto rounded-full shadow-lg mt-6" style={{ boxShadow: "0 0 100px #d75525c9", }} alt="banner" src={"/banner_v2.png"} width={250} height={200} />
                             {/* stars + student count*/}
                             <div className="mt-6 flex items-center justify-center gap-3 flex-wrap z-10">
                                 <div className="flex items-center gap-0.5">
