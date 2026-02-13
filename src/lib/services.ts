@@ -1,4 +1,4 @@
-import { Linkedin, LucideIcon, Target, Twitter } from "lucide-react";
+import { Linkedin, LucideIcon, MessageSquare, Send, Target, Twitter } from "lucide-react";
 
 type servicesType = {
     id: number,
@@ -65,5 +65,33 @@ export const services: servicesType[] = [
             "Promoted Posts",
         ],
         cta: "Amplify Your Brand",
+    },
+    {
+        id: 5,
+        title: "Telegram Ads",
+        icon: Send,
+        description:
+            "Reach highly engaged audiences through sponsored messages in Telegram channels and communities.",
+        points: [
+            "Channel Promotions",
+            "Sponsored Messages",
+            "Niche Audience Targeting",
+            "High Engagement Reach",
+        ],
+        cta: "Promote on Telegram",
+    },
+    {
+        id: 6,
+        title: "Reddit Ads",
+        icon: MessageSquare,
+        description:
+            "Advertise within active communities and niche subreddits to reach highly targeted and engaged users.",
+        points: [
+            "Subreddit Targeting",
+            "Conversation Ads",
+            "Interest-Based Campaigns",
+            "Community Engagement",
+        ],
+        cta: "Advertise on Reddit",
     },
 ];
