@@ -1,30 +1,45 @@
 import { Linkedin, LucideIcon, Target, Twitter } from "lucide-react";
 
-type servicesType={
-    id:number,
-    title:string,
-    icon:LucideIcon,
-    description:string,
-    points:string[],
-    cta:string
+type servicesType = {
+    id: number,
+    title: string,
+    icon: LucideIcon,
+    description: string,
+    points: string[],
+    cta: string
 }
-export const services:servicesType[] = [
+export const services: servicesType[] = [
     {
         id: 1,
-        title: "Meta & Google Ads",
+        title: "Meta Ads",
         icon: Target,
         description:
-            "Performance marketing with precision targeting. Meta Ads, Google Ads, and ROAS optimization that delivers measurable results.",
+            "Performance marketing with precision targeting on Facebook and Instagram.",
         points: [
-            "Meta Ads",
-            "Google Ads",
+            "Audience Targeting",
             "ROAS Optimization",
             "Conversion Tracking",
+            "Retargeting",
         ],
         cta: "Get a Free Audit",
     },
     {
         id: 2,
+        title: "Google Ads",
+        icon: Target,
+        description:
+            "High-intent traffic through Search, Display, and YouTube advertising.",
+        points: [
+            "Search Ads",
+            "Display Ads",
+            "YouTube Ads",
+            "Conversion Tracking",
+        ],
+        cta: "Get a Free Audit",
+    },
+
+    {
+        id: 3,
         title: "LinkedIn Ads",
         icon: Linkedin,
         description:
@@ -38,7 +53,7 @@ export const services:servicesType[] = [
         cta: "Start B2B Campaign",
     },
     {
-        id: 3,
+        id: 4,
         title: "X (Twitter) Ads",
         icon: Twitter,
         description:
