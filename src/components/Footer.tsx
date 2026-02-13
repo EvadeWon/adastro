@@ -15,7 +15,7 @@ function Footer() {
         { id: 3, icon: Linkedin, url: "https://www.linkedin.com/company/adastro-pm/" },
     ]
     return (
-        <div className="p-4 md:p-8">
+        <div className="p-2 md:p-4">
             <div className="w-full max-w-6xl mx-auto relative min-h-auto md:min-h-[90vh] text-[#e8e6e6] flex flex-col md:flex-row gap-12 md:justify-between pt-12 md:pt-20 px-6 md:px-20 shadow-md rounded-lg"
                 style={{
                     boxShadow: "0 0 20px #d75525c9",
@@ -30,7 +30,6 @@ function Footer() {
                             <h1 className="text-xl font-semibold text-white/90">Reach the Right Audience</h1>
                             <p className="opacity-60 text-xs">Driving Digital Growth with Aastro</p>
                         </div>
-
                     </div>
                     <div className="flex flex-col gap-4">
                         <h1 className="text-lg font-bold">Quick Links</h1>
@@ -43,13 +42,13 @@ function Footer() {
                     <div className="flex flex-col gap-4">
                         <h1 className="text-lg font-bold">Services</h1>
                         <div className="flex flex-col gap-3">
-                            <Link href="https://wa.me/9217711173"
+                            <Link href="https://api.whatsapp.com/send/?phone=919217711163&text=Hi%2C+interested+in+Meta+%26+Google+Ads+with+ROAS+optimization.+Please+share+details&type=phone_number&app_absent=0"
                                 target="_blank"
                                 rel="noopener noreferrer" className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">Meta & Google Ads</Link>
-                            <Link href="https://wa.me/9217711173"
+                            <Link href="https://api.whatsapp.com/send/?phone=919217711163&text=Hi%2C+interested+in+Meta+%26+Google+Ads+with+ROAS+optimization.+Please+share+details&type=phone_number&app_absent=0"
                                 target="_blank"
                                 rel="noopener noreferrer" className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">LinkedIn Ads</Link>
-                            <Link href="https://wa.me/9217711173"
+                            <Link href="https://api.whatsapp.com/send/?phone=919217711163&text=Hi%2C+interested+in+Meta+%26+Google+Ads+with+ROAS+optimization.+Please+share+details&type=phone_number&app_absent=0"
                                 target="_blank"
                                 rel="noopener noreferrer" className="text-white/70 text-xs hover:text-[#d75525c9] transition-all duration-200 ease-in-out">X (Twitter) Ads</Link>
                         </div>

@@ -60,7 +60,7 @@ export default function ServiceSection() {
                             </ul>
 
                             {/* CTA */}
-                            <Link href="https://wa.me/9217711173"
+                            <Link href="https://api.whatsapp.com/send/?phone=919217711163&text=Hi%2C+interested+in+Meta+%26+Google+Ads+with+ROAS+optimization.+Please+share+details&type=phone_number&app_absent=0"
                                 target="_blank"
                                 rel="noopener noreferrer">
                                 <Button
