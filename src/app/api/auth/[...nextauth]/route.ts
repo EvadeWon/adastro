@@ -5,6 +5,7 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
+await connectDB();
 export const authOptions: NextAuthOptions = {
     providers: [
         GoogleProvider({
@@ -18,7 +19,6 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-                await connectDB();
 
                 const user = await User.findOne({
                     email: credentials?.email,
@@ -57,8 +57,6 @@ export const authOptions: NextAuthOptions = {
         async signIn({ user, account }) {
             try {
                 if (account?.provider === "google") {
-                    await connectDB();
-
                     let existingUser = await User.findOne({ email: user.email });
 
                     if (!existingUser) {
