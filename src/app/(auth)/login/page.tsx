@@ -10,20 +10,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signIn, useSession } from "next-auth/react";
+import { signIn} from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 
 export default function Login() {
-    const { data: session } = useSession();
-    const router = useRouter();
-    useEffect(() => {
-        if (session) {
-            router.push("/my-courses");
-        }
-    }, [session, router]);
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -46,7 +38,7 @@ export default function Login() {
         const res = await signIn("credentials", {
             email: formData.email,
             password: formData.password,
-            redirect: false,
+            callbackUrl: "/my-courses",
         });
 
         if (res?.error) {
@@ -54,8 +46,6 @@ export default function Login() {
             setLoading(false);
             return;
         }
-
-        router.push("/my-courses");
     };
 
     return (
