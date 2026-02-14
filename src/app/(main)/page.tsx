@@ -4,6 +4,7 @@ import CoursesSection from "@/components/Courses"
 import Header from "@/components/Header"
 import RevenueChart from "@/components/RevenueChart"
 import ServiceSection from "@/components/Services"
+import Image from "next/image"
 import { useRef } from "react"
 
 const Home = () => {
@@ -29,6 +30,28 @@ const Home = () => {
       <div ref={courseRef}>
         <CoursesSection />
       </div>
+      <div>
+        <h1 className="opacity-70 font-bold text-center text-4xl uppercase mb-10 mt-6">
+          testimonials
+        </h1>
+        <div className="flex flex-col md:flex-row gap-6 justify-center mb-16 px-6">
+          <Image
+            className="rounded-lg border border-amber-500 shadow-lg w-full md:w-auto md:max-w-[700px] h-auto"
+            src={"/Testimonial_1.png"}
+            alt="Testimonial_1"
+            width={700}
+            height={300}
+          />
+          <Image
+            className="rounded-lg border border-amber-500 shadow-lg w-full md:w-auto md:max-w-[700px] h-auto"
+            src={"/Testimonial_2.jpeg"}
+            alt="Testimonial_2"
+            width={700}
+            height={300}
+          />
+        </div>
+      </div>
+
     </>
   )
 }
