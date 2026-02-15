@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signIn} from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
@@ -53,7 +53,7 @@ export default function Login() {
             <CardHeader>
                 <CardTitle>Welcome Back</CardTitle>
                 <CardDescription >
-                    Login with your Google Email Account
+                    Login to access your courses and dashboard.
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -90,6 +90,12 @@ export default function Login() {
                         <div className="grid gap-2">
                             <div className="flex items-center gap-10 sm:gap-2">
                                 <Label htmlFor="password">Password</Label>
+                                <Link
+                                    href="/forgot-password"
+                                    className="text-sm text-[#d75525c9] hover:underline"
+                                >
+                                    Forgot Password?
+                                </Link>
                             </div>
                             <Input
                                 id="password"

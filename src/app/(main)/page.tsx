@@ -20,7 +20,7 @@ const Home = () => {
         <h2 className="text-xl md:text-3xl font-bold mb-6 text-center uppercase">
           Monthly Revenue Growth
         </h2>
-        <div className="p-10 rounded-xl shadow-lg">
+        <div className="p-2 md:p-10 rounded-xl shadow-lg">
           <RevenueChart />
         </div>
       </div>

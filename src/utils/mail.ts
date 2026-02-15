@@ -33,7 +33,7 @@ export async function sendMail({
 }
 
 
-//send email verification male to user
+//send email verification mail to user
 export async function sendVerificationEmail(
     email: string,
     code: string

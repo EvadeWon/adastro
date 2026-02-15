@@ -99,7 +99,7 @@ export default function MyCourses() {
                             {course.description}
                         </p>
                         <Link
-                            href="https://wa.me/9217711173"
+                            href="https://api.whatsapp.com/send/?phone=919217711163&text=Hi%2C+interested+in+Meta+%26+Google+Ads+with+ROAS+optimization.+Please+share+details&type=phone_number&app_absent=0"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-block bg-green-600 px-6 py-3 rounded-lg text-white font-semibold hover:bg-green-700"
