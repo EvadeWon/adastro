@@ -88,11 +88,11 @@ export default function Login() {
                             />
                         </div>
                         <div className="grid gap-2">
-                            <div className="flex items-center gap-10 sm:gap-2">
+                            <div className="flex items-center gap-10 justify-between sm:gap-2">
                                 <Label htmlFor="password">Password</Label>
                                 <Link
                                     href="/forgot-password"
-                                    className="text-sm text-[#d75525c9] hover:underline"
+                                    className="text-xs text-[#d75525c9] hover:underline"
                                 >
                                     Forgot Password?
                                 </Link>
