@@ -49,7 +49,7 @@ const Navbar = () => {
             </Link>
 
             {/* Desktop Links */}
-            <div className="border-b border-l border-r border-white/15 sm:flex hidden sm:gap-4 md:gap-6 text-xs text-white/70 bg-gradient-to-b from-[#171212] to-[#100B0B] px-6 py-2 rounded-sm tracking-wide">
+            <div className="border-b border-l border-r border-white/15 sm:flex hidden sm:gap-4 md:gap-6 text-sm text-white/70 bg-gradient-to-b from-[#171212] to-[#100B0B] px-6 py-2 rounded-sm tracking-wide">
                 {navLinks.map((item) => {
                     const isActive = pathName === item.url;
                     return (

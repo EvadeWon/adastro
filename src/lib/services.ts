@@ -1,9 +1,11 @@
-import { Linkedin, LucideIcon, MessageSquare, Send, Target, Twitter } from "lucide-react";
+import { Chrome, Facebook, Linkedin, LucideIcon, MessageSquare, Send, Target, Twitter } from "lucide-react";
+import { SiGoogleads, SiReddit } from "react-icons/si";
+import { IconType } from "react-icons";
 
 type servicesType = {
     id: number,
     title: string,
-    icon: LucideIcon,
+    icon: LucideIcon | IconType,
     description: string,
     points: string[],
     cta: string
@@ -12,7 +14,7 @@ export const services: servicesType[] = [
     {
         id: 1,
         title: "Meta Ads",
-        icon: Target,
+        icon: Facebook,
         description:
             "Performance marketing with precision targeting on Facebook and Instagram.",
         points: [
@@ -26,7 +28,7 @@ export const services: servicesType[] = [
     {
         id: 2,
         title: "Google Ads",
-        icon: Target,
+        icon: SiGoogleads,
         description:
             "High-intent traffic through Search, Display, and YouTube advertising.",
         points: [
@@ -83,7 +85,7 @@ export const services: servicesType[] = [
     {
         id: 6,
         title: "Reddit Ads",
-        icon: MessageSquare,
+        icon: SiReddit,
         description:
             "Advertise within active communities and niche subreddits to reach highly targeted and engaged users.",
         points: [

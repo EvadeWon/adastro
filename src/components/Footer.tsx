@@ -16,7 +16,7 @@ function Footer() {
     ]
     return (
         <div className="p-2 md:p-4">
-            <div className="w-full max-w-6xl mx-auto relative min-h-auto md:min-h-[90vh] text-[#e8e6e6] flex flex-col md:flex-row gap-12 md:justify-between pt-12 md:pt-20 px-6 md:px-20 shadow-md rounded-lg"
+            <div className="w-full max-w-6xl mx-auto relative min-h-auto md:min-h-[80vh] text-[#e8e6e6] flex flex-col md:flex-row gap-12 md:justify-between pt-12 md:pt-18 px-6 md:px-20 shadow-md rounded-lg"
                 style={{
                     boxShadow: "0 0 20px #d75525c9",
                 }}>

@@ -75,8 +75,8 @@ export default function Header({ courseRef,serviceRef }: HeaderProps) {
                     <Image
                         src={"/logo_v2.jpeg"}
                         alt="Logo"
-                        width={80}
-                        height={80}
+                        width={120}
+                        height={120}
                         color="white"
                         className="rounded-lg mix-blend-screen"
                     />

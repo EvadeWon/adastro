@@ -1,12 +1,14 @@
 "use client";
 
+import { cinzel } from "@/app/fonts";
 import BrandsTicker from "@/components/BrandsTicker";
 import CheckoutDrawer from "@/components/checkoutDrawer";
 import { useAuth } from "@/hooks/useAuth";
 import courses from "@/lib/courses";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { notFound, useParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import { notFound, useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 // ─── types ───────────────────────────────────────────────────────────────────
@@ -244,6 +246,12 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
 
 // ─── MAIN PAGE ───────────────────────────────────────────────────────────────
 export default function CourseDetailPage() {
+    const pathName=usePathname()
+    const navLinks = [
+        { id: 1, name: "Home", url: "/" },
+        { id: 2, name: "Dashboard", url: "/my-courses" },
+        { id: 3, name: "Contact", url: "/contact" },
+    ];
     const router = useRouter()
     const params = useParams();
     const course = courses.find((c: Course) => c.id === Number(params.id));
@@ -251,12 +259,12 @@ export default function CourseDetailPage() {
 
     const [open, setOpen] = useState(false);
     const { loading } = useAuth();
-    const { data: session } = useSession(); // client-side
+    const { data: session } = useSession();
     const isAuthenticated = !!session;
     const handleEnrollClick = async () => {
-        if (loading) return; // wait for auth check
+        if (loading) return;
         if (!isAuthenticated) {
-            router.push("/login"); // not logged in
+            router.push("/login");
             return;
         }
         const res = await fetch("/api/payment/check-purchase", {
@@ -278,20 +286,20 @@ export default function CourseDetailPage() {
             setOpen(true);
         }
     }
-        // glowing CTA shared style
-        const ctaBtnStyle: React.CSSProperties = {
-            background: "linear-gradient(135deg,#FACC15,#FDE047)",
-            boxShadow: "0 0 18px 4px rgba(250,204,21,0.5)",
-            animation: "glowPulse 2s ease-in-out infinite",
-        };
+    // glowing CTA shared style
+    const ctaBtnStyle: React.CSSProperties = {
+        background: "linear-gradient(135deg,#FACC15,#FDE047)",
+        boxShadow: "0 0 18px 4px rgba(250,204,21,0.5)",
+        animation: "glowPulse 2s ease-in-out infinite",
+    };
 
-        return (
-            <>
-                {/* ── injected keyframes ── */}
-                <style>{`
+    return (
+        <>
+            {/* ── injected keyframes ── */}
+            <style>{`
         @keyframes glowPulse {
           0%,100% { box-shadow: 0 0 14px 3px rgba(250,204,21,.45); }
-          50%     { box-shadow: 0 0 30px 8px rgba(250,204,21,.7);  }
+          50%     { box-shadow: 0 0 18px 4px rgba(250,204,21,.7);  }
         }
         @keyframes marquee {
           0%   { transform: translateX(0);    }
@@ -299,335 +307,344 @@ export default function CourseDetailPage() {
         }
       `}</style>
 
-                <main className="min-h-screen" style={{ background: "#0f0f0f", color: "#f3f4f6" }}>
+            <main className="min-h-screen" style={{ background: "#0f0f0f", color: "#f3f4f6" }}>
 
-                    {/* ════════ HERO ════════ */}
-                    <header
-                        className="relative overflow-hidden"
-                        style={{ background: "linear-gradient(180deg,#0a0f1e 0%,#0f0f0f 100%)" }}
-                    >
-                        {/* ambient glow blobs */}
-                        <div className="absolute inset-0 pointer-events-none">
-                            <div className="absolute rounded-full" style={{ top: -120, left: -80, width: 500, height: 500, background: "#1877F2", opacity: 0.2, filter: "blur(100px)" }} />
-                            <div className="absolute rounded-full" style={{ top: 60, right: -100, width: 400, height: 400, background: "#8B5CF6", opacity: 0.15, filter: "blur(90px)" }} />
-                            <div className="absolute rounded-full" style={{ bottom: -60, left: "30%", width: 300, height: 300, background: "#FACC15", opacity: 0.1, filter: "blur(80px)" }} />
+                {/* ════════ HERO ════════ */}
+                <header className="relative overflow-hidden min-h-[90vh]">
+
+                    {/* ===== Background Image ===== */}
+                    <div className="absolute inset-0 z-0">
+                        <Image
+                            src="/enrollPageImage.png"
+                            alt="Hero background"
+                            fill
+                            priority
+                            className="object-cover opacity-40"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
+                    </div>
+
+                    {/* ===== Top Header ===== */}
+                    <div className="relative z-20 flex items-center justify-between px-6 py-4 max-w-6xl mx-auto">
+                        <Link href={"/"} className="flex items-center">
+                            <Image
+                                src="/logo_v2.jpeg"
+                                alt="Logo"
+                                width={46}
+                                height={46}
+                                className="rounded-lg mix-blend-screen"
+                            />
+                            <span className={`font-bold text-sm md:text-xl ${cinzel.className}`}>
+                                AdAstro
+                            </span>
+                        </Link>
+                        <div className="border-b border-l border-r border-white/15 sm:flex hidden sm:gap-4 md:gap-6 text-xs text-white/70 bg-gradient-to-b from-[#171212] to-[#100B0B] px-6 py-2 rounded-sm tracking-wide">
+                            {navLinks.map((item) => {
+                                const isActive = pathName === item.url;
+                                return (
+                                    <Link
+                                        key={item.id}
+                                        href={item.url}
+                                        className={`hover:text-[#d75525c9] transition-colors duration-300 cursor-pointer ${isActive ? "text-white" : "text-white/50"
+                                            }`}
+                                    >
+                                        {item.name}
+                                    </Link>
+                                );
+                            })}
                         </div>
+                        <button
+                            onClick={handleEnrollClick}
+                            className="cursor-pointer rounded-full font-bold text-black text-xs md:text-sm px-4 md:px-4 py-2"
+                            style={{
+                                background: "linear-gradient(135deg,#FACC15,#FDE047)",
+                            }}
+                        >
+                            Enroll Now
+                        </button>
+                    </div>
 
-                        <div className="relative z-10 max-w-4xl mx-auto px-5 pt-16 pb-20 text-center">
-                            <Badge>Become A Pro in
-                                <span className="text-yellow-500 font-bold"> Facebook & Instagram ADS </span> in few months💸</Badge>
+                    {/* ===== Hero Content ===== */}
+                    <div className="relative z-10 max-w-6xl mx-auto px-6 pt-10 pb-20">
+                        <div className="max-w-xl text-left">
 
-                            <h1 className="mt-8 text-4xl sm:text-6xl font-extrabold leading-tight text-white text-center">
-                                {course.title.includes("Facebook") || course.title.includes("Meta") ? (
-                                    <>
-                                        Become A Pro in<br />
-                                        <span
-                                            style={{
-                                                background: "linear-gradient(135deg,#1877F2,#a78bfa)",
-                                                WebkitBackgroundClip: "text",
-                                                WebkitTextFillColor: "transparent",
-                                                backgroundClip: "text",
-                                            }}
-                                        >
-                                            Facebook &amp; Instagram ADS
-                                        </span>
-                                        <span className="text-3xl sm:text-4xl text-gray-300 font-semibold mt-2 block">
-                                            in just a few months 💸
-                                        </span>
-                                    </>
-                                ) : (
-                                    <>{course.title}</>
-                                )}
+                            <Badge>
+                                Become A Pro in
+                                <span className="text-yellow-500 font-bold">
+                                    {" "}Facebook & Instagram ADS
+                                </span>
+                            </Badge>
+                            <h1 className="mt-6 text-3xl sm:text-4xl font-extrabold leading-tight text-white">
+                                Become A Pro
+                                <span
+                                    style={{
+                                        background: "linear-gradient(135deg,#1877F2,#a78bfa)",
+                                        WebkitBackgroundClip: "text",
+                                        WebkitTextFillColor: "transparent",
+                                    }}
+                                >
+                                    {" "}in META ADs
+                                </span>
                             </h1>
 
-                            <p className="mt-4 text-md font-bold text-white">
-                                The Only <Gold>PERFORMANCE MARKETING COURSE</Gold> You Will Ever Need
+                            <p className="mt-4 text-gray-300 text-sm">
+                                The Only <Gold>facebook, whatsapp, instagram and threads</Gold> You Will Ever Need
                             </p>
-                            {/* stars + student count*/}
-                            <div className="mt-6 flex items-center justify-center gap-3 flex-wrap z-10">
-                                <div className="flex items-center gap-0.5">
-                                    {[1, 2, 3, 4].map((i) => (
-                                        <svg key={i} viewBox="0 0 20 20" className="w-5 h-5">
-                                            <path d="M10 1l2.39 4.85L18 6.6l-4 3.9 1 5.5L10 13.27 5 16l1-5.5-4-3.9 5.61-.75z" fill="#FACC15" />
-                                        </svg>
-                                    ))}
-                                    {/* half star */}
-                                    <svg viewBox="0 0 20 20" className="w-5 h-5">
-                                        <defs>
-                                            <clipPath id="halfClip"><rect x="0" y="0" width="10" height="20" /></clipPath>
-                                        </defs>
-                                        <path d="M10 1l2.39 4.85L18 6.6l-4 3.9 1 5.5L10 13.27 5 16l1-5.5-4-3.9 5.61-.75z" fill="#374151" />
-                                        <path d="M10 1l2.39 4.85L18 6.6l-4 3.9 1 5.5L10 13.27 5 16l1-5.5-4-3.9 5.61-.75z" fill="#FACC15" clipPath="url(#halfClip)" />
-                                    </svg>
-                                </div>
-                                <span className="text-gray-400 text-sm">
-                                    <strong className="text-white">4.5</strong> from <strong className="text-white">5,000+</strong> students
-                                </span>
-                            </div>
 
-                            {/* ── CTA button (opens drawer) ── */}
-                            <div className="mt-10">
+                            {/* CTA */}
+                            <div className="mt-8">
                                 <button
                                     disabled={loading}
                                     onClick={handleEnrollClick}
-                                    className="rounded-full font-bold text-gray-900 text-lg px-10 py-4 transition-transform duration-300 hover:scale-105 active:scale-95"
+                                    className="rounded-full font-bold text-gray-900 text-lg px-10 py-4 transition-transform duration-300 hover:scale-105"
                                     style={ctaBtnStyle}
                                 >
-                                    {loading ? "Loading..." : `ENROLL NOW – ₹${course.price.toLocaleString()}`}
+                                    {loading
+                                        ? "Loading..."
+                                        : `ENROLL NOW – ₹${course.price.toLocaleString()}`}
                                 </button>
                             </div>
 
-                            {/* coach mini-card */}
-                            <div className="mt-12 flex items-center justify-center gap-4">
-                                <div
-                                    className="w-14 h-14 rounded-full flex items-center justify-center text-lg font-bold text-white"
-                                    style={{ background: "linear-gradient(135deg,#1877F2,#8B5CF6)" }}
-                                >
-                                    JJ
-                                </div>
-                                <div className="text-left">
-                                    <p className="text-white font-bold text-sm">{COACH.name}</p>
-                                    <p className="text-gray-400 text-xs">{COACH.subtitle} · 5,000+ students trained</p>
-                                </div>
-                            </div>
                         </div>
-                    </header>
+                    </div>
+                </header>
 
-                    {/* ════════ WHY INVEST ════════ */}
-                    <Reveal>
-                        <section className="max-w-4xl mx-auto px-5 py-20">
-                            <Badge>Why This Course?</Badge>
+
+                {/* ════════ WHY INVEST ════════ */}
+                <Reveal>
+                    <section className="max-w-4xl mx-auto px-5 py-20">
+                        <Badge>Why This Course?</Badge>
+                        <SectionHeading>
+                            Why You Should <Gold>Invest</Gold> In This Course?
+                        </SectionHeading>
+                        <div className="mt-8 grid sm:grid-cols-2 gap-4">
+                            {WHY_INVEST.map((item, i) => (
+                                <FeatureCard key={i} {...item} />
+                            ))}
+                        </div>
+                        <div className="mt-8 text-center">
+                            <button
+                                onClick={handleEnrollClick}
+                                disabled={loading}
+                                className="rounded-full font-bold text-gray-900 text-base px-7 py-3 transition-transform duration-300 hover:scale-105 active:scale-95"
+                                style={ctaBtnStyle}
+                            >
+                                {loading ? "Loading..." : `EARLY ACCESS AT JUST ₹${course.price.toLocaleString()}`}
+                            </button>
+                        </div>
+                    </section>
+                </Reveal>
+
+                {/* ════════ BRAND MARQUEE ════════ */}
+                <div style={{ borderTop: "1px solid #2a2a2a", borderBottom: "1px solid #2a2a2a", background: "#111" }}>
+                    <BrandsTicker />
+                </div>
+
+                {/* ════════ COURSE CONTENTS ════════ */}
+                <Reveal>
+                    <section className="max-w-4xl mx-auto px-5 py-20">
+                        <Badge>Course Contents</Badge>
+                        <SectionHeading>
+                            What You Will Get <Gold>Inside</Gold> The Course?
+                        </SectionHeading>
+                        <div className="mt-8 space-y-4">
+                            {COURSE_FEATURES.map((f, i) => (
+                                <FeatureCard key={i} {...f} />
+                            ))}
+                        </div>
+                    </section>
+                </Reveal>
+
+                {/* ════════ FREEBIES ════════ */}
+                <Reveal>
+                    <section className="max-w-4xl mx-auto px-5 py-16">
+                        <div
+                            className="rounded-3xl p-8 sm:p-10"
+                            style={{ background: "linear-gradient(135deg,#141e33,#1a1a2e)", border: "1px solid #2a3a5e" }}
+                        >
+                            <Badge>Exclusive Freebies</Badge>
                             <SectionHeading>
-                                Why You Should <Gold>Invest</Gold> In This Course?
+                                What <Gold>Else</Gold> Do You Get With This Course?
                             </SectionHeading>
-                            <div className="mt-8 grid sm:grid-cols-2 gap-4">
-                                {WHY_INVEST.map((item, i) => (
+                            <div className="mt-6 grid sm:grid-cols-2 gap-4">
+                                {FREEBIES.map((item, i) => (
                                     <FeatureCard key={i} {...item} />
                                 ))}
                             </div>
-                            <div className="mt-8 text-center">
+                        </div>
+                    </section>
+                </Reveal>
+
+                {/* ════════ STUDENTS MARQUEE ════════ */}
+                <div style={{ borderTop: "1px solid #2a2a2a", borderBottom: "1px solid #2a2a2a", background: "#111" }}>
+                    <p className="text-center text-gray-500 text-xs tracking-widest uppercase p-4">
+                        5,000+ 🤝 Students Already Upskilling
+                    </p>
+                </div>
+
+                {/* ════════ WHO IS THIS FOR ════════ */}
+                <Reveal>
+                    <section className="max-w-4xl mx-auto px-5 py-20">
+                        <Badge>Ideal For</Badge>
+                        <SectionHeading>
+                            Who Is This Course <Gold>For?</Gold>
+                        </SectionHeading>
+                        <div className="mt-8 grid sm:grid-cols-2 gap-4">
+                            {WHO_FOR.map((item, i) => (
+                                <Card key={i}>
+                                    <div className="flex gap-3">
+                                        <span className="text-xl shrink-0">{item.icon}</span>
+                                        <p className="text-gray-300 text-sm leading-relaxed">{item.desc}</p>
+                                    </div>
+                                </Card>
+                            ))}
+                        </div>
+                    </section>
+                </Reveal>
+
+                {/* ════════ WHAT YOU WILL LEARN (curriculum) ════════ */}
+                <Reveal>
+                    <section className="max-w-5xl mx-auto px-5 py-10">
+                        <div className="text-center">
+                            <Badge>Curriculum</Badge>
+                            <SectionHeading>
+                                What You Will Learn In <Gold>9+ Hour</Gold> Course?
+                            </SectionHeading>
+                            <p className="mt-2 text-gray-400 text-sm">
+                                Here is what you will learn in just <strong className="text-white">9 Hours</strong>
+                            </p>
+                        </div>
+                        <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {LEARN_TOPICS.map((t, i) => (
+                                <LearnCard key={i} {...t} />
+                            ))}
+                        </div>
+                    </section>
+                </Reveal>
+
+                {/* ════════ MEET YOUR COACH ════════ */}
+                <Reveal>
+                    <section className="max-w-4xl mx-auto px-5 py-20">
+                        <div
+                            className="rounded-3xl overflow-hidden flex flex-col sm:flex-row"
+                            style={{ background: "linear-gradient(135deg,#0f172a,#1e1b4b)", border: "1px solid #2e2b5e" }}
+                        >
+                            {/* gradient avatar side */}
+                            <div
+                                className="sm:w-2/5 flex items-center justify-center p-8"
+                                style={{ background: "linear-gradient(135deg,#1877F2,#8B5CF6)", minHeight: 260 }}
+                            >
+                                <div
+                                    className="w-44 h-44 rounded-full flex items-center justify-center"
+                                    style={{ border: "4px solid rgba(255,255,255,0.2)" }}
+                                >
+                                    <span className="text-7xl font-extrabold text-white">JJ</span>
+                                </div>
+                            </div>
+
+                            {/* info side */}
+                            <div className="sm:w-3/5 p-8 flex flex-col justify-center">
+                                <Badge>Meet Your Coach</Badge>
+                                <h2 className="text-2xl font-extrabold text-white mt-4">{COACH.name}</h2>
+                                <p className="text-gray-400 text-xs mt-1 mb-4">{COACH.subtitle}</p>
+
+                                <div className="flex flex-wrap gap-3 mb-5">
+                                    {COACH.stats.map((s, i) => (
+                                        <div key={i} className="rounded-lg px-3 py-2 text-center" style={{ background: "#1a1a2e" }}>
+                                            <p
+                                                className="text-lg font-extrabold"
+                                                style={{
+                                                    background: "linear-gradient(135deg,#3b82f6,#FACC15)",
+                                                    WebkitBackgroundClip: "text",
+                                                    WebkitTextFillColor: "transparent",
+                                                    backgroundClip: "text",
+                                                }}
+                                            >
+                                                {s.val}
+                                            </p>
+                                            <p className="text-gray-500 text-xs">{s.label}</p>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <p className="text-gray-400 text-xs leading-relaxed">{COACH.bio}</p>
+                            </div>
+                        </div>
+                    </section>
+                </Reveal>
+
+                {/* ════════ BIG CTA BANNER ════════ */}
+                <Reveal>
+                    <section className="max-w-4xl mx-auto px-5 py-16">
+                        <div
+                            className="rounded-3xl p-10 text-center relative overflow-hidden"
+                            style={{ background: "linear-gradient(135deg,#1877F2,#6366f1)" }}
+                        >
+                            {/* decorative circles */}
+                            <div className="absolute rounded-full" style={{ top: -40, right: -40, width: 160, height: 160, background: "rgba(255,255,255,0.2)" }} />
+                            <div className="absolute rounded-full" style={{ bottom: -30, left: -30, width: 120, height: 120, background: "rgba(250,204,21,0.15)" }} />
+
+                            <h2 className="relative z-10 text-3xl sm:text-4xl font-extrabold text-white">
+                                So, What Are You <Gold>Waiting For?</Gold>
+                            </h2>
+                            <p className="relative z-10 text-white/80 text-sm mt-3 max-w-xl mx-auto">
+                                Enrol today and unlock exclusive access to in-depth strategies plus real case studies on how to implement them.
+                            </p>
+                            <div className="relative z-10 mt-6">
                                 <button
                                     onClick={handleEnrollClick}
                                     disabled={loading}
-                                    className="rounded-full font-bold text-gray-900 text-base px-7 py-3 transition-transform duration-300 hover:scale-105 active:scale-95"
+                                    className="rounded-full font-bold text-gray-900 text-sm md:text-lg px-10 py-4 transition-transform duration-300 hover:scale-105 active:scale-95"
                                     style={ctaBtnStyle}
                                 >
-                                    {loading ? "Loading..." : `EARLY ACCESS AT JUST ₹${course.price.toLocaleString()}`}
+                                    {loading ? "Loading..." : `JOIN NOW AT ₹${course.price.toLocaleString()}`}
                                 </button>
                             </div>
-                        </section>
-                    </Reveal>
+                        </div>
+                    </section>
+                </Reveal>
 
-                    {/* ════════ BRAND MARQUEE ════════ */}
-                    <div style={{ borderTop: "1px solid #2a2a2a", borderBottom: "1px solid #2a2a2a", background: "#111" }}>
-                        <BrandsTicker />
-                    </div>
-
-                    {/* ════════ COURSE CONTENTS ════════ */}
-                    <Reveal>
-                        <section className="max-w-4xl mx-auto px-5 py-20">
-                            <Badge>Course Contents</Badge>
+                {/* ════════ FAQ ════════ */}
+                <Reveal>
+                    <section className="max-w-3xl mx-auto px-5 py-20" id="faq">
+                        <div className="text-center">
+                            <Badge>FAQ</Badge>
                             <SectionHeading>
-                                What You Will Get <Gold>Inside</Gold> The Course?
+                                Frequently Asked <Gold>Questions</Gold>
                             </SectionHeading>
-                            <div className="mt-8 space-y-4">
-                                {COURSE_FEATURES.map((f, i) => (
-                                    <FeatureCard key={i} {...f} />
-                                ))}
-                            </div>
-                        </section>
-                    </Reveal>
+                        </div>
+                        <div
+                            className="mt-10 rounded-2xl overflow-hidden"
+                            style={{ background: "#1a1a1a", border: "1px solid #2a2a2a" }}
+                        >
+                            {FAQS.map((f, i) => (
+                                <FAQItem key={i} {...f} />
+                            ))}
+                        </div>
+                    </section>
+                </Reveal>
 
-                    {/* ════════ FREEBIES ════════ */}
-                    <Reveal>
-                        <section className="max-w-4xl mx-auto px-5 py-16">
-                            <div
-                                className="rounded-3xl p-8 sm:p-10"
-                                style={{ background: "linear-gradient(135deg,#141e33,#1a1a2e)", border: "1px solid #2a3a5e" }}
-                            >
-                                <Badge>Exclusive Freebies</Badge>
-                                <SectionHeading>
-                                    What <Gold>Else</Gold> Do You Get With This Course?
-                                </SectionHeading>
-                                <div className="mt-6 grid sm:grid-cols-2 gap-4">
-                                    {FREEBIES.map((item, i) => (
-                                        <FeatureCard key={i} {...item} />
-                                    ))}
-                                </div>
-                            </div>
-                        </section>
-                    </Reveal>
-
-                    {/* ════════ STUDENTS MARQUEE ════════ */}
-                    <div style={{ borderTop: "1px solid #2a2a2a", borderBottom: "1px solid #2a2a2a", background: "#111" }}>
-                        <p className="text-center text-gray-500 text-xs tracking-widest uppercase p-4">
-                            5,000+ 🤝 Students Already Upskilling
+                {/* ════════ DISCLAIMER ════════ */}
+                <footer className="mt-8 px-5 py-10" style={{ borderTop: "1px solid #2a2a2a", background: "#0a0a0a" }}>
+                    <div className="max-w-3xl mx-auto">
+                        <h3 className="text-gray-500 text-xs font-bold tracking-widest uppercase mb-2">⚠️ Disclaimer</h3>
+                        <p className="text-gray-600 text-xs leading-relaxed">
+                            This course teaches you essential skills for running successful ad campaigns, but success is not guaranteed.
+                            Results depend on factors like your ad creatives, business nature, strategies, efforts, and consistency.
+                            Your success will ultimately depend on how well you apply what you learn.
+                        </p>
+                        <p className="text-gray-600 text-xs leading-relaxed mt-2">
+                            We are not associated with Meta, Facebook, Instagram, or any of their affiliates in any way.
+                            This course is independently created for educational purposes.
                         </p>
                     </div>
-
-                    {/* ════════ WHO IS THIS FOR ════════ */}
-                    <Reveal>
-                        <section className="max-w-4xl mx-auto px-5 py-20">
-                            <Badge>Ideal For</Badge>
-                            <SectionHeading>
-                                Who Is This Course <Gold>For?</Gold>
-                            </SectionHeading>
-                            <div className="mt-8 grid sm:grid-cols-2 gap-4">
-                                {WHO_FOR.map((item, i) => (
-                                    <Card key={i}>
-                                        <div className="flex gap-3">
-                                            <span className="text-xl shrink-0">{item.icon}</span>
-                                            <p className="text-gray-300 text-sm leading-relaxed">{item.desc}</p>
-                                        </div>
-                                    </Card>
-                                ))}
-                            </div>
-                        </section>
-                    </Reveal>
-
-                    {/* ════════ WHAT YOU WILL LEARN (curriculum) ════════ */}
-                    <Reveal>
-                        <section className="max-w-5xl mx-auto px-5 py-10">
-                            <div className="text-center">
-                                <Badge>Curriculum</Badge>
-                                <SectionHeading>
-                                    What You Will Learn In <Gold>9+ Hour</Gold> Course?
-                                </SectionHeading>
-                                <p className="mt-2 text-gray-400 text-sm">
-                                    Here is what you will learn in just <strong className="text-white">9 Hours</strong>
-                                </p>
-                            </div>
-                            <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {LEARN_TOPICS.map((t, i) => (
-                                    <LearnCard key={i} {...t} />
-                                ))}
-                            </div>
-                        </section>
-                    </Reveal>
-
-                    {/* ════════ MEET YOUR COACH ════════ */}
-                    <Reveal>
-                        <section className="max-w-4xl mx-auto px-5 py-20">
-                            <div
-                                className="rounded-3xl overflow-hidden flex flex-col sm:flex-row"
-                                style={{ background: "linear-gradient(135deg,#0f172a,#1e1b4b)", border: "1px solid #2e2b5e" }}
-                            >
-                                {/* gradient avatar side */}
-                                <div
-                                    className="sm:w-2/5 flex items-center justify-center p-8"
-                                    style={{ background: "linear-gradient(135deg,#1877F2,#8B5CF6)", minHeight: 260 }}
-                                >
-                                    <div
-                                        className="w-44 h-44 rounded-full flex items-center justify-center"
-                                        style={{ border: "4px solid rgba(255,255,255,0.2)" }}
-                                    >
-                                        <span className="text-7xl font-extrabold text-white">JJ</span>
-                                    </div>
-                                </div>
-
-                                {/* info side */}
-                                <div className="sm:w-3/5 p-8 flex flex-col justify-center">
-                                    <Badge>Meet Your Coach</Badge>
-                                    <h2 className="text-2xl font-extrabold text-white mt-4">{COACH.name}</h2>
-                                    <p className="text-gray-400 text-xs mt-1 mb-4">{COACH.subtitle}</p>
-
-                                    <div className="flex flex-wrap gap-3 mb-5">
-                                        {COACH.stats.map((s, i) => (
-                                            <div key={i} className="rounded-lg px-3 py-2 text-center" style={{ background: "#1a1a2e" }}>
-                                                <p
-                                                    className="text-lg font-extrabold"
-                                                    style={{
-                                                        background: "linear-gradient(135deg,#3b82f6,#FACC15)",
-                                                        WebkitBackgroundClip: "text",
-                                                        WebkitTextFillColor: "transparent",
-                                                        backgroundClip: "text",
-                                                    }}
-                                                >
-                                                    {s.val}
-                                                </p>
-                                                <p className="text-gray-500 text-xs">{s.label}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <p className="text-gray-400 text-xs leading-relaxed">{COACH.bio}</p>
-                                </div>
-                            </div>
-                        </section>
-                    </Reveal>
-
-                    {/* ════════ BIG CTA BANNER ════════ */}
-                    <Reveal>
-                        <section className="max-w-4xl mx-auto px-5 py-16">
-                            <div
-                                className="rounded-3xl p-10 text-center relative overflow-hidden"
-                                style={{ background: "linear-gradient(135deg,#1877F2,#6366f1)" }}
-                            >
-                                {/* decorative circles */}
-                                <div className="absolute rounded-full" style={{ top: -40, right: -40, width: 160, height: 160, background: "rgba(255,255,255,0.2)" }} />
-                                <div className="absolute rounded-full" style={{ bottom: -30, left: -30, width: 120, height: 120, background: "rgba(250,204,21,0.15)" }} />
-
-                                <h2 className="relative z-10 text-3xl sm:text-4xl font-extrabold text-white">
-                                    So, What Are You <Gold>Waiting For?</Gold>
-                                </h2>
-                                <p className="relative z-10 text-white/80 text-sm mt-3 max-w-xl mx-auto">
-                                    Enrol today and unlock exclusive access to in-depth strategies plus real case studies on how to implement them.
-                                </p>
-                                <div className="relative z-10 mt-6">
-                                    <button
-                                        onClick={handleEnrollClick}
-                                        disabled={loading}
-                                        className="rounded-full font-bold text-gray-900 text-sm md:text-lg px-10 py-4 transition-transform duration-300 hover:scale-105 active:scale-95"
-                                        style={ctaBtnStyle}
-                                    >
-                                        {loading ? "Loading..." : `JOIN NOW AT ₹${course.price.toLocaleString()}`}
-                                    </button>
-                                </div>
-                            </div>
-                        </section>
-                    </Reveal>
-
-                    {/* ════════ FAQ ════════ */}
-                    <Reveal>
-                        <section className="max-w-3xl mx-auto px-5 py-20" id="faq">
-                            <div className="text-center">
-                                <Badge>FAQ</Badge>
-                                <SectionHeading>
-                                    Frequently Asked <Gold>Questions</Gold>
-                                </SectionHeading>
-                            </div>
-                            <div
-                                className="mt-10 rounded-2xl overflow-hidden"
-                                style={{ background: "#1a1a1a", border: "1px solid #2a2a2a" }}
-                            >
-                                {FAQS.map((f, i) => (
-                                    <FAQItem key={i} {...f} />
-                                ))}
-                            </div>
-                        </section>
-                    </Reveal>
-
-                    {/* ════════ DISCLAIMER ════════ */}
-                    <footer className="mt-8 px-5 py-10" style={{ borderTop: "1px solid #2a2a2a", background: "#0a0a0a" }}>
-                        <div className="max-w-3xl mx-auto">
-                            <h3 className="text-gray-500 text-xs font-bold tracking-widest uppercase mb-2">⚠️ Disclaimer</h3>
-                            <p className="text-gray-600 text-xs leading-relaxed">
-                                This course teaches you essential skills for running successful ad campaigns, but success is not guaranteed.
-                                Results depend on factors like your ad creatives, business nature, strategies, efforts, and consistency.
-                                Your success will ultimately depend on how well you apply what you learn.
-                            </p>
-                            <p className="text-gray-600 text-xs leading-relaxed mt-2">
-                                We are not associated with Meta, Facebook, Instagram, or any of their affiliates in any way.
-                                This course is independently created for educational purposes.
-                            </p>
-                        </div>
-                    </footer>
-                    {isAuthenticated && (
-                        <CheckoutDrawer open={open} onClose={() => setOpen(false)} course={course} />
-                    )}
-                </main>
+                </footer>
+                {isAuthenticated && (
+                    <CheckoutDrawer open={open} onClose={() => setOpen(false)} course={course} />
+                )}
+            </main>
 
 
-            </>
-        );
-    }
+        </>
+    );
+}

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import courses from "@/lib/courses";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type Purchase = {
@@ -14,14 +15,20 @@ type Purchase = {
 export default function MyCourses() {
     const [purchases, setPurchases] = useState<Purchase[]>([]);
     const [loading, setLoading] = useState(true);
-
+    const router = useRouter()
     useEffect(() => {
         const fetchPurchases = async () => {
             try {
                 const res = await fetch("/api/my-courses");
 
-                if (!res.ok) throw new Error("Not authorized");
+                if (res.status === 401) {
+                    router.push("/my-courses");
+                    return;
+                }
 
+                if (!res.ok) {
+                    throw new Error("Something went wrong");
+                }
                 const data = await res.json();
 
                 // Only keep PAID purchases
