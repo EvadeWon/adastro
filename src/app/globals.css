@@ -133,7 +133,11 @@
     transform: translateX(-50%);
   }
 }
-
+* {
+  box-sizing: border-box;
+  line-height: 1.5;
+  font-smoothing: antialiased;
+}
 .animate-marquee {
   display: flex;
   animation: marquee 20s linear infinite;

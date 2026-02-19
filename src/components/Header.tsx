@@ -65,7 +65,7 @@ export default function Header({ courseRef,serviceRef }: HeaderProps) {
             style={{ minHeight: "calc(100vh - 4rem)" }}
         >
             <motion.div
-                className="flex flex-col max-w-3xl items-center gap-4 text-center"
+                className="flex flex-col max-w-7xl items-center gap-4 text-center"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="show"
@@ -89,7 +89,7 @@ export default function Header({ courseRef,serviceRef }: HeaderProps) {
                 </motion.h1>
                 <motion.h1
                     variants={itemVariants}
-                    className={`text-[#ffffff] text-xl sm:3xl md:text-4xl font-semibold uppercase ${manrope}`}
+                    className={`text-[#ffffff] text-xl sm:3xl md:text-5xl font-semibold uppercase ${manrope}`}
                 >
                     Don't wait for tomorrow.Boost your Business Today!
                 </motion.h1>

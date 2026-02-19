@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function ServiceSection() {
     return (
-        <section className="relative py-24 px-6 bg-black/50 text-white">
+        <section className="relative py-24 px-6 bg-black/50 text-white mt-20">
             {/* Heading */}
             <div className="text-center max-w-3xl mx-auto mb-6">
                 <h2 className="text-4xl md:text-5xl font-semibold mb-4">

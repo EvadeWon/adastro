@@ -11,7 +11,7 @@ import { Button } from "./ui/button";
 export default function CoursesSection() {
     return (
         <section
-            className="min-h-screen bg-black/70 text-white px-6 py-8"
+            className="min-h-screen bg-black/70 text-white px-2 py-8 max-w-6xl mx-auto"
         >
             <h2 className="text-3xl md:text-4xl uppercase font-bold text-center mb-4">
                 Our Courses

@@ -16,7 +16,7 @@ const Home = () => {
       <div className="border-t border-b border-[#571e0ac9]">
         <BrandsTicker />
       </div>
-      <div className="p-10 sm:p-30 min-h-screen">
+      <div className="p-10 sm:p-30 h-[35vh] md:h-screen">
         <h2 className="text-xl md:text-3xl font-bold mb-6 text-center uppercase">
           Monthly Revenue Growth
         </h2>
@@ -30,26 +30,30 @@ const Home = () => {
       <div ref={courseRef}>
         <CoursesSection />
       </div>
-      <div>
+      <div className="p-2">
         <h1 className="opacity-70 font-bold text-center text-4xl uppercase mb-10 mt-6">
           testimonials
         </h1>
-        <div className="flex flex-col md:flex-row gap-6 justify-center mb-16 px-6">
+        <div className="flex flex-col md:flex-row gap-6 justify-center mb-16 max-w-7xl mx-auto">
           <Image
-            className="rounded-lg border border-amber-500 shadow-lg w-full md:w-auto md:max-w-[700px] h-auto"
+            className="rounded-lg border border-amber-500 shadow-lg w-full md:w-1/2 max-w-full h-auto"
             src={"/Testimonial_1.png"}
-            alt="Testimonial_1"
-            width={700}
-            height={300}
+            alt="Testimonial 1"
+            width={1000}
+            height={600}
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
+
           <Image
-            className="rounded-lg border border-amber-500 shadow-lg w-full md:w-auto md:max-w-[700px] h-auto"
+            className="rounded-lg border border-amber-500 shadow-lg w-full md:w-1/2 max-w-full h-auto"
             src={"/Testimonial_2.jpeg"}
-            alt="Testimonial_2"
-            width={700}
-            height={300}
+            alt="Testimonial 2"
+            width={1000}
+            height={600}
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
+
       </div>
 
     </>
