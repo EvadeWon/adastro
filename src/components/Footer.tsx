@@ -1,4 +1,4 @@
-import { cinzel } from "@/app/fonts"
+import { manrope } from "@/app/fonts"
 import { Facebook, Instagram, Linkedin, LucideIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -27,7 +27,7 @@ function Footer() {
                 <div className="flex flex-col gap-6 md:w-1/4">
                     <Link href="/" className="flex items-center gap-2">
                         <Image src="/logo_v2.jpeg" alt="Logo" width={40} height={40} className="rounded-lg" />
-                        <span className={`font-bold text-2xl md:text-3xl ${cinzel.className}`}>AdAstro</span>
+                        <span className={`font-bold text-2xl md:text-3xl ${manrope.className}`}>AdAstro</span>
                     </Link>
                     <div className="flex flex-col gap-2">
                         <h2 className="text-xl md:text-2xl font-semibold text-white/90">Reach the Right Audience</h2>

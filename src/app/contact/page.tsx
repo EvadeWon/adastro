@@ -64,7 +64,7 @@ export default function Login() {
 
     return (
         <>
-            <Card>
+            <Card className="mb-20 mt-10">
                 <CardHeader>
                     <CardTitle>Send Us A Message</CardTitle>
                     <CardDescription >
@@ -114,30 +114,7 @@ export default function Login() {
                                         placeholder="Your phone number"
                                         required
                                     />
-                                </div>
-                                <div className="flex flex-col space-y-2">
-                                    <label htmlFor="serviceType" className="text-sm font-medium text-white">
-                                        Enquiry About *
-                                    </label>
-                                    <Select
-                                        value={formData.serviceType}
-                                        onValueChange={(value) => setFormData({ ...formData, serviceType: value })}
-                                        required
-                                    >
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Select Enquiry Topic" />
-                                        </SelectTrigger>
-                                        <SelectContent position="popper"
-                                            sideOffset={8}
-                                            className="bg-white shadow-lg border rounded-md">
-                                            {services.map((service) => (
-                                                <SelectItem className="hover:bg-[#bb481ec9] hover:cursor-pointer" key={service} value={service}>
-                                                    {service}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
+                                </div><br />
                                 <div className="flex flex-col space-y-2">
                                     <label htmlFor="phone" className="text-sm font-medium text-white">
                                         Write your queries

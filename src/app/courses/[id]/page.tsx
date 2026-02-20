@@ -1,6 +1,6 @@
 "use client";
 
-import { cinzel } from "@/app/fonts";
+import { manrope } from "@/app/fonts";
 import BrandsTicker from "@/components/BrandsTicker";
 import CheckoutDrawer from "@/components/checkoutDrawer";
 import { useAuth } from "@/hooks/useAuth";
@@ -246,11 +246,13 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
 
 // ─── MAIN PAGE ───────────────────────────────────────────────────────────────
 export default function CourseDetailPage() {
-    const pathName=usePathname()
+    const pathName = usePathname()
     const navLinks = [
         { id: 1, name: "Home", url: "/" },
         { id: 2, name: "Dashboard", url: "/my-courses" },
         { id: 3, name: "Contact", url: "/contact" },
+        { id: 4, name: "Blogs", url: "/blogs" },
+        { id: 5, name: "Courses", url: "/courses" },
     ];
     const router = useRouter()
     const params = useParams();
@@ -260,6 +262,7 @@ export default function CourseDetailPage() {
     const [open, setOpen] = useState(false);
     const { loading } = useAuth();
     const { data: session } = useSession();
+    const user=session?.user;
     const isAuthenticated = !!session;
     const handleEnrollClick = async () => {
         if (loading) return;
@@ -310,7 +313,7 @@ export default function CourseDetailPage() {
             <main className="min-h-screen" style={{ background: "#0f0f0f", color: "#f3f4f6" }}>
 
                 {/* ════════ HERO ════════ */}
-                <header className="relative overflow-hidden min-h-[90vh]">
+                <header className="relative overflow-hidden min-h-screen">
 
                     {/* ===== Background Image ===== */}
                     <div className="absolute inset-0 z-0">
@@ -334,13 +337,16 @@ export default function CourseDetailPage() {
                                 height={46}
                                 className="rounded-lg mix-blend-screen"
                             />
-                            <span className={`font-bold text-sm md:text-xl ${cinzel.className}`}>
+                            <span className={`font-bold text-sm md:text-2xl ${manrope.className}`}>
                                 AdAstro
                             </span>
                         </Link>
-                        <div className="border-b border-l border-r border-white/15 sm:flex hidden sm:gap-4 md:gap-6 text-xs text-white/70 bg-gradient-to-b from-[#171212] to-[#100B0B] px-6 py-2 rounded-sm tracking-wide">
+                        <div className="border-b border-l border-r border-white/15 sm:flex hidden sm:gap-4 md:gap-6 text-xs md:text-base text-white/70 bg-gradient-to-b from-[#171212] to-[#100B0B] px-6 py-2 rounded-sm tracking-wide">
                             {navLinks.map((item) => {
                                 const isActive = pathName === item.url;
+                                if (item.name === "Dashboard" && !user) {
+                                    return null; // Don't render Dashboard if not logged in
+                                }
                                 return (
                                     <Link
                                         key={item.id}
@@ -355,7 +361,7 @@ export default function CourseDetailPage() {
                         </div>
                         <button
                             onClick={handleEnrollClick}
-                            className="cursor-pointer rounded-full font-bold text-black text-xs md:text-sm px-4 md:px-4 py-2"
+                            className="cursor-pointer rounded-full font-bold text-black text-xs md:text-base px-4 md:px-4 py-2"
                             style={{
                                 background: "linear-gradient(135deg,#FACC15,#FDE047)",
                             }}
@@ -365,7 +371,7 @@ export default function CourseDetailPage() {
                     </div>
 
                     {/* ===== Hero Content ===== */}
-                    <div className="relative z-10 max-w-6xl mx-auto px-6 pt-10 pb-20">
+                    <div className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-20">
                         <div className="max-w-xl text-left">
 
                             <Badge>
@@ -374,7 +380,7 @@ export default function CourseDetailPage() {
                                     {" "}Facebook & Instagram ADS
                                 </span>
                             </Badge>
-                            <h1 className="mt-6 text-3xl sm:text-4xl font-extrabold leading-tight text-white">
+                            <h1 className="mt-6 text-3xl sm:text-6xl font-extrabold leading-tight text-white">
                                 Become A Pro
                                 <span
                                     style={{
@@ -387,7 +393,7 @@ export default function CourseDetailPage() {
                                 </span>
                             </h1>
 
-                            <p className="mt-4 text-gray-300 text-sm">
+                            <p className="mt-4 text-gray-300 text-sm md:text-base">
                                 The Only <Gold>facebook, whatsapp, instagram and threads</Gold> You Will Ever Need
                             </p>
 

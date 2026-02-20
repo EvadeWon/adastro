@@ -22,7 +22,7 @@ ChartJS.register(
 
 export default function RevenueChart() {
     const data = {
-        labels: ["Sep 2025", "Oct 2025", "Nov 2025", "Dec 2025", "Jan 2026","Feb 2026"],
+        labels: ["Sep 2025", "Oct 2025", "Nov 2025", "Dec 2025", "Jan 2026"],
         datasets: [
             {
                 label: "Monthly Revenue",

@@ -4,7 +4,7 @@ import CoursesSection from "@/components/Courses"
 import Header from "@/components/Header"
 import RevenueChart from "@/components/RevenueChart"
 import ServiceSection from "@/components/Services"
-import Image from "next/image"
+import Testimonials from "@/components/Testimonials"
 import { useRef } from "react"
 
 const Home = () => {
@@ -17,10 +17,10 @@ const Home = () => {
         <BrandsTicker />
       </div>
       <div className="p-10 sm:p-30 h-[35vh] md:h-screen">
-        <h2 className="text-xl md:text-3xl font-bold mb-6 text-center uppercase">
-          Monthly Revenue Growth
+        <h2 className="text-xl md:text-4xl font-bold mb-2 text-center opacity-80">
+          Unlocking Our Monthly Revenue Milestones
         </h2>
-        <div className="p-2 md:p-10 rounded-xl shadow-lg">
+        <div className="p-2 md:p-30 rounded-xl shadow-lg">
           <RevenueChart />
         </div>
       </div>
@@ -30,31 +30,7 @@ const Home = () => {
       <div ref={courseRef}>
         <CoursesSection />
       </div>
-      <div className="p-2">
-        <h1 className="opacity-70 font-bold text-center text-4xl uppercase mb-10 mt-6">
-          testimonials
-        </h1>
-        <div className="flex flex-col md:flex-row gap-6 justify-center mb-16 max-w-7xl mx-auto">
-          <Image
-            className="rounded-lg border border-amber-500 shadow-lg w-full md:w-1/2 max-w-full h-auto"
-            src={"/Testimonial_1.png"}
-            alt="Testimonial 1"
-            width={1000}
-            height={600}
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-
-          <Image
-            className="rounded-lg border border-amber-500 shadow-lg w-full md:w-1/2 max-w-full h-auto"
-            src={"/Testimonial_2.jpeg"}
-            alt="Testimonial 2"
-            width={1000}
-            height={600}
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-        </div>
-
-      </div>
+      <Testimonials />
 
     </>
   )

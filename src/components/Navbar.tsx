@@ -1,6 +1,6 @@
 "use client";
 
-import { cinzel } from "@/app/fonts";
+import { manrope } from "@/app/fonts";
 import { LayoutDashboard, LogOut, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -31,6 +31,8 @@ const Navbar = () => {
         { id: 1, name: "Home", url: "/" },
         { id: 2, name: "Dashboard", url: "/my-courses" },
         { id: 3, name: "Contact", url: "/contact" },
+        { id:4 , name: "Courses", url: "/courses" },
+        { id:5 , name: "Blogs", url: "/blogs" },
     ];
 
     return (
@@ -43,15 +45,18 @@ const Navbar = () => {
                     height={46}
                     className="rounded-lg mix-blend-screen"
                 />
-                <span className={`font-bold text-2xl ${cinzel.className}`}>
+                <span className={`font-bold text-2xl ${manrope.className} text-cinzel-normal`}>
                     AdAstro
                 </span>
             </Link>
 
             {/* Desktop Links */}
-            <div className="border-b border-l border-r border-white/15 sm:flex hidden sm:gap-4 md:gap-8 text-white/70 bg-gradient-to-b from-[#171212] to-[#100B0B] px-8 py-2 rounded-sm tracking-wide">
+            <div className="border-b border-l border-r border-white/15 sm:flex hidden sm:gap-4 md:gap-8 text-white/70 bg-gradient-to-b from-[#171212] to-[#100B0B] px-8 py-2 rounded-sm tracking-wide text-xs md:text-base">
                 {navLinks.map((item) => {
                     const isActive = pathName === item.url;
+                    if (item.name === "Dashboard" && !user) {
+                        return null; // Don't render Dashboard if not logged in
+                    }
                     return (
                         <Link
                             key={item.id}

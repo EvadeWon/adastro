@@ -16,8 +16,8 @@ interface BlogCardProps {
 
 export default function BlogCard({ post }: BlogCardProps) {
     return (
-        <div className="bg-linear-to-b from-[#171212] to-[#100B0B] rounded-xl p-6 border border-white/10 hover:scale-[1.02] transition-all duration-300 w-4xl max-w-6xl">
-            <Image src={post.image} alt={post.title} width={550} height={250} className="h-48 object-cover object-left rounded-lg" />
+        <div className="bg-linear-to-b from-[#171212] to-[#100B0B] rounded-xl p-10 border border-white/10 hover:scale-[1.02] transition-all duration-300 w-5xl max-w-6xl">
+            <Image src={post.image} alt={post.title} width={550} height={250} className="h-70 object-cover object-left rounded-lg" />
             <div className="p-4">
                 <div className="flex space-x-2 mb-2">
                     {post.categories.map((cat) => (
