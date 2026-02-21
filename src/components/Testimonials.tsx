@@ -1,10 +1,11 @@
 "use client";
 
-import { Navigation, Pagination } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import Image from 'next/image';
 
 interface VideoSlide {
     src: string;
@@ -13,12 +14,8 @@ interface VideoSlide {
 
 const Testimonials = () => {
     const videoSlides: VideoSlide[] = [
-        { src: '/video/test_1.mp4',alt: 'Testimonial 2' },
-        { src: '/video/test_1.mp4', alt: 'Testimonial 2' },
-        { src: '/video/test_1.mp4', alt: 'Testimonial 3' },
-        { src: '/video/test_1.mp4', alt: 'Testimonial 4' },
-        { src: '/video/test_1.mp4', alt: 'Testimonial 5' },
-        { src: '/video/test_1.mp4', alt: 'Testimonial 6' },
+        { src: '/Testimonial_1.png', alt: 'Testimonial 1' },
+        { src: '/Testimonial_2.jpeg', alt: 'Testimonial 2' },
     ];
 
     return (
@@ -45,19 +42,21 @@ const Testimonials = () => {
             </div>
 
             {/* Swiper */}
-            <div className="relative z-10 max-w-7xl mx-auto testimonials-wrap">
+            <div className="relative z-10 max-w-3xl mx-auto testimonials-wrap">
                 <Swiper
-                    spaceBetween={24}
+                    spaceBetween={32}
                     slidesPerView={1}
+                    centeredSlides={true}
                     navigation={true}
                     pagination={{ clickable: true }}
                     loop={true}
-                    breakpoints={{
-                        640: { slidesPerView: 1 },
-                        900: { slidesPerView: 2 },
-                        1280: { slidesPerView: 3 },
+                    autoplay={{
+                        delay: 3500,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
                     }}
-                    modules={[Navigation, Pagination]}
+                    speed={600}
+                    modules={[Navigation, Pagination, Autoplay]}
                     className="testimonials-swiper pb-14!"
                 >
                     {videoSlides.map((video, index) => (
@@ -66,20 +65,14 @@ const Testimonials = () => {
                                 {/* Amber top glow line */}
                                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
-                                <video
-                                    className="w-full aspect-video object-cover"
-                                    controls
-                                    preload="metadata"
-                                >
-                                    <source src={video.src} type="video/mp4" />
-                                    {video.alt}
-                                </video>
-
-                                {/* Bottom label */}
-                                <div className="px-4 py-3 flex items-center gap-2 border-t border-white/10">
-                                    <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                                    <span className="text-white/60 text-sm tracking-wide">{video.alt}</span>
-                                </div>
+                                <Image
+                                    className="mx-auto w-full h-auto object-cover"
+                                    src={video.src}
+                                    alt={video.alt}
+                                    width={800}
+                                    height={600}
+                                    priority={index === 0}
+                                />
                             </div>
                         </SwiperSlide>
                     ))}
@@ -87,6 +80,18 @@ const Testimonials = () => {
             </div>
 
             <style jsx global>{`
+                /* === Slide transition animation === */
+                .testimonials-swiper .swiper-slide {
+                    opacity: 0.4;
+                    transform: scale(0.95);
+                    transition: opacity 0.5s ease, transform 0.5s ease;
+                }
+
+                .testimonials-swiper .swiper-slide-active {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+
                 /* === Navigation Arrows === */
                 .testimonials-swiper .swiper-button-prev,
                 .testimonials-swiper .swiper-button-next {
@@ -139,6 +144,23 @@ const Testimonials = () => {
                     background: #f59e0b;
                     width: 24px;
                     border-radius: 4px;
+                }
+
+                /* === Autoplay progress shimmer on active slide === */
+                .testimonials-swiper .swiper-slide-active .group::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    height: 3px;
+                    width: 100%;
+                    background: linear-gradient(to right, #f59e0b, #f97316);
+                    animation: slideProgress 3.5s linear forwards;
+                }
+
+                @keyframes slideProgress {
+                    from { width: 0%; }
+                    to { width: 100%; }
                 }
             `}</style>
         </section>
