@@ -26,13 +26,20 @@ export async function POST(req: Request) {
         if (event.event === "payment.captured") {
             const payment = event.payload.payment.entity;
 
-            await Purchase.create({
-                userId: payment.notes.userId, // send userId in notes while creating order
-                courseId: Number(payment.notes.courseId),
+
+            const existing = await Purchase.findOne({
                 paymentId: payment.id,
-                orderId: payment.order_id,
-                status: "PAID",
             });
+
+            if (!existing) {
+                await Purchase.create({
+                    userId: payment.notes.userId,
+                    courseId: Number(payment.notes.courseId),
+                    paymentId: payment.id,
+                    orderId: payment.order_id,
+                    status: "PAID",
+                });
+            }
         }
 
         return NextResponse.json({ received: true }, { status: 200 });

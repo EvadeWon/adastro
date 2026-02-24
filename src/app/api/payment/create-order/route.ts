@@ -1,6 +1,8 @@
 import courses from "@/lib/courses";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function POST(req: Request) {
     try {
@@ -23,11 +25,21 @@ export async function POST(req: Request) {
             key_id: process.env.RAZORPAY_KEY_ID!,
             key_secret: process.env.RAZORPAY_KEY_SECRET!,
         });
+
+        const session = await getServerSession(authOptions);
+
+        if (!session || !session.user) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
         const order = await razorpay.orders.create({
             amount: course.price * 100, // convert to paise
             currency: "INR",
             receipt: `receipt_${course.id}_${Date.now()}`,
             payment_capture: true,
+            notes: {
+                userId: (session.user as any).id,
+                courseId: course.id,
+            }
         });
 
         return NextResponse.json(order, { status: 200 });

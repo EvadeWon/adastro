@@ -18,11 +18,9 @@ export async function POST(req: Request) {
             courseId,
         } = body;
 
-        // 1. Verify signature
-        const secret = process.env.RAZORPAY_KEY_SECRET as string;
-
+        // 1️⃣ Verify Razorpay Signature
         const generatedSignature = crypto
-            .createHmac("sha256", secret)
+            .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
             .update(`${razorpay_order_id}|${razorpay_payment_id}`)
             .digest("hex");
 
@@ -33,7 +31,7 @@ export async function POST(req: Request) {
             );
         }
 
-        // 2. Get logged in user
+        // 2️⃣ Check Logged-in User
         const session = await getServerSession(authOptions);
 
         if (!session || !session.user) {
@@ -44,9 +42,8 @@ export async function POST(req: Request) {
         }
 
         const userId = (session.user as any).id;
-        const numericCourseId = Number(courseId);
 
-        // 3. Prevent duplicate purchase
+        // 3️⃣ Prevent Duplicate Entry
         const existing = await Purchase.findOne({
             paymentId: razorpay_payment_id,
         });
@@ -54,18 +51,22 @@ export async function POST(req: Request) {
         if (!existing) {
             await Purchase.create({
                 userId,
-                courseId: numericCourseId,
+                courseId: Number(courseId),
                 paymentId: razorpay_payment_id,
                 orderId: razorpay_order_id,
                 status: "PAID",
             });
         }
 
-        return NextResponse.json({ success: true }, { status: 200 });
+        return NextResponse.json(
+            { success: true, message: "Payment verified successfully" },
+            { status: 200 }
+        );
+
     } catch (error) {
         console.error("Verify Error:", error);
         return NextResponse.json(
-            { success: false },
+            { success: false, message: "Verification failed" },
             { status: 500 }
         );
     }
